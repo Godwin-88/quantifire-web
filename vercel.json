@@ -1,0 +1,28 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "regions": ["jnb1"],
+  "headers": [
+    {
+      "source": "/notebooks/(.*)",
+      "headers": [
+        {
+          "key": "Content-Disposition",
+          "value": "attachment"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/octet-stream"
+        }
+      ]
+    }
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  }
+}
