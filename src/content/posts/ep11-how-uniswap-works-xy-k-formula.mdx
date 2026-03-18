@@ -1,0 +1,403 @@
+## The Market Structure Revolution You Probably Missed
+
+Every stock exchange in the world — NYSE, NASDAQ, the London Stock Exchange — uses the same fundamental mechanism developed in the 1790s: an **order book**. Buyers post bids. Sellers post asks. A matching engine pairs them. Professional market makers stand between buyers and sellers, capturing the bid-ask spread as profit and providing liquidity in return.
+
+In 2018, Uniswap launched on Ethereum and replaced this entire system with a single mathematical equation:
+
+$$
+x \cdot y = k
+$$
+
+That equation now processes billions of dollars in daily trading volume with no human market makers, no order books, no matching engine, and no central operator. Understanding it thoroughly is essential for anyone working at the intersection of finance and decentralised systems.
+
+---
+
+## 📺 Watch the Video Episode
+
+Prefer video? This post accompanies **Episode 11** of the Quantifaya animated series. Watch on YouTube or scroll down for the full written deep-dive with interactive charts and code.
+
+<div className="my-8 not-prose">
+  <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-800">
+    <iframe
+      src="https://www.youtube.com/embed/8vbwOamg9N8"
+      title="Episode 11: How Uniswap Actually Works - The x·y=k Formula"
+      className="absolute inset-0 w-full h-full"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  </div>
+  <div className="mt-4 flex items-center justify-center gap-4 text-sm">
+    <a
+      href="https://youtu.be/8vbwOamg9N8"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-qf-red hover:text-qf-red/80 font-medium transition-colors"
+    >
+      Watch on YouTube →
+    </a>
+    <span className="text-slate-500">or</span>
+    <a href="#the-amm-model-what-changes" className="text-slate-400 hover:text-slate-200 transition-colors">
+      Continue reading ↓
+    </a>
+  </div>
+</div>
+
+---
+
+## 1. The AMM Model: What Changes
+
+A traditional exchange maintains an **order book** of limit orders. When you submit a market order, the exchange scans the book for the best available asks and fills your order — potentially across multiple price levels.
+
+An **Automated Market Maker (AMM)** instead holds a **liquidity pool**: a smart contract storing reserves of two tokens, say ETH and USDC. The AMM uses a pricing formula to determine the exchange rate for any trade, based solely on the current reserve ratios. No counterparty is required. No matching engine runs.
+
+The Uniswap V2 invariant:
+
+$$
+x \cdot y = k
+$$
+
+Where:
+- $x$ = reserves of token A (e.g., ETH)
+- $y$ = reserves of token B (e.g., USDC)
+- $k$ = constant — the **invariant**
+
+This defines a **hyperbola** in the $(x, y)$ plane. Every trade moves the pool along this curve, changing the ratio $y/x$ (which determines the price) while keeping $k$ constant.
+
+---
+
+## 2. Price, Trades, and the Output Formula
+
+### Spot price
+
+The instantaneous price of ETH in USDC is the ratio of reserves:
+
+$$
+P_{\text{ETH}} = \frac{y}{x} = \frac{\text{USDC reserves}}{\text{ETH reserves}}
+$$
+
+If the pool holds 100 ETH and 200,000 USDC:
+
+$$
+P_{\text{ETH}} = \frac{200{,}000}{100} = \$2{,}000 \text{ per ETH} \qquad k = 100 \times 200{,}000 = 20{,}000{,}000
+$$
+
+### Buying ETH from the pool
+
+When a user buys $\Delta x$ ETH, the pool's ETH reserves decrease by $\Delta x$. To keep $k$ constant, USDC reserves must increase by $\Delta y$:
+
+$$
+(x - \Delta x)(y + \Delta y) = k
+$$
+
+Solving for the USDC the user must pay:
+
+$$
+\Delta y = \frac{k}{x - \Delta x} - y = \frac{y \cdot \Delta x}{x - \Delta x}
+$$
+
+With the fee $f$ (e.g., 0.30%), the full formula becomes:
+
+$$
+\Delta y = \frac{y \cdot \Delta x \cdot (1 - f)}{x - \Delta x \cdot (1 - f)}
+$$
+
+This is the exact logic executed on-chain for every Uniswap V2 swap.
+
+---
+
+## 3. Interactive: The x·y=k Curve
+
+Explore the constant product hyperbola. Adjust the initial ETH reserve and trade size — the orange point shows where the pool state lands after your trade.
+
+<ChartBlock title="AMM Constant Product Curve (x · y = k)" description="Adjust ETH reserves and trade size. Watch the pool move along the hyperbola.">
+  <AMMCurveChart />
+</ChartBlock>
+
+**Critical observations:**
+
+- The hyperbola **never reaches zero on either axis** — you can never fully drain a Uniswap pool of either token
+- As you buy more ETH, each additional unit costs *more* USDC — price slides along the curve
+- Larger trades relative to pool size cause larger deviations from the spot price — this is **price impact**
+- The invariant $k$ is preserved before and after every trade (ignoring fees, which increment $k$ slightly)
+
+---
+
+## 4. Price Impact: Why Trade Size Matters
+
+The effective price you receive is always worse than the quoted spot price. The deviation is **price impact**, and it grows non-linearly with trade size as a fraction of pool reserves.
+
+### Deriving price impact
+
+Let $\delta = \Delta x / x$ be the trade as a fraction of ETH reserves. The spot price is $P_0 = y/x$.
+
+The effective price paid per ETH bought (before fees):
+
+$$
+P_{\text{eff}} = \frac{\Delta y}{\Delta x} = \frac{y}{x - \Delta x} = \frac{P_0}{1 - \delta}
+$$
+
+Price impact as a percentage above spot:
+
+$$
+\text{Impact} = \frac{P_{\text{eff}} - P_0}{P_0} = \frac{1}{1 - \delta} - 1 = \frac{\delta}{1 - \delta}
+$$
+
+For small $\delta$ this approximates to $\approx \delta$. Trading 1% of a pool's reserves costs roughly 1% in price impact. But the relationship is **convex** — trading 10% costs ~11.1%, not 10%.
+
+<ChartBlock title="Price Impact vs Trade Size" description="Switch between fee tiers. The green area shows total cost (impact + fee).">
+  <PriceImpactChart />
+</ChartBlock>
+
+**Practical rules:**
+
+- A $1M trade in a pool with $10M liquidity (10% of pool) incurs ~11% price impact before fees
+- Sophisticated traders split large orders into smaller chunks or route through multiple pools
+- Price impact is **deterministic** — always simulate before submitting
+
+---
+
+## 5. The Python Implementation
+
+```python
+import numpy as np
+
+class UniswapV2Pool:
+    """Constant-product AMM (Uniswap V2 model)."""
+
+    def __init__(self, reserve_x: float, reserve_y: float, fee: float = 0.003):
+        self.x = reserve_x        # token A reserves (e.g., ETH)
+        self.y = reserve_y        # token B reserves (e.g., USDC)
+        self.k = reserve_x * reserve_y
+        self.fee = fee
+
+    @property
+    def spot_price(self) -> float:
+        return self.y / self.x
+
+    def get_amount_out(self, amount_in: float, buy_x: bool = True) -> float:
+        """
+        Calculate output tokens for a given input.
+        buy_x=True:  send token B (USDC), receive token A (ETH)
+        buy_x=False: send token A (ETH), receive token B (USDC)
+        """
+        amount_in_with_fee = amount_in * (1 - self.fee)
+        if buy_x:
+            new_y = self.y + amount_in_with_fee
+            new_x = self.k / new_y
+            return self.x - new_x
+        else:
+            new_x = self.x + amount_in_with_fee
+            new_y = self.k / new_x
+            return self.y - new_y
+
+    def price_impact(self, amount_in: float, buy_x: bool = True) -> dict:
+        spot = self.spot_price
+        amount_out = self.get_amount_out(amount_in, buy_x)
+        effective_price = (amount_in / amount_out) if buy_x else (amount_out / amount_in)
+        impact_pct = abs(effective_price - spot) / spot * 100
+        return {
+            'spot_price': spot,
+            'effective_price': effective_price,
+            'price_impact_pct': impact_pct,
+            'amount_out': amount_out,
+        }
+
+    def execute_swap(self, amount_in: float, buy_x: bool = True) -> float:
+        amount_out = self.get_amount_out(amount_in, buy_x)
+        amount_in_with_fee = amount_in * (1 - self.fee)
+        if buy_x:
+            self.y += amount_in_with_fee
+            self.x -= amount_out
+        else:
+            self.x += amount_in_with_fee
+            self.y -= amount_out
+        self.k = self.x * self.y   # k increments from fees
+        return amount_out
+
+
+# ─── Example: simulate buying ETH from a pool ─────────────────────────────
+pool = UniswapV2Pool(reserve_x=100, reserve_y=200_000, fee=0.003)
+
+print(f"Initial: {pool.x} ETH | {pool.y:,} USDC | k={pool.k:,}")
+print(f"Spot price: ${pool.spot_price:,.2f}/ETH")
+
+result = pool.price_impact(21_052, buy_x=True)
+print(f"\nBuying with 21,052 USDC:")
+print(f"  ETH received:     {result['amount_out']:.4f}")
+print(f"  Effective price:  ${result['effective_price']:,.2f}/ETH")
+print(f"  Price impact:     {result['price_impact_pct']:.3f}%")
+
+# ─── Price impact curve ───────────────────────────────────────────────────
+pool2 = UniswapV2Pool(reserve_x=100, reserve_y=200_000)
+fractions = [0.01, 0.05, 0.10, 0.20, 0.50]
+
+print(f"\nPrice impact at key trade sizes:")
+for frac in fractions:
+    r = pool2.price_impact(pool2.y * frac, buy_x=True)
+    print(f"  {frac:.0%} of pool → {r['price_impact_pct']:.2f}% impact")
+```
+
+The `UniswapV2Pool` class mirrors the on-chain logic closely. The key simplification is skipping the integer arithmetic and precision handling that Solidity requires.
+
+---
+
+## 6. Arbitrage: How the AMM Price Stays Accurate
+
+When the AMM price diverges from other markets, **arbitrageurs** step in:
+
+- If ETH is cheaper on the AMM than elsewhere, bots buy ETH from the pool (pushing AMM price up) and sell elsewhere (pushing that price down) until convergence.
+- These arbitrage trades are profitable for bots but represent a **loss for liquidity providers** — the arbitrageur extracts value by trading at stale prices. This is the origin of **impermanent loss**, covered in Episode 12.
+
+```python
+def calculate_arbitrage_profit(
+    pool_price: float, market_price: float,
+    pool_x: float, pool_y: float, fee: float = 0.003,
+) -> dict:
+    """Optimal arbitrage trade when pool_price != market_price."""
+    k = pool_x * pool_y
+
+    if pool_price < market_price:
+        # ETH is cheap in pool — buy from pool, sell at market price
+        # Post-arb, pool price = market_price → new_x = sqrt(k / market_price)
+        new_x = np.sqrt(k / market_price)
+        dx_buy = pool_x - new_x
+        new_y = k / new_x
+        dy_cost = (new_y - pool_y) / (1 - fee)
+        profit = dx_buy * market_price - dy_cost
+        return {
+            'direction': 'Buy ETH from pool',
+            'eth_trade': dx_buy,
+            'usdc_cost': dy_cost,
+            'profit_usdc': profit,
+        }
+    else:
+        # ETH is expensive in pool — sell ETH into pool
+        new_x = np.sqrt(k / market_price)
+        dx_sell = new_x - pool_x
+        new_y = k / new_x
+        dy_receive = pool_y - new_y
+        cost = dx_sell * market_price
+        return {
+            'direction': 'Sell ETH to pool',
+            'eth_trade': dx_sell,
+            'usdc_received': dy_receive,
+            'profit_usdc': dy_receive - cost,
+        }
+
+# Pool price $1,950 vs market price $2,050
+result = calculate_arbitrage_profit(1950, 2050, 100, 195_000)
+print(result)
+```
+
+---
+
+## 7. Uniswap V3: Concentrated Liquidity
+
+Uniswap V2 distributes liquidity uniformly across $[0, \infty)$. For a stablecoin pair trading near $1.00, the vast majority of that capital sits unused in price ranges that will never be reached.
+
+**Uniswap V3** allows liquidity providers to specify a price range $[P_a, P_b]$. Capital deployed outside this range earns no fees but also carries no price risk.
+
+### Capital efficiency formula
+
+For a V3 position concentrated in $[P_a, P_b]$ at current price $P$:
+
+$$
+x_{V3} = L \left(\frac{1}{\sqrt{P}} - \frac{1}{\sqrt{P_b}}\right) \qquad y_{V3} = L \left(\sqrt{P} - \sqrt{P_a}\right)
+$$
+
+The same liquidity depth $L$ is achieved with far less capital when the range is narrow.
+
+```python
+import numpy as np
+
+def v3_capital_efficiency(current_price, price_lower, price_upper):
+    """Capital efficiency of V3 position vs V2 uniform liquidity."""
+    P, Pa, Pb = current_price, price_lower, price_upper
+    sqrtP, sqrtPa, sqrtPb = np.sqrt(P), np.sqrt(Pa), np.sqrt(Pb)
+
+    # Normalised capital (L=1) needed for V2 vs V3
+    x_v2 = 1 / sqrtP
+    y_v2 = sqrtP
+    total_v2 = x_v2 * P + y_v2
+
+    x_v3 = max(0, 1/sqrtP - 1/sqrtPb)
+    y_v3 = max(0, sqrtP - sqrtPa)
+    total_v3 = x_v3 * P + y_v3
+
+    return total_v2 / total_v3 if total_v3 > 0 else float('inf')
+
+ranges = [(1800, 2200), (1900, 2100), (1980, 2020), (100, 10000)]
+print("Capital efficiency vs V2 (current price $2,000):")
+for Pa, Pb in ranges:
+    eff = v3_capital_efficiency(2000, Pa, Pb)
+    pct = ((Pb/2000 - 1) * 100)
+    print(f"  [{Pa:>5}, {Pb:>6}]  ±{pct:.0f}%  →  {eff:.1f}x more efficient")
+```
+
+**Expected output:**
+```
+[1800,  2200]  ±10%  →   8.5x more efficient
+[1900,  2100]   ±5%  →  17.2x more efficient
+[1980,  2020]   ±1%  →  86.6x more efficient
+[ 100, 10000] ±400%  →   1.1x more efficient
+```
+
+The trade-off: tighter ranges earn more fees per capital deployed, but the position goes out-of-range (zero fee income) if price moves outside the band. This is the core LP risk management problem in V3 — full analysis in the premium notebook for this episode.
+
+---
+
+## Key Takeaways
+
+1. **The AMM replaces order books with a formula.** $x \cdot y = k$ prices every trade deterministically — no counterparty, no matching engine.
+
+2. **Spot price = reserve ratio.** $P = y/x$. Any trade that changes the ratio changes the price.
+
+3. **Price impact is deterministic and calculable.** Trading fraction $\delta$ of reserves costs $\delta / (1 - \delta)$ in price impact — always compute before submitting.
+
+4. **Arbitrageurs align AMM prices with markets.** This is essential for correctness; it transfers value from LPs to arbitrageurs (impermanent loss — Episode 12).
+
+5. **V3 concentrated liquidity is a capital efficiency revolution.** The same depth at 8–90× less capital — but requires active range management.
+
+---
+
+## What's Next
+
+Episode 12 derives **Impermanent Loss** — the hidden cost of being a liquidity provider. We prove exactly when LP fee income overcomes the value surrendered to arbitrageurs, and build a full LP P&L model in Python.
+
+---
+
+## References
+
+**Primary Protocol Documentation**
+
+1. Adams, H., Zinsmeister, N. & Robinson, D. (2020). *Uniswap v2 Core*. Uniswap Labs. [https://uniswap.org/whitepaper.pdf](https://uniswap.org/whitepaper.pdf)
+
+2. Adams, H., Zinsmeister, N., Salem, M., Keefer, R. & Robinson, D. (2021). *Uniswap v3 Core*. Uniswap Labs. [https://uniswap.org/whitepaper-v3.pdf](https://uniswap.org/whitepaper-v3.pdf)
+
+3. Buterin, V. (2013). "Ethereum: A Next-Generation Smart Contract and Decentralised Application Platform." Ethereum Foundation. [https://ethereum.org/en/whitepaper/](https://ethereum.org/en/whitepaper/)
+
+**Academic Research on Automated Market Makers**
+
+4. Angeris, G., Kao, H.-T., Chiang, R., Noyes, C. & Chitra, T. (2019). "An Analysis of Uniswap Markets." *Cryptoeconomic Systems*, 1(1). arXiv:1911.03380. [https://arxiv.org/abs/1911.03380](https://arxiv.org/abs/1911.03380)
+
+5. Angeris, G. & Chitra, T. (2020). "Improved Price Oracles: Constant Function Market Makers." *Proceedings of the 2nd ACM Conference on Advances in Financial Technologies*, pp. 80–91. arXiv:2003.10001. [https://arxiv.org/abs/2003.10001](https://arxiv.org/abs/2003.10001)
+
+6. Angeris, G., Agrawal, A., Evans, A., Chitra, T. & Boyd, S. (2021). "Constant Function Market Makers: Multi-Asset Trades via Convex Optimization." arXiv:2107.12484. [https://arxiv.org/abs/2107.12484](https://arxiv.org/abs/2107.12484)
+
+7. Xu, J., Paruch, K., Cousaert, S. & Feng, Y. (2021). "SoK: Decentralized Exchanges (DEX) with Automated Market Maker (AMM) Protocols." arXiv:2103.12729. [https://arxiv.org/abs/2103.12729](https://arxiv.org/abs/2103.12729)
+
+8. Milionis, J., Moallemi, C.C., Roughgarden, T. & Zhang, A.L. (2022). "Automated Market Making and Loss-Versus-Rebalancing." arXiv:2208.06046. *ACM EC 2023*. [https://arxiv.org/abs/2208.06046](https://arxiv.org/abs/2208.06046)
+
+**DeFi Textbooks & Practitioner Guides**
+
+9. Harvey, C.R., Ramachandran, A. & Santoro, J. (2021). *DeFi and the Future of Finance*. Wiley. ISBN: 978-1-119-83601-8. *(Chapter VI: Decentralized Exchange, pp. 95–104 covers the constant product formula and Uniswap mechanics in detail.)*
+
+10. Lau, D., Lau, D., Jin, T.M., Kho, K., Azmi, E., Lee, C. & Kor, Y.H. (2021). *How to DeFi: Advanced*. CoinGecko Research. [https://coingecko.com/research/publications/how-to-defi-advanced](https://coingecko.com/research/publications/how-to-defi-advanced)
+
+11. Solorio, K., Kanna, R. & Hoover, D.H. (2019). *Hands-On Smart Contract Development with Solidity and Ethereum*. O'Reilly Media. ISBN: 978-1-492-04526-6
+
+**Mathematical Foundations**
+
+12. Delbaen, F. & Schachermayer, W. (2006). *The Mathematics of Arbitrage*. Springer Finance. ISBN: 978-3-540-21992-7. [https://doi.org/10.1007/978-3-540-31299-4](https://doi.org/10.1007/978-3-540-31299-4)
+
+13. Nakamoto, S. (2008). "Bitcoin: A Peer-to-Peer Electronic Cash System." [https://bitcoin.org/bitcoin.pdf](https://bitcoin.org/bitcoin.pdf)
