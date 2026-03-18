@@ -4,7 +4,7 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install",
   "outputDirectory": ".next",
-  "regions": ["jnb1"],
+  "regions": ["iad1"],
   "headers": [
     {
       "source": "/notebooks/(.*)",

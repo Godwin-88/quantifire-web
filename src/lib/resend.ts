@@ -1,6 +1,13 @@
 import { Resend } from 'resend'
 
-export const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy initialisation — avoids build-time crash when env var is absent
+let _resend: Resend | null = null
+export function getResend(): Resend {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY)
+  return _resend
+}
+// Keep named export for direct use in api/notebooks/access/route.ts
+export const resend = { emails: { send: (...args: Parameters<Resend['emails']['send']>) => getResend().emails.send(...args) } }
 
 const FROM = 'Quantifaya <onboarding@resend.dev>'
 const ADMIN = process.env.ADMIN_EMAIL ?? 'hello@quantifaya.com'
