@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { getPublishedPosts, getAllSeries } from '@/lib/supabase/queries'
 import { PostCard } from '@/components/blog/PostCard'
 import { SeriesNav } from '@/components/blog/SeriesNav'
@@ -30,7 +31,11 @@ export default async function BlogPage() {
       </div>
 
       {/* Series filter */}
-      {series.length > 0 && <SeriesNav series={series} />}
+      {series.length > 0 && (
+        <Suspense fallback={null}>
+          <SeriesNav series={series} />
+        </Suspense>
+      )}
 
       {/* Posts grid */}
       {posts.length === 0 ? (
