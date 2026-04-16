@@ -8,7 +8,7 @@ export const EP03_POST: Post = {
     'The Sharpe Ratio is broken — it penalizes upside volatility equally to downside. We expose the fundamental flaw that can make a catastrophically risky strategy look safe, derive the Sortino fix, and build a complete performance attribution framework.',
   body_mdx: '',   // loaded from ep03-sharpe-vs-sortino-which-metric.mdx at runtime
   cover_image_url: null,
-  youtube_url: 'https://www.youtube.com/watch?v=placeholder-ep03',
+  youtube_url: 'https://youtu.be/ggiGX53oK4I?si=dFvRGaYH0yR5iUY3',
   tags: ['performance-metrics', 'sharpe-ratio', 'sortino-ratio', 'risk-adjusted-returns', 'skewness', 'tail-risk'],
   series_id: 'series-classical-quant',
   series_order: 3,

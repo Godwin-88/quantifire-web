@@ -8,7 +8,7 @@ export const EP05_POST: Post = {
     'You backtest a strategy showing 15% returns with Sharpe 1.8. Then you run a factor regression: 95% of your alpha is exposure to known factors. We derive factor models from first principles and expose the humbling truth: most alpha is beta in disguise.',
   body_mdx: '',   // loaded from ep05-factor-models-alpha-or-hidden-beta.mdx at runtime
   cover_image_url: null,
-  youtube_url: 'https://www.youtube.com/watch?v=placeholder-ep05',
+  youtube_url: 'https://youtu.be/OHMxuk1d2iA?si=5OcyYidq5TwiHCzq',
   tags: ['factor-models', 'fama-french', 'alpha', 'beta', 'factor-regression', 'capm', 'risk-factors'],
   series_id: 'series-classical-quant',
   series_order: 5,

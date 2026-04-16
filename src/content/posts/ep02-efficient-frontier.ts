@@ -8,7 +8,7 @@ export const EP02_POST: Post = {
     'Harry Markowitz won the Nobel Prize for a graph that fits on one page. The Efficient Frontier proves there is exactly one set of portfolios where you get maximum return for every level of risk. Every other portfolio is mathematically inferior.',
   body_mdx: '',   // loaded from ep02-efficient-frontier-free-lunch.mdx at runtime
   cover_image_url: null,
-  youtube_url: 'https://www.youtube.com/watch?v=placeholder-ep02',
+  youtube_url: 'https://youtu.be/bovbpfsnT-U?si=mpqdcYUHIU171-YI',
   tags: ['portfolio-theory', 'efficient-frontier', 'mean-variance-optimization', 'modern-portfolio-theory', 'sharpe-ratio'],
   series_id: 'series-classical-quant',
   series_order: 2,

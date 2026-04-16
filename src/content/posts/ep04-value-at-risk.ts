@@ -8,7 +8,7 @@ export const EP04_POST: Post = {
     'Every major bank and hedge fund must answer one question: how much could we lose in a really bad day? Value at Risk (VaR) is the industry standard. We derive three calculation methods, expose VaR biggest limitation, and build a complete risk reporting system.',
   body_mdx: '',   // loaded from ep04-value-at-risk-how-much-lose-bad-day.mdx at runtime
   cover_image_url: null,
-  youtube_url: 'https://www.youtube.com/watch?v=placeholder-ep04',
+  youtube_url: 'https://youtu.be/FIe5e4QObeM?si=xWSALyAt0Qf4shz1',
   tags: ['risk-management', 'value-at-risk', 'var', 'expected-shortfall', 'cvar', 'backtesting', 'fat-tails'],
   series_id: 'series-classical-quant',
   series_order: 4,
