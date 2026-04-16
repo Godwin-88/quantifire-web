@@ -14,6 +14,26 @@ const NOTEBOOK_REGISTRY: Record<string, { title: string; file: string; colabUrl:
     file: 'ep01-correlation-matters.ipynb',
     colabUrl: `https://colab.research.google.com/github/Godwin-88/quantifire-web/blob/main/public/notebooks/ep01-correlation-matters.ipynb`,
   },
+  'nb-ep02-frontier': {
+    title: 'EP02 — Efficient Frontier & Mean-Variance Optimization',
+    file: 'ep02-efficient-frontier.ipynb',
+    colabUrl: `https://colab.research.google.com/github/Godwin-88/quantifire-web/blob/main/public/notebooks/ep02-efficient-frontier.ipynb`,
+  },
+  'nb-ep03-metrics': {
+    title: 'EP03 — Performance Metrics & Risk-Adjusted Returns',
+    file: 'ep03-performance-metrics.ipynb',
+    colabUrl: `https://colab.research.google.com/github/Godwin-88/quantifire-web/blob/main/public/notebooks/ep03-performance-metrics.ipynb`,
+  },
+  'nb-ep04-var': {
+    title: 'EP04 — Value at Risk & Expected Shortfall',
+    file: 'ep04-value-at-risk.ipynb',
+    colabUrl: `https://colab.research.google.com/github/Godwin-88/quantifire-web/blob/main/public/notebooks/ep04-value-at-risk.ipynb`,
+  },
+  'nb-ep05-factors': {
+    title: 'EP05 — Factor Models & Alpha Attribution',
+    file: 'ep05-factor-models.ipynb',
+    colabUrl: `https://colab.research.google.com/github/Godwin-88/quantifire-web/blob/main/public/notebooks/ep05-factor-models.ipynb`,
+  },
   'nb-ep11-amm': {
     title: 'EP11 — AMM Mechanics & Price Impact',
     file: 'ep11-uniswap-amm.ipynb',

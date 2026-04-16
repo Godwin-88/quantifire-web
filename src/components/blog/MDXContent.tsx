@@ -8,6 +8,11 @@ import { PortfolioVarianceChart } from './charts/PortfolioVarianceChart'
 import { CorrelationHeatmap } from './charts/CorrelationHeatmap'
 import { AMMCurveChart } from './charts/AMMCurveChart'
 import { PriceImpactChart } from './charts/PriceImpactChart'
+import { EfficientFrontierChart } from './charts/EfficientFrontierChart'
+import { SharpeSortinoComparison } from './charts/SharpeSortinoComparison'
+import { VaRComparisonChart } from './charts/VaRComparisonChart'
+import { FactorModelChart } from './charts/FactorModelChart'
+import { MeanVarianceOptimizer } from './charts/MeanVarianceOptimizer'
 import type { ComponentPropsWithoutRef } from 'react'
 
 // Custom pre — wraps every code block with a copy-on-hover button
@@ -43,6 +48,15 @@ const components = {
   // EP01 charts
   PortfolioVarianceChart,
   CorrelationHeatmap,
+  // EP02 charts
+  EfficientFrontierChart,
+  MeanVarianceOptimizer,
+  // EP03 charts
+  SharpeSortinoComparison,
+  // EP04 charts
+  VaRComparisonChart,
+  // EP05 charts
+  FactorModelChart,
   // EP11 charts
   AMMCurveChart,
   PriceImpactChart,

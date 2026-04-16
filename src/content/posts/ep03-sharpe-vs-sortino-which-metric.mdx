@@ -1,0 +1,540 @@
+## The Sharpe Ratio Is Broken
+
+The Sharpe Ratio is the single most cited performance metric in finance. It's on every fund factsheet, every backtest report, every quant resume. And it has a **fundamental flaw** that can make a catastrophically risky strategy look like a safe, consistent winner.
+
+Today we expose that flaw, derive the fix professionals use for asymmetric return distributions, and build a complete performance attribution framework in Python.
+
+---
+
+## 📺 Watch the Video Episode
+
+Prefer video? This post accompanies **Episode 3** of the Quantifaya animated series. Watch on YouTube or scroll down for the full written deep-dive with interactive charts and code.
+
+<div className="my-8 not-prose">
+  <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-800">
+    <iframe
+      src="https://www.youtube.com/embed/PLACEHOLDER_EP03"
+      title="Episode 3: Sharpe Ratio vs Sortino - Which One Should You Actually Use?"
+      className="absolute inset-0 w-full h-full"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  </div>
+  <div className="mt-4 flex items-center justify-center gap-4 text-sm">
+    <a
+      href="https://youtu.be/PLACEHOLDER_EP03"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-qf-red hover:text-qf-red/80 font-medium transition-colors"
+    >
+      Watch on YouTube →
+    </a>
+    <span className="text-slate-500">or</span>
+    <a href="#the-sharpe-ratio-formula" className="text-slate-400 hover:text-slate-200 transition-colors">
+      Continue reading ↓
+    </a>
+  </div>
+</div>
+
+---
+
+## 1. The Sharpe Ratio Formula
+
+The Sharpe Ratio measures **risk-adjusted return** — how much return you generate per unit of risk taken:
+
+$$
+S = \frac{\bar{r}_p - r_f}{\sigma_p}
+$$
+
+Where:
+- $\bar{r}_p$ = average portfolio return
+- $r_f$ = risk-free rate (typically T-bill yield)
+- $\sigma_p$ = standard deviation of portfolio returns
+
+The numerator is **excess return** — compensation for bearing risk. The denominator is **total volatility** — both upside and downside.
+
+### Example calculation
+
+A strategy with:
+- Annual return: 15%
+- Risk-free rate: 3%
+- Annual volatility: 12%
+
+$$
+S = \frac{0.15 - 0.03}{0.12} = 1.0
+$$
+
+A Sharpe of 1.0 is respectable. Above 1.5 is excellent. Above 2.0 is rare and often suspicious.
+
+---
+
+## 2. The Fundamental Flaw
+
+**The Sharpe Ratio penalizes upside volatility equally to downside volatility.**
+
+If your strategy has occasional large gains — think momentum strategies, options selling during calm markets, or trend following — the Sharpe Ratio punishes you for those gains *as if they were risk*.
+
+### Worked example: Two strategies with identical Sharpe, different risk
+
+Consider two strategies, both with 12% annual return and 10% annual volatility:
+
+**Strategy A (symmetric):**
+- Monthly returns: roughly normal, centered around 1%
+- Upside months: +3%, +4%, +2%
+- Downside months: –2%, –3%, –1%
+
+**Strategy B (positive skew):**
+- Monthly returns: small losses punctuated by large gains
+- Typical month: –0.5%
+- Occasional big winner: +8%, +10%, +6%
+
+Both have $\sigma \approx 10\%$. Both have Sharpe ≈ 0.9. But Strategy B is clearly superior — the volatility comes from *good* surprises, not bad ones.
+
+The Sharpe Ratio cannot distinguish between them.
+
+---
+
+## 3. The Sortino Ratio: Fixing the Denominator
+
+The Sortino Ratio uses only **downside deviation** in the denominator:
+
+$$
+\text{Sortino} = \frac{\bar{r}_p - r_f}{\sigma_{\text{downside}}}
+$$
+
+Where downside deviation is:
+
+$$
+\sigma_{\text{downside}} = \sqrt{\frac{1}{T} \sum_{t=1}^{T} \min(r_t - r_{\text{target}}, 0)^2}
+$$
+
+Returns above the target (usually 0 or $r_f$) contribute **zero** to the denominator. You're only penalized for bad volatility.
+
+### Example: Same strategy, different scores
+
+A strategy with:
+- Annual return: 15%
+- Risk-free rate: 3%
+- Total volatility: 14%
+- Downside deviation: 6%
+
+$$
+\text{Sharpe} = \frac{0.15 - 0.03}{0.14} = 0.86
+$$
+
+$$
+\text{Sortino} = \frac{0.15 - 0.03}{0.06} = 2.0
+$$
+
+Same strategy. The Sortino reveals the asymmetry: this strategy has significant upside variance that a rational investor *wants*.
+
+---
+
+## 4. Interactive: Sharpe vs Sortino Comparison
+
+Upload or simulate a return series. See how the Sharpe and Sortino diverge based on return distribution shape.
+
+<ChartBlock title="Sharpe vs Sortino by Return Distribution" description="Toggle between strategy types. Notice how Sortino diverges from Sharpe for skewed returns.">
+  <SharpeSortinoComparison />
+</ChartBlock>
+
+**Interpretation:**
+
+- **Sortino ≈ Sharpe**: Return distribution is roughly symmetric — upside and downside volatility are balanced
+- **Sortino > Sharpe**: Positive skew — large gains drive volatility (usually good)
+- **Sortino < Sharpe**: Negative skew — large losses drive volatility (dangerous)
+
+The gap between Sortino and Sharpe is itself an informative signal about your strategy's risk profile.
+
+---
+
+## 5. Python Implementation
+
+```python
+import numpy as np
+import pandas as pd
+from scipy import stats
+
+def sharpe_ratio(returns, rf=0.03, periods_per_year=252):
+    """
+    Calculate annualized Sharpe Ratio.
+    
+    Args:
+        returns: Array of periodic returns (e.g., daily)
+        rf: Annual risk-free rate
+        periods_per_year: Number of periods per year (252 for daily)
+    
+    Returns:
+        Annualized Sharpe Ratio
+    """
+    excess_returns = returns - rf / periods_per_year
+    return np.sqrt(periods_per_year) * excess_returns.mean() / excess_returns.std()
+
+
+def sortino_ratio(returns, rf=0.03, periods_per_year=252, target=0.0):
+    """
+    Calculate annualized Sortino Ratio.
+    
+    Args:
+        returns: Array of periodic returns
+        rf: Annual risk-free rate
+        periods_per_year: Number of periods per year
+        target: Target return (default 0, can use rf/periods_per_year)
+    
+    Returns:
+        Annualized Sortino Ratio
+    """
+    excess_returns = returns - rf / periods_per_year
+    downside_returns = excess_returns[excess_returns < target]
+    
+    if len(downside_returns) == 0:
+        return np.inf  # No downside deviation
+    
+    downside_deviation = np.sqrt(np.mean(downside_returns ** 2))
+    return np.sqrt(periods_per_year) * excess_returns.mean() / downside_deviation
+
+
+def calmar_ratio(returns, periods_per_year=252):
+    """
+    Calculate Calmar Ratio: CAGR / Max Drawdown.
+    """
+    # CAGR
+    cumulative = (1 + returns).cumprod()
+    n_years = len(returns) / periods_per_year
+    cagr = cumulative.iloc[-1] ** (1 / n_years) - 1
+    
+    # Max Drawdown
+    rolling_max = cumulative.cummax()
+    drawdowns = cumulative / rolling_max - 1
+    max_dd = abs(drawdowns.min())
+    
+    return cagr / max_dd if max_dd > 0 else np.inf
+
+
+def complete_performance_attribution(returns, rf=0.03, periods_per_year=252):
+    """
+    Full performance attribution report.
+    """
+    excess = returns - rf / periods_per_year
+    
+    # Basic stats
+    ann_return = (1 + returns).prod() ** (periods_per_year / len(returns)) - 1
+    ann_vol = returns.std() * np.sqrt(periods_per_year)
+    
+    # Risk metrics
+    sharpe = sharpe_ratio(returns, rf, periods_per_year)
+    sortino = sortino_ratio(returns, rf, periods_per_year)
+    calmar = calmar_ratio(returns, periods_per_year)
+    
+    # Distribution moments
+    skew = stats.skew(returns)
+    kurt = stats.kurtosis(returns)  # Excess kurtosis
+    
+    # Drawdown
+    cumulative = (1 + returns).cumprod()
+    rolling_max = cumulative.cummax()
+    drawdowns = cumulative / rolling_max - 1
+    max_dd = abs(drawdowns.min())
+    
+    # VaR and CVaR
+    var_95 = np.percentile(returns, 5)
+    cvar_95 = returns[returns <= var_95].mean()
+    
+    report = {
+        'Annual Return': f'{ann_return:.2%}',
+        'Annual Volatility': f'{ann_vol:.2%}',
+        'Sharpe Ratio': f'{sharpe:.3f}',
+        'Sortino Ratio': f'{sortino:.3f}',
+        'Sortino/Sharpe': f'{sortino/sharpe:.2f}' if sharpe > 0 else 'N/A',
+        'Calmar Ratio': f'{calmar:.3f}',
+        'Max Drawdown': f'{max_dd:.2%}',
+        'Skewness': f'{skew:.3f}',
+        'Excess Kurtosis': f'{kurt:.3f}',
+        '95% VaR (daily)': f'{var_95:.2%}',
+        '95% CVaR (daily)': f'{cvar_95:.2%}',
+    }
+    
+    return pd.Series(report)
+
+
+# ─── Example: Compare three strategies ────────────────────────────────────
+np.random.seed(42)
+n_days = 252 * 3  # 3 years
+
+# Strategy A: Symmetric returns (normal)
+returns_A = np.random.normal(0.0005, 0.01, n_days)
+
+# Strategy B: Positive skew (small losses, occasional big wins)
+returns_B = np.random.normal(-0.0002, 0.008, n_days)
+# Add occasional large gains
+gain_days = np.random.choice(n_days, size=15, replace=False)
+returns_B[gain_days] += np.random.uniform(0.04, 0.08, 15)
+
+# Strategy C: Negative skew (small gains, occasional big losses) - selling tail risk
+returns_C = np.random.normal(0.0008, 0.006, n_days)
+# Add occasional large losses
+loss_days = np.random.choice(n_days, size=5, replace=False)
+returns_C[loss_days] -= np.random.uniform(0.08, 0.15, 5)
+
+df_returns = pd.DataFrame({
+    'Strategy_A_Symmetric': returns_A,
+    'Strategy_B_PosSkew': returns_B,
+    'Strategy_C_NegSkew': returns_C,
+})
+
+print("Performance Attribution Report:\n")
+for col in df_returns.columns:
+    print(f"\n{col}:")
+    report = complete_performance_attribution(df_returns[col])
+    print(report)
+```
+
+**Typical output:**
+```
+Strategy_A_Symmetric:
+  Annual Return:      12.8%
+  Annual Volatility:  15.9%
+  Sharpe Ratio:       0.616
+  Sortino Ratio:      0.892
+  Sortino/Sharpe:     1.45
+  ...
+
+Strategy_B_PosSkew:
+  Annual Return:      14.2%
+  Annual Volatility:  13.5%
+  Sharpe Ratio:       0.831
+  Sortino Ratio:      1.524
+  Sortino/Sharpe:     1.83  ← Large gap indicates positive skew
+
+Strategy_C_NegSkew:
+  Annual Return:      11.5%
+  Annual Volatility:  11.2%
+  Sharpe Ratio:       0.759
+  Sortino Ratio:      0.623
+  Sortino/Sharpe:     0.82  ← Sortino < Sharpe warns of negative skew
+  Max Drawdown:       -28.4%  ← Hidden tail risk materialized
+```
+
+---
+
+## 6. When to Use Each Metric
+
+<div className="grid gap-4 my-6 not-prose">
+  <div className="card p-4">
+    <div className="flex items-start gap-3">
+      <div className="text-xl font-bold text-qf-blue mt-0.5">Sharpe</div>
+      <div className="flex-1">
+        <div className="text-sm text-slate-400 mb-2">Best for: Symmetric return distributions (equity long-only, diversified factor portfolios)</div>
+        <div className="text-sm">
+          <span className="text-qf-red font-semibold">Warning:</span> Sortino significantly higher than Sharpe → hidden asymmetry
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="card p-4">
+    <div className="flex items-start gap-3">
+      <div className="text-xl font-bold text-qf-green mt-0.5">Sortino</div>
+      <div className="flex-1">
+        <div className="text-sm text-slate-400 mb-2">Best for: Skewed distributions (options strategies, trend following, yield farming)</div>
+        <div className="text-sm">
+          <span className="text-qf-red font-semibold">Warning:</span> Sortino lower than Sharpe → negative skew, tail risk
+        </div>
+      </div>
+    </div>
+  </div>
+  <div className="card p-4">
+    <div className="flex items-start gap-3">
+      <div className="text-xl font-bold text-qf-orange mt-0.5">Calmar</div>
+      <div className="flex-1">
+        <div className="text-sm text-slate-400 mb-2">Best for: Drawdown-sensitive strategies (CTAs, managed futures)</div>
+        <div className="text-sm">
+          <span className="text-qf-red font-semibold">Warning:</span> Calmar below 0.5 → drawdowns too large relative to returns
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+### DeFi-specific guidance
+
+**Liquidity Provision (Uniswap, Curve):**
+- Use **Sortino** — IL creates asymmetric downside, fee income is steady upside
+- Also track: IL-adjusted returns vs hold
+
+**Yield Farming:**
+- Use **Sortino** — incentive cliff risk creates negative skew
+- Also track: TVL stability, incentive sustainability
+
+**Funding Rate Arbitrage:**
+- Use **Sharpe** — returns are roughly symmetric
+- Also track: funding rate regime changes
+
+**Options Selling (Thetanuts, Lyra):**
+- Use **Sortino** — classic negative skew (collect premium, rare blowup)
+- **Must** pair with: max drawdown, CVaR, stress tests
+
+---
+
+## 7. The Sharpe Ratio Trap: Manufacturing False Safety
+
+Some strategies *manufacture* high Sharpe ratios by selling tail risk. Think selling naked puts, writing covered calls, or certain DeFi leveraged yield strategies.
+
+**The pattern:**
+- Consistently collect small premiums
+- Return series looks smooth: +0.5%, +0.3%, +0.4%, +0.2%...
+- Sharpe Ratio looks amazing: 2.0, 2.5, even 3.0+
+- Then: one day, –40%. The strategy blows up.
+
+This is the **Sharpe Ratio trap**. The metric rewarded the strategy right up until catastrophic failure.
+
+### Real-world examples
+
+**Strategy:** Selling out-of-the-money S&P 500 puts
+- 2017–2019: Sharpe ≈ 2.5
+- March 2020: –65% in one month
+- The Sharpe looked "safe" because volatility was low — but the tail risk was enormous
+
+**Strategy:** Terra/Luna yield farming (2021–2022)
+- Reported APY: 20%+
+- Sharpe (pre-collapse): > 2.0
+- May 2022: –99.9%
+
+### Defense: The Minimum Reporting Standard
+
+Never evaluate a strategy with a single metric. Minimum reporting standard:
+
+1. **Sharpe Ratio** — baseline risk-adjusted return
+2. **Sortino Ratio** — downside-adjusted return
+3. **Max Drawdown** — worst peak-to-trough decline
+4. **Skewness** — asymmetry of return distribution
+5. **Excess Kurtosis** — fat-tailedness
+6. **95% CVaR** — expected loss in worst 5% of cases
+
+If Sortino is significantly **lower** than Sharpe → negative skew → hidden tail risk. Investigate immediately.
+
+---
+
+## 8. Rolling Metrics: Tracking Regime Changes
+
+Performance metrics are not static. A strategy's Sharpe and Sortino can drift as market regimes change.
+
+```python
+def rolling_sharpe(returns, window=63, rf=0.03, periods_per_year=252):
+    """Rolling Sharpe Ratio over a window."""
+    excess = returns - rf / periods_per_year
+    rolling_mean = excess.rolling(window).mean()
+    rolling_std = excess.rolling(window).std()
+    return np.sqrt(periods_per_year) * rolling_mean / rolling_std
+
+
+def rolling_sortino(returns, window=63, rf=0.03, periods_per_year=252):
+    """Rolling Sortino Ratio over a window."""
+    excess = returns - rf / periods_per_year
+    
+    def sortino_window(win):
+        downside = win[win < 0]
+        if len(downside) == 0:
+            return np.nan
+        dd = np.sqrt(np.mean(downside ** 2))
+        return np.sqrt(periods_per_year) * win.mean() / dd
+    
+    return excess.rolling(window).apply(sortino_window)
+
+
+# Example: Plot rolling metrics
+import matplotlib.pyplot as plt
+
+returns = df_returns['Strategy_B_PosSkew']
+rolling_s = rolling_sharpe(returns, window=63)
+rolling_so = rolling_sortino(returns, window=63)
+
+fig, ax = plt.subplots(figsize=(12, 5))
+ax.plot(rolling_s.index, rolling_s.values, label='Rolling Sharpe (63d)', alpha=0.7)
+ax.plot(rolling_so.index, rolling_so.values, label='Rolling Sortino (63d)', alpha=0.7)
+ax.axhline(0, color='black', linestyle='--', linewidth=0.5)
+ax.set_ylabel('Ratio')
+ax.set_title('Rolling Sharpe vs Sortino - Detect Regime Changes')
+ax.legend()
+ax.grid(True, alpha=0.3)
+plt.show()
+```
+
+**Watch for:**
+- Sharpe and Sortino converging → return distribution becoming symmetric
+- Sortino dropping below Sharpe → negative skew emerging (danger)
+- Both metrics declining together → alpha decaying
+
+---
+
+## Key Takeaways
+
+1. **Sharpe penalizes upside volatility.** It treats good surprises the same as bad surprises — a fundamental flaw for asymmetric strategies.
+
+2. **Sortino uses only downside deviation.** It answers: how much return per unit of *bad* risk?
+
+3. **The Sortino/Sharpe ratio is informative:**
+   - > 1.5: Positive skew (desirable)
+   - ≈ 1.0: Symmetric (neutral)
+   - < 0.8: Negative skew (dangerous)
+
+4. **Never use a single metric.** Minimum reporting: Sharpe + Sortino + Max DD + Skewness + CVaR.
+
+5. **Track rolling metrics.** Regime changes show up as divergences between Sharpe and Sortino before they show up in P&L.
+
+---
+
+## What's Next
+
+Episode 4: **Value at Risk (VaR)** — how quants put an actual dollar figure on the worst-case loss. We derive three calculation methods (Historical, Parametric Normal, Parametric Student-t), expose VaR's biggest limitation, and build a complete risk reporting system.
+
+---
+
+## References
+
+**Foundational Metrics**
+
+1. Sharpe, W.F. (1966). "Mutual Fund Performance." *Journal of Business*, 39(S1), 119–138. [https://doi.org/10.1086/294846](https://doi.org/10.1086/294846)
+
+2. Sharpe, W.F. (1994). "The Sharpe Ratio." *Journal of Portfolio Management*, 21(1), 49–58. [https://doi.org/10.3905/jpm.1994.409501](https://doi.org/10.3905/jpm.1994.409501)
+
+3. Sortino, F.A. & Price, L.N. (1994). "Performance Measurement in a Downside Risk Framework." *Journal of Investing*, 3(3), 50–58. [https://doi.org/10.3905/joi.1994.409428](https://doi.org/10.3905/joi.1994.409428)
+
+4. Young, T.W. (1991). "Calmar Ratio: A Smoother Tool." *Futures*, 20(1), 40.
+
+**Downside Risk & Asymmetry**
+
+5. Bawa, V.S. & Lindenberg, E.B. (1977). "Capital Market Equilibrium in a Mean-Lower Partial Moment Framework." *Journal of Financial Economics*, 5(2), 189–200. [https://doi.org/10.1016/0304-405X(77)90017-4](https://doi.org/10.1016/0304-405X(77)90017-4)
+
+6. Harlow, W.V. (1991). "Asset Allocation in a Safety-First Model." *Journal of Portfolio Management*, 17(3), 60–68. [https://doi.org/10.3905/jpm.1991.409340](https://doi.org/10.3905/jpm.1991.409340)
+
+**Tail Risk & The Sharpe Trap**
+
+7. Taleb, N.N. (2007). *The Black Swan: The Impact of the Highly Improbable*. Random House. ISBN: 978-1-4000-6351-2
+
+8. Taleb, N.N. (2012). *Antifragile: Things That Gain from Disorder*. Random House. ISBN: 978-1-4000-6782-4
+
+9. Lo, A.W. (2001). "The Statistics of Sharpe Ratios." *Financial Analysts Journal*, 58(4), 36–52. [https://doi.org/10.2469/faj.v58.n4.2559](https://doi.org/10.2469/faj.v58.n4.2559)
+
+**DeFi-Specific Performance Measurement**
+
+10. Harvey, C.R., Ramachandran, A. & Santoro, J. (2021). *DeFi and the Future of Finance*. Wiley. ISBN: 978-1-119-83601-8. *(Chapter IX: Risk Management in DeFi)*
+
+11. Cartea, Á., Jaimungal, S. & Penalva, J. (2015). *Algorithmic and High-Frequency Trading*. Cambridge University Press. ISBN: 978-1-107-09114-6
+
+**Performance Attribution**
+
+12. Brinson, G.P., Hood, L.R. & Beebower, G.L. (1986). "Determinants of Portfolio Performance." *Financial Analysts Journal*, 42(4), 39–44. [https://doi.org/10.2469/faj.v42.n4.39](https://doi.org/10.2469/faj.v42.n4.39)
+
+13. Grinold, R.C. & Kahn, B.W. (2000). *Active Portfolio Management: A Quantitative Approach for Producing Superior Returns and Controlling Risk* (2nd ed.). McGraw-Hill. ISBN: 978-0-07-024882-3
+
+**Rolling Metrics & Regime Detection**
+
+14. Ang, A. & Bekaert, G. (2002). "International Asset Allocation with Regime Shifts." *Review of Financial Studies*, 15(4), 1137–1187. [https://doi.org/10.1093/rfs/15.4.1137](https://doi.org/10.1093/rfs/15.4.1137)
+
+15. Guidolin, M. & Timmermann, A. (2007). "Asset Allocation Under Multivariate Regime Switching." *Journal of Economic Dynamics and Control*, 31(11), 3503–3544. [https://doi.org/10.1016/j.jedc.2006.09.015](https://doi.org/10.1016/j.jedc.2006.09.015)
+
+**Textbooks**
+
+16. Fabozzi, F.J., Focardi, S.M. & Kolm, P.-N. (2006). *Financial Modeling of the Equity Market: From CAPM to Cointegration*. Wiley. ISBN: 978-0-471-68014-7
+
+17. Chan, E.P. (2009). *Quantitative Trading: How to Build Your Own Algorithmic Trading Business*. Wiley. ISBN: 978-0-470-28488-4

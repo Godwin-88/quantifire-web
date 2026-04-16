@@ -65,3 +65,12 @@ test-results
 *.njsproj
 *.sln
 *.sw?
+
+
+/AlgorithmicTradingStrategies 
+/manim_animations 
+
+
+
+
+

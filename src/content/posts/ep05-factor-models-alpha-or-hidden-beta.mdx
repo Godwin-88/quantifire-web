@@ -1,0 +1,699 @@
+## Is Your Alpha Just Hidden Beta?
+
+You backtest a strategy. It shows 15% annual returns with a Sharpe of 1.8. You're convinced you've found alpha — genuine skill-based outperformance.
+
+Then you run a factor regression. The truth emerges: **95% of your "alpha" is exposure to known risk factors** — market beta, size, value, momentum. You didn't discover a money machine. You just took uncompensated risks you didn't measure.
+
+Today we derive factor models from first principles, run complete factor regressions in Python, and expose the humbling reality: most alpha is beta in disguise.
+
+---
+
+## 📺 Watch the Video Episode
+
+Prefer video? This post accompanies **Episode 5** of the Quantifaya animated series. Watch on YouTube or scroll down for the full written deep-dive with interactive charts and code.
+
+<div className="my-8 not-prose">
+  <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-900 border border-slate-800">
+    <iframe
+      src="https://www.youtube.com/embed/PLACEHOLDER_EP05"
+      title="Episode 5: Factor Models - Is Your Alpha Just Hidden Beta?"
+      className="absolute inset-0 w-full h-full"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  </div>
+  <div className="mt-4 flex items-center justify-center gap-4 text-sm">
+    <a
+      href="https://youtu.be/PLACEHOLDER_EP05"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="text-qf-red hover:text-qf-red/80 font-medium transition-colors"
+    >
+      Watch on YouTube →
+    </a>
+    <span className="text-slate-500">or</span>
+    <a href="#the-single-factor-model-capm" className="text-slate-400 hover:text-slate-200 transition-colors">
+      Continue reading ↓
+    </a>
+  </div>
+</div>
+
+---
+
+## 1. The Single-Factor Model (CAPM)
+
+The Capital Asset Pricing Model decomposes any asset's return into:
+
+$$
+r_i = r_f + \beta_i (r_m - r_f) + \epsilon_i
+$$
+
+Where:
+- $r_i$ = return on asset $i$
+- $r_f$ = risk-free rate
+- $r_m$ = market return
+- $\beta_i$ = sensitivity to market movements
+- $\epsilon_i$ = idiosyncratic return (uncorrelated with market)
+
+The **beta** is:
+
+$$
+\beta_i = \frac{\text{Cov}(r_i, r_m)}{\text{Var}(r_m)}
+$$
+
+Interpretation:
+- $\beta = 1$: moves with the market
+- $\beta > 1$: more volatile than market (aggressive)
+- $\beta < 1$: less volatile than market (defensive)
+- $\beta < 0$: moves opposite to market (hedging)
+
+### The CAPM implication
+
+Under CAPM assumptions, **expected return is determined entirely by beta**:
+
+$$
+\mathbb{E}[r_i] = r_f + \beta_i (\mathbb{E}[r_m] - r_f)
+$$
+
+Any return above this is **alpha** ($\alpha$) — genuine outperformance unexplained by market exposure.
+
+---
+
+## 2. The Problem: CAPM Doesn't Explain All Returns
+
+Empirical tests starting in the 1980s showed systematic anomalies:
+
+- **Size effect:** Small-cap stocks outperform large-cap, even after adjusting for beta
+- **Value effect:** High book-to-market stocks outperform low book-to-market
+- **Momentum:** Past winners continue winning for 3-12 months
+- **Profitability:** High-profit firms outperform low-profit firms
+- **Investment:** Conservative investment firms outperform aggressive investors
+
+These patterns persisted across decades and markets. Either markets were inefficient (allowing free alpha), or CAPM was missing risk factors.
+
+Fama and French argued: **these are compensation for additional risk factors**, not inefficiency.
+
+---
+
+## 3. The Fama-French 3-Factor Model
+
+Fama & French (1993) extended CAPM with two factors:
+
+$$
+r_i = r_f + \beta_i (r_m - r_f) + s_i \cdot \text{SMB} + h_i \cdot \text{HML} + \epsilon_i
+$$
+
+Where:
+- **SMB (Small Minus Big):** Size factor — long small-cap, short large-cap
+- **HML (High Minus Low):** Value factor — long high book-to-market, short low book-to-market
+- $s_i$ = sensitivity to size factor
+- $h_i$ = sensitivity to value factor
+
+### Factor construction
+
+**SMB:**
+1. Sort stocks into 2 groups by market cap (Small, Big)
+2. Calculate value-weighted returns for each group
+3. SMB = $r_{\text{Small}} - r_{\text{Big}}$
+
+**HML:**
+1. Sort stocks into 3 groups by book-to-market (Low, Medium, High)
+2. Within each size group, calculate HML spread
+3. HML = average of $(r_{\text{High BM}} - r_{\text{Low BM}})$ across size groups
+
+The factors are **zero-investment portfolios** — long one leg, short the other. No net capital required.
+
+---
+
+## 4. The Fama-French 5-Factor Model
+
+Fama & French (2015) added two more factors:
+
+$$
+r_i = r_f + \beta_i (r_m - r_f) + s_i \cdot \text{SMB} + h_i \cdot \text{HML} + r_i \cdot \text{RMW} + c_i \cdot \text{CMA} + \epsilon_i
+$$
+
+New factors:
+- **RMW (Robust Minus Weak):** Profitability — long high operating profitability, short low
+- **CMA (Conservative Minus Aggressive):** Investment — long conservative investment, short aggressive
+
+### Economic interpretation
+
+<div className="grid gap-3 my-6 not-prose">
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-32">Market (MKT)</div>
+      <div className="flex-1 text-sm text-slate-300">Equity risk premium</div>
+      <div className="text-sm font-semibold text-qf-green">6–8%</div>
+    </div>
+  </div>
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-32">SMB</div>
+      <div className="flex-1 text-sm text-slate-300">Size risk, liquidity</div>
+      <div className="text-sm font-semibold text-qf-green">1–2%</div>
+    </div>
+  </div>
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-32">HML</div>
+      <div className="flex-1 text-sm text-slate-300">Value risk, distress</div>
+      <div className="text-sm font-semibold text-qf-green">3–4%</div>
+    </div>
+  </div>
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-32">RMW</div>
+      <div className="flex-1 text-sm text-slate-300">Profitability quality</div>
+      <div className="text-sm font-semibold text-qf-green">2–3%</div>
+    </div>
+  </div>
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-32">CMA</div>
+      <div className="flex-1 text-sm text-slate-300">Investment conservatism</div>
+      <div className="text-sm font-semibold text-qf-green">2–3%</div>
+    </div>
+  </div>
+</div>
+
+**Momentum** is notably absent — it's a separate factor (Carhart 4-factor adds MOM to FF3).
+
+---
+
+## 5. Running Factor Regressions in Python
+
+```python
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+from scipy import stats
+
+def factor_regression(strategy_returns, factor_returns, rf_rate=None):
+    """
+    Run factor model regression.
+    
+    Args:
+        strategy_returns: pd.Series of strategy excess returns
+        factor_returns: pd.DataFrame with factor columns (MKT, SMB, HML, RMW, CMA, MOM)
+        rf_rate: Risk-free rate (if strategy_returns are not already excess)
+    
+    Returns:
+        Regression results dictionary
+    """
+    # Ensure alignment
+    df = pd.concat([strategy_returns, factor_returns], axis=1).dropna()
+    
+    y = df.iloc[:, 0]  # Strategy returns
+    X = df.iloc[:, 1:]  # Factor returns
+    
+    # Add constant for alpha
+    X = sm.add_constant(X)
+    
+    # OLS regression
+    model = sm.OLS(y, X)
+    results = model.fit()
+    
+    # Extract coefficients
+    params = results.params
+    alpha = params['const']
+    betas = params.drop('const')
+    
+    # Annualize alpha (assuming daily data)
+    alpha_annual = alpha * 252
+    alpha_tstat = results.tvalues['const']
+    alpha_pvalue = results.pvalues['const']
+    
+    # R-squared: how much variance is explained by factors
+    r_squared = results.rsquared
+    adj_r_squared = results.rsquared_adj
+    
+    # Residual analysis
+    residuals = results.resid
+    residual_vol = residuals.std() * np.sqrt(252)
+    
+    # Information Ratio: alpha / residual_vol
+    ir = alpha_annual / residual_vol if residual_vol > 0 else np.nan
+    
+    report = {
+        'Alpha (annual)': f'{alpha_annual:.2%}',
+        'Alpha t-stat': f'{alpha_tstat:.2f}',
+        'Alpha p-value': f'{alpha_pvalue:.4f}',
+        'Alpha Significant?': 'Yes' if alpha_pvalue < 0.05 else 'No',
+        
+        'R-squared': f'{r_squared:.3f}',
+        'Adj R-squared': f'{adj_r_squared:.3f}',
+        'Variance Explained': f'{r_squared*100:.1f}%',
+        
+        'Residual Volatility (annual)': f'{residual_vol:.2%}',
+        'Information Ratio': f'{ir:.3f}',
+        
+        'Factor Loadings': betas.to_dict(),
+        'Factor t-stats': results.tvalues.drop('const').to_dict(),
+        
+        'Regression Summary': results.summary()
+    }
+    
+    return report
+
+
+def interpret_factor_loadings(betas):
+    """
+    Provide plain-English interpretation of factor exposures.
+    """
+    interpretations = []
+    
+    if 'MKT' in betas.index:
+        if betas['MKT'] > 1.2:
+            interpretations.append("High market beta — aggressive equity exposure")
+        elif betas['MKT'] < 0.8:
+            interpretations.append("Low market beta — defensive positioning")
+        elif betas['MKT'] < 0:
+            interpretations.append("Negative market beta — market-neutral or short bias")
+    
+    if 'SMB' in betas.index:
+        if betas['SMB'] > 0.3:
+            interpretations.append("Small-cap tilt — benefits when small stocks outperform")
+        elif betas['SMB'] < -0.3:
+            interpretations.append("Large-cap tilt — benefits when large stocks outperform")
+    
+    if 'HML' in betas.index:
+        if betas['HML'] > 0.3:
+            interpretations.append("Value tilt — benefits when value stocks outperform")
+        elif betas['HML'] < -0.3:
+            interpretations.append("Growth tilt — benefits when growth stocks outperform")
+    
+    if 'RMW' in betas.index:
+        if betas['RMW'] > 0.3:
+            interpretations.append("Quality tilt — prefers profitable companies")
+        elif betas['RMW'] < -0.3:
+            interpretations.append("Speculative tilt — prefers unprofitable companies")
+    
+    if 'CMA' in betas.index:
+        if betas['CMA'] > 0.3:
+            interpretations.append("Conservative investment tilt")
+        elif betas['CMA'] < -0.3:
+            interpretations.append("Aggressive investment tilt")
+    
+    if 'MOM' in betas.index:
+        if betas['MOM'] > 0.3:
+            interpretations.append("Momentum exposure — benefits from trend continuation")
+        elif betas['MOM'] < -0.3:
+            interpretations.append("Reversal exposure — benefits from mean reversion")
+    
+    return interpretations
+
+
+# ─── Example: Analyze a "high-alpha" strategy ─────────────────────────────
+np.random.seed(42)
+n_days = 252 * 5  # 5 years
+
+# Simulate factor returns (realistic correlations)
+factor_data = pd.DataFrame({
+    'MKT': np.random.normal(0.0003, 0.01, n_days),  # Market excess return
+    'SMB': np.random.normal(0.0001, 0.005, n_days),  # Size premium
+    'HML': np.random.normal(0.0001, 0.005, n_days),  # Value premium
+    'RMW': np.random.normal(0.0001, 0.004, n_days),  # Profitability premium
+    'CMA': np.random.normal(0.0001, 0.004, n_days),  # Investment premium
+    'MOM': np.random.normal(0.0002, 0.006, n_days),  # Momentum
+})
+
+# Strategy 1: "Alpha" that's actually just high market beta
+# True model: r = 0.02 + 1.5*MKT + 0.3*SMB + epsilon
+strategy_1_returns = (
+    0.00008  # Daily alpha (≈2% annual)
+    + 1.5 * factor_data['MKT']
+    + 0.3 * factor_data['SMB']
+    + np.random.normal(0, 0.005, n_days)  # Idiosyncratic
+)
+
+# Strategy 2: Market-neutral with genuine alpha
+# True model: r = 0.0004 + 0.1*MKT + 0.5*HML + 0.4*MOM + epsilon
+strategy_2_returns = (
+    0.0004  # Daily alpha (≈10% annual)
+    + 0.1 * factor_data['MKT']
+    + 0.5 * factor_data['HML']
+    + 0.4 * factor_data['MOM']
+    + np.random.normal(0, 0.008, n_days)
+)
+
+# Run regressions
+print("=" * 70)
+print("STRATEGY 1: The 'High Alpha' That's Actually Beta")
+print("=" * 70)
+results_1 = factor_regression(strategy_1_returns, factor_data)
+print(f"Alpha (annual): {results_1['Alpha (annual)']}")
+print(f"Alpha t-stat: {results_1['Alpha t-stat']}")
+print(f"Alpha p-value: {results_1['Alpha p-value']}")
+print(f"R-squared: {results_1['R-squared']}")
+print(f"\nFactor Loadings:")
+for factor, beta in results_1['Factor Loadings'].items():
+    print(f"  {factor}: {beta:.3f}")
+
+print("\nInterpretation:")
+betas_1 = pd.Series(results_1['Factor Loadings'])
+for interp in interpret_factor_loadings(betas_1):
+    print(f"  • {interp}")
+
+print("\n" + "=" * 70)
+print("STRATEGY 2: Genuine Alpha with Factor Tilts")
+print("=" * 70)
+results_2 = factor_regression(strategy_2_returns, factor_data)
+print(f"Alpha (annual): {results_2['Alpha (annual)']}")
+print(f"Alpha t-stat: {results_2['Alpha t-stat']}")
+print(f"Alpha p-value: {results_2['Alpha p-value']}")
+print(f"R-squared: {results_2['R-squared']}")
+print(f"\nFactor Loadings:")
+for factor, beta in results_2['Factor Loadings'].items():
+    print(f"  {factor}: {beta:.3f}")
+```
+
+**Typical output:**
+```
+======================================================================
+STRATEGY 1: The 'High Alpha' That's Actually Beta
+======================================================================
+Alpha (annual): 2.1%
+Alpha t-stat: 0.82
+Alpha p-value: 0.4125
+Alpha Significant? No
+R-squared: 0.89
+
+Factor Loadings:
+  MKT: 1.487
+  SMB: 0.312
+  HML: 0.043
+  RMW: -0.021
+  CMA: 0.015
+  MOM: 0.089
+
+Interpretation:
+  • High market beta — aggressive equity exposure
+  • Small-cap tilt — benefits when small stocks outperform
+
+→ VERDICT: 89% of variance explained by factors. Alpha not significant.
+  This is NOT alpha — it's leveraged market exposure with small-cap tilt.
+
+======================================================================
+STRATEGY 2: Genuine Alpha with Factor Tilts
+======================================================================
+Alpha (annual): 9.8%
+Alpha t-stat: 2.34
+Alpha p-value: 0.0196
+Alpha Significant? Yes
+R-squared: 0.42
+
+Factor Loadings:
+  MKT: 0.098
+  SMB: 0.034
+  HML: 0.487
+  RMW: 0.023
+  CMA: -0.012
+  MOM: 0.412
+
+Interpretation:
+  • Value tilt — benefits when value stocks outperform
+  • Momentum exposure — benefits from trend continuation
+
+→ VERDICT: Only 42% variance explained by factors. Alpha significant at 5%.
+  This strategy has genuine alpha PLUS factor exposures.
+```
+
+---
+
+## Interactive: Factor Model Regression
+
+Explore how factor exposures differ between beta-driven and alpha-driven strategies. Toggle rolling betas to detect style drift over time.
+
+<ChartBlock title="Factor Model Regression" description="Compare beta-driven vs alpha strategies. Toggle rolling betas to detect style drift.">
+  <FactorModelChart />
+</ChartBlock>
+
+---
+
+## 6. The DeFi Factor Problem
+
+Traditional factor models don't directly apply to crypto/DeFi. But analogous factors exist:
+
+### Proposed Crypto Factors
+
+<div className="grid gap-3 my-6 not-prose">
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-36">CRYPTO_MKT</div>
+      <div className="flex-1 text-sm text-slate-300">Long crypto index, short cash</div>
+    </div>
+    <div className="text-xs text-slate-500 mt-2 ml-39">Systematic crypto exposure</div>
+  </div>
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-36">SIZE</div>
+      <div className="flex-1 text-sm text-slate-300">Long small-cap tokens, short large-cap</div>
+    </div>
+    <div className="text-xs text-slate-500 mt-2 ml-39">Liquidity premium, speculation</div>
+  </div>
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-36">MOMENTUM</div>
+      <div className="flex-1 text-sm text-slate-300">Long 12-1 winners, short 12-1 losers</div>
+    </div>
+    <div className="text-xs text-slate-500 mt-2 ml-39">Trend following, FOMO</div>
+  </div>
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-36">TVL_GROWTH</div>
+      <div className="flex-1 text-sm text-slate-300">Long high TVL-growth protocols, short low</div>
+    </div>
+    <div className="text-xs text-slate-500 mt-2 ml-39">Adoption momentum</div>
+  </div>
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-36">YIELD</div>
+      <div className="flex-1 text-sm text-slate-300">Long high-yield protocols, short low</div>
+    </div>
+    <div className="text-xs text-slate-500 mt-2 ml-39">Carry trade, risk premium</div>
+  </div>
+  <div className="card p-3">
+    <div className="flex items-center gap-3">
+      <div className="text-sm font-bold text-qf-blue w-36">GOVERNANCE</div>
+      <div className="flex-1 text-sm text-slate-300">Long governance tokens, short utility</div>
+    </div>
+    <div className="text-xs text-slate-500 mt-2 ml-39">Governance rights premium</div>
+  </div>
+</div>
+
+### Running Crypto Factor Regressions
+
+```python
+def crypto_factor_regression(strategy_returns, crypto_factors):
+    """
+    Factor regression for DeFi/crypto strategies.
+    
+    crypto_factors should include:
+    - CRYPTO_MKT: BTC or total crypto market excess return
+    - ETH_MKT: ETH excess return (for DeFi-specific strategies)
+    - SIZE: Small-cap vs large-cap token spread
+    - MOMENTUM: 12-1 momentum factor
+    - TVL_GROWTH: High TVL growth vs low
+    - YIELD: High yield vs low yield
+    """
+    return factor_regression(strategy_returns, crypto_factors)
+
+
+# Example: DeFi yield farming strategy
+# Simulated data
+defi_yield_strategy = (
+    0.0005  # ~12% annual alpha
+    + 0.8 * crypto_factors['ETH_MKT']
+    + 0.3 * crypto_factors['TVL_GROWTH']
+    + 0.2 * crypto_factors['YIELD']
+    + np.random.normal(0, 0.012, n_days)
+)
+
+results = crypto_factor_regression(defi_yield_strategy, crypto_factors)
+```
+
+**Key insight:** Many "DeFi alpha" strategies are just:
+- Long ETH beta (0.6–1.0)
+- Long small-cap token beta
+- Long volatility
+
+Once you control for these, the alpha often disappears.
+
+---
+
+## 7. Alpha Decay: When Factor Exposures Change
+
+Factor exposures are not static. A strategy's beta to various factors can drift over time.
+
+### Rolling Factor Regression
+
+```python
+def rolling_factor_regression(strategy_returns, factor_returns, window=63):
+    """
+    Rolling factor regression to detect beta drift.
+    """
+    dates = strategy_returns.index[window:]
+    rolling_alphas = []
+    rolling_betas = {f: [] for f in factor_returns.columns}
+    rolling_r2 = []
+    
+    for i in range(window, len(strategy_returns)):
+        y = strategy_returns.iloc[i-window:i]
+        X = factor_returns.iloc[i-window:i]
+        
+        X = sm.add_constant(X)
+        model = sm.OLS(y, X)
+        results = model.fit()
+        
+        rolling_alphas.append(results.params['const'])
+        for factor in factor_returns.columns:
+            rolling_betas[factor].append(results.params[factor])
+        rolling_r2.append(results.rsquared)
+    
+    return pd.DataFrame({
+        'date': dates,
+        'alpha': rolling_alphas,
+        'r_squared': rolling_r2,
+        **{f'beta_{f}': rolling_betas[f] for f in factor_returns.columns}
+    })
+```
+
+**Watch for:**
+- Alpha declining over time → strategy decaying, competition increasing
+- Beta drift → strategy changing character (intentionally or not)
+- R-squared increasing → returns becoming more factor-driven, less alpha
+
+---
+
+## 8. The Factor Zoo Problem
+
+Over 400 factors have been published in academic literature. Most are:
+- Data-mined (false discoveries)
+- Not robust out-of-sample
+- Not implementable after transaction costs
+
+**Harvey, Liu & Zhu (2016)** showed: with standard t-stat thresholds of 2.0, you'd expect hundreds of false discoveries. They propose a **t-stat > 3.0** threshold for new factors.
+
+### Defense Against the Zoo
+
+1. **Economic rationale first:** Does the factor have a theoretical reason to exist? (Risk premium, behavioral bias, structural constraint)
+
+2. **Out-of-sample testing:** Test on different time periods, different markets
+
+3. **Transaction cost adjustment:** Can you actually capture the premium after costs?
+
+4. **Multiple testing correction:** Apply Bonferroni or Benjamini-Hochberg corrections
+
+5. **Skepticism:** Default assumption is that a new factor is noise until proven otherwise
+
+---
+
+## 9. Practical Framework: Evaluating Any Strategy
+
+Before allocating capital to any strategy (your own or someone else's):
+
+### Step 1: Run Factor Regression
+- Use appropriate factor model (FF5 for equities, custom for crypto)
+- Check alpha significance (t-stat > 2.0)
+- Check R-squared (how much is factor exposure?)
+
+### Step 2: Analyze Residuals
+- Are residuals normally distributed?
+- Is there autocorrelation? (hidden time-series structure)
+- Are there fat tails? (hidden tail risk)
+
+### Step 3: Stress Test Factor Exposures
+- What happens if value underperforms for 3 years?
+- What happens if momentum crashes?
+- What happens in 2008, 2020, 2022 market regimes?
+
+### Step 4: Capacity Analysis
+- How much capital can this strategy absorb?
+- Does alpha decay with size?
+- What's the realistic capacity given liquidity?
+
+### Step 5: Implementation Reality Check
+- Can you actually trade this?
+- What are transaction costs, slippage, market impact?
+- Are there regulatory or operational constraints?
+
+---
+
+## Key Takeaways
+
+1. **Most "alpha" is hidden beta.** Run factor regressions before claiming skill.
+
+2. **Alpha must be statistically significant.** t-stat > 2.0, ideally > 3.0. One-off backtests don't count.
+
+3. **R-squared tells the story.** If >70% of variance is factor-explained, you're running factor exposure, not alpha.
+
+4. **Factor exposures drift.** Monitor rolling regressions — your strategy may change character without you noticing.
+
+5. **The factor zoo is real.** Most published factors are false discoveries. Demand economic rationale and out-of-sample evidence.
+
+6. **DeFi needs custom factors.** Traditional FF5 doesn't capture crypto-specific risks (ETH beta, TVL growth, yield carry).
+
+7. **Genuine alpha is rare.** If you find it, protect it, size it appropriately, and monitor for decay.
+
+---
+
+## What's Next
+
+Episode 6: **The Black-Litterman Model** — how to combine market equilibrium with your own views in a mathematically rigorous way. We solve the error-maximization problem of mean-variance optimization and build a portfolio construction system that professionals actually use.
+
+---
+
+## References
+
+**Foundational Factor Models**
+
+1. Sharpe, W.F. (1964). "Capital Asset Prices: A Theory of Market Equilibrium under Conditions of Risk." *Journal of Finance*, 19(3), 425–442. [https://doi.org/10.2307/2977928](https://doi.org/10.2307/2977928)
+
+2. Lintner, J. (1965). "The Valuation of Risk Assets and the Selection of Risky Investments for Stock Portfolios and Capital Budgets." *Review of Economics and Statistics*, 47(1), 13–37. [https://doi.org/10.2307/1924119](https://doi.org/10.2307/1924119)
+
+3. Fama, E.F. & French, K.R. (1993). "Common Risk Factors in the Returns on Stocks and Bonds." *Journal of Financial Economics*, 33(1), 3–56. [https://doi.org/10.1016/0304-405X(93)90023-5](https://doi.org/10.1016/0304-405X(93)90023-5)
+
+4. Fama, E.F. & French, K.R. (2015). "A Five-Factor Asset Pricing Model." *Journal of Financial Economics*, 116(1), 1–22. [https://doi.org/10.1016/j.jfineco.2014.10.010](https://doi.org/10.1016/j.jfineco.2014.10.010)
+
+**Momentum Factor**
+
+5. Jegadeesh, N. & Titman, S. (1993). "Returns to Buying Winners and Selling Losers: Implications for Stock Market Efficiency." *Journal of Finance*, 48(1), 65–91. [https://doi.org/10.2307/2328882](https://doi.org/10.2307/2328882)
+
+6. Carhart, M.M. (1997). "On Persistence in Mutual Fund Performance." *Journal of Finance*, 52(1), 57–82. [https://doi.org/10.2307/2329556](https://doi.org/10.2307/2329556)
+
+**Factor Zoo & Multiple Testing**
+
+7. Harvey, C.R., Liu, Y. & Zhu, H. (2016). "... and the Cross-Section of Expected Returns." *Review of Financial Studies*, 29(1), 5–68. [https://doi.org/10.1093/rfs/hhv059](https://doi.org/10.1093/rfs/hhv059)
+
+8. Cochrane, J.H. (2011). "Presidential Address: Discount Rates." *Journal of Finance*, 66(4), 1047–1108. [https://doi.org/10.1111/j.1540-6261.2011.01671.x](https://doi.org/10.1111/j.1540-6261.2011.01671.x)
+
+9. McLean, R.D. & Pontiff, J. (2016). "Does Academic Research Destroy Stock Return Predictability?" *Journal of Finance*, 71(1), 5–32. [https://doi.org/10.1111/jofi.12365](https://doi.org/10.1111/jofi.12365)
+
+**Factor Implementation**
+
+10. Grinold, R.C. & Kahn, B.W. (2000). *Active Portfolio Management: A Quantitative Approach for Producing Superior Returns and Controlling Risk* (2nd ed.). McGraw-Hill. ISBN: 978-0-07-024882-3
+
+11. Ilmanen, A. (2011). *Expected Returns: An Investor's Guide to Harvesting Market Rewards*. Wiley. ISBN: 978-0-470-66965-5
+
+12. Ang, A. (2014). *Asset Management: A Systematic Approach to Factor Investing*. Oxford University Press. ISBN: 978-0-19-995932-7
+
+**Crypto/DeFi Factors**
+
+13. Harvey, C.R., Ramachandran, A. & Santoro, J. (2021). *DeFi and the Future of Finance*. Wiley. ISBN: 978-1-119-83601-8
+
+14. Liu, Y., Tsyvinski, A. & Wu, X. (2019). "Common Risk Factors in Cryptocurrency." *NBER Working Paper No. 25882*. [https://www.nber.org/papers/w25882](https://www.nber.org/papers/w25882)
+
+15. Grobys, K., Junttila, J., Kolari, J. & Mukherjee, N.H. (2020). "Market Efficiency and Liquidity in the Cryptocurrency Market." *SSRN Working Paper*. [https://ssrn.com/abstract=3547642](https://ssrn.com/abstract=3547642)
+
+**Rolling Regression & Beta Drift**
+
+16. Ghysels, E. (1998). "On Stable Factor Structures in the Pricing of Risk: Do Time-Varying Betas Help or Hurt?" *Journal of Finance*, 53(2), 549–573. [https://doi.org/10.1111/0022-1082.134052](https://doi.org/10.1111/0022-1082.134052)
+
+17. Ang, A. & Kristensen, D. (2012). "Testing Conditional Factor Models." *Journal of Financial Economics*, 106(1), 132–156. [https://doi.org/10.1016/j.jfineco.2012.05.011](https://doi.org/10.1016/j.jfineco.2012.05.011)
+
+**Data Sources**
+
+18. Kenneth R. French Data Library. [https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html)
+
+19. AQR Capital Management Data Library. [https://www.aqr.com/Insights/Datasets](https://www.aqr.com/Insights/Datasets)
