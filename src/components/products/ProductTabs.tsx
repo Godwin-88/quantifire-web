@@ -41,22 +41,19 @@ function OverviewTab({ product }: { product: Product }) {
         <p className="text-slate-400 leading-relaxed">{product.description}</p>
       </div>
 
-      {product.status !== 'live' && (
+      {(product.status === 'in-development' || product.status === 'coming-soon') && (
         <div className="rounded-xl border border-slate-700 bg-slate-900/60 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
-            <p className="font-semibold text-white text-sm">This product is coming soon</p>
-            <p className="text-xs text-slate-400 mt-1">Register your interest to get early access and shape the roadmap.</p>
+            <p className="font-semibold text-white text-sm">Actively in development</p>
+            <p className="text-xs text-slate-400 mt-1">This project is being built — follow along or get in touch to collaborate.</p>
           </div>
-          <button
-            onClick={() => {
-              const el = document.getElementById('tab-interest')
-              el?.click()
-            }}
+          <a
+            href="/contact"
             className="shrink-0 rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90"
             style={{ backgroundColor: product.accentColor }}
           >
-            Join Waitlist →
-          </button>
+            Get in Touch →
+          </a>
         </div>
       )}
     </div>
@@ -163,9 +160,9 @@ function InterestForm({ product }: { product: Product }) {
         >
           ✓
         </div>
-        <h3 className="text-xl font-bold text-white">You&apos;re on the waitlist!</h3>
+        <h3 className="text-xl font-bold text-white">Interest registered!</h3>
         <p className="mt-2 text-slate-400 max-w-sm mx-auto">
-          Thank you for your interest in {product.name}. We&apos;ll reach out with early access details, launch updates, and roadmap previews.
+          Thank you for your interest in {product.name}. We&apos;ll be in touch.
         </p>
       </div>
     )
@@ -521,23 +518,23 @@ function CTATab({ product, onSwitchToInterest }: { product: Product; onSwitchToI
       </div>
       */}
 
-      {/* Pre-launch waitlist CTA for live products */}
+      {/* Project CTA */}
       <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-10 text-center">
         <div className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-800/60 px-3 py-1 text-xs text-slate-400 mb-4">
           <span className="h-1.5 w-1.5 rounded-full animate-pulse" style={{ backgroundColor: product.accentColor }} />
-          Early Access
+          {product.status === 'live' ? 'Live in production' : 'In development'}
         </div>
-        <h2 className="text-2xl font-bold text-white mb-3">{product.name} is in early access</h2>
+        <h2 className="text-2xl font-bold text-white mb-3">Interested in {product.name}?</h2>
         <p className="text-slate-400 max-w-md mx-auto text-sm leading-relaxed mb-6">
-          Join the waitlist to get early access, launch pricing, and shape the roadmap.
+          Whether you want to collaborate, ask technical questions, or discuss a use case — get in touch.
         </p>
-        <button
-          onClick={onSwitchToInterest}
+        <a
+          href="/contact"
           className="inline-flex items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-white transition-all hover:opacity-90"
           style={{ backgroundColor: product.accentColor }}
         >
-          Join Waitlist →
-        </button>
+          Get in Touch →
+        </a>
       </div>
     </div>
   )

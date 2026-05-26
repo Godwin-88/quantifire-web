@@ -2,17 +2,18 @@ import Link from 'next/link'
 import { PRODUCTS } from '@/lib/products'
 
 const STATUS_BADGE = {
-  live:          { label: 'Live',        cls: 'text-green-400 bg-green-400/10 border-green-400/30' },
-  beta:          { label: 'Beta',        cls: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/30' },
-  'coming-soon': { label: 'Coming Soon', cls: 'text-slate-400 bg-slate-400/10 border-slate-400/30' },
+  live:             { label: 'Live',           cls: 'text-green-400 bg-green-400/10 border-green-400/30' },
+  beta:             { label: 'Beta',           cls: 'text-yellow-400 bg-yellow-400/10 border-yellow-400/30' },
+  'coming-soon':    { label: 'Coming Soon',    cls: 'text-slate-400 bg-slate-400/10 border-slate-400/30' },
+  'in-development': { label: 'In Development', cls: 'text-blue-400 bg-blue-400/10 border-blue-400/30' },
 }
 
 export function ProductSections() {
   return (
-    <div id="products">
+    <div id="projects">
       {PRODUCTS.map((product, index) => {
         const isEven = index % 2 === 0
-        const badge = STATUS_BADGE[product.status]
+        const badge = STATUS_BADGE[product.status] ?? STATUS_BADGE['in-development']
         const isLive = product.status === 'live'
 
         return (
@@ -66,31 +67,47 @@ export function ProductSections() {
                   )}
                 </ul>
 
+                {/* Tech stack chips */}
+                {product.techStack && product.techStack.length > 0 && (
+                  <div className="mt-5 flex flex-wrap gap-1.5">
+                    {product.techStack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="rounded-md border border-slate-700/60 bg-slate-800/50 px-2 py-0.5 text-[11px] font-mono text-slate-400"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
                 {/* CTAs */}
-                <div className="mt-8 flex flex-wrap gap-3">
+                <div className="mt-6 flex flex-wrap gap-3">
                   <Link
                     href={`/products/${product.slug}`}
                     className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/60 px-5 py-2.5 text-sm font-semibold text-slate-200 hover:border-slate-500 hover:bg-slate-800 hover:text-white transition-all"
                   >
-                    View Product →
+                    View Details →
                   </Link>
-                  {isLive ? (
-                    <Link
-                      href={`/products/${product.slug}?tab=interest`}
+                  {isLive && product.liveUrl ? (
+                    <a
+                      href={product.liveUrl}
+                      target={product.liveUrl.startsWith('http') ? '_blank' : undefined}
+                      rel={product.liveUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
                       className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90"
                       style={{ backgroundColor: product.accentColor }}
                     >
-                      Get Access
-                    </Link>
-                  ) : (
+                      Live Demo ↗
+                    </a>
+                  ) : isLive ? (
                     <Link
-                      href={`/products/${product.slug}?tab=interest`}
+                      href={`/products/${product.slug}`}
                       className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90"
                       style={{ backgroundColor: product.accentColor }}
                     >
-                      Join Waitlist
+                      Explore
                     </Link>
-                  )}
+                  ) : null}
                 </div>
               </div>
 
@@ -146,11 +163,13 @@ export function ProductSections() {
                   </div>
                   */}
 
-                  {/* Pre-launch waitlist prompt */}
+                  {/* Status footer */}
                   <div className="flex items-center gap-2 rounded-lg border border-slate-800 bg-qf-black/40 px-4 py-3">
-                    <span className="h-2 w-2 rounded-full bg-qf-red animate-pulse" />
+                    <span className={`h-2 w-2 rounded-full ${isLive ? 'bg-green-400 animate-pulse' : 'bg-blue-400'}`} />
                     <span className="text-xs text-slate-300">
-                      {isLive ? 'Live now — early access available' : 'Launch pricing announced to waitlist first'}
+                      {isLive
+                        ? 'Deployed and running in production'
+                        : 'Actively in development — updated regularly'}
                     </span>
                   </div>
                 </div>

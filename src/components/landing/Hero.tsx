@@ -11,49 +11,48 @@ export function Hero() {
 
       <div className="section relative z-10 flex flex-col items-center justify-center py-28 text-center lg:py-36">
         {/* Eyebrow */}
-        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-qf-red/30 bg-qf-red/10 px-4 py-1.5 text-sm text-qf-red">
-          <span className="h-1.5 w-1.5 rounded-full bg-qf-red animate-pulse" />
-          Early Access · Join the Waitlist
+        <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-qf-blue/30 bg-qf-blue/10 px-4 py-1.5 text-sm text-qf-blue">
+          <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+          Full-Stack Engineer · AI/ML · Quant Finance · Nairobi, Kenya
         </div>
 
         {/* Headline */}
         <h1 className="max-w-4xl text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-          {' '}
-          <span className="gradient-text">Antifragile Quantitative Intelligence</span>
+          <span className="gradient-text">Building Systems</span>
           <br />
-           for TradFI and DeFI
+          That Actually Ship
         </h1>
 
         {/* Subheadline */}
-       <p className="mt-6 max-w-2xl text-lg text-slate-400 leading-relaxed">
-          Transform market complexity into actionable intelligence. 
-          Institutional-grade quantitative tools and content-driven insights — bridging traditional markets 
-          and decentralized finance.
-      </p>
+        <p className="mt-6 max-w-2xl text-lg text-slate-400 leading-relaxed">
+          Production-grade AI agents, fintech platforms, and quant finance tools —
+          from cross-border payments on Stellar to clinical trial matching with FHIR R4
+          and autonomous trading systems.
+        </p>
 
         {/* CTAs */}
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <Link href="#products" className="btn-primary text-base px-7 py-3">
-            Explore Products
+          <Link href="#projects" className="btn-primary text-base px-7 py-3">
+            View Projects
           </Link>
           <Link href="/blog" className="btn-secondary text-base px-7 py-3">
             Read the Blog ↓
           </Link>
         </div>
 
-        {/* Trust indicators */}
+        {/* Stack indicators */}
         <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-xs text-slate-500">
           <span className="flex items-center gap-1.5">
-            <span className="text-green-400">✓</span> Free to register
+            <span className="text-qf-blue">◆</span> Python · Go · TypeScript · Rust
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="text-green-400">✓</span> Early access priority
+            <span className="text-qf-blue">◆</span> FastAPI · React · Flutter · Next.js
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="text-green-400">✓</span> GDPR & POPIA compliant
+            <span className="text-qf-blue">◆</span> Neo4j · PostgreSQL · Redis
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="text-green-400">✓</span> No spam, ever
+            <span className="text-qf-blue">◆</span> Docker · Kubernetes · Azure
           </span>
         </div>
       </div>

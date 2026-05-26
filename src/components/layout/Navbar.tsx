@@ -6,10 +6,11 @@ import { cn } from '@/lib/utils'
 
 const NAV_LINKS = [
   { href: '/blog', label: 'Blog' },
-  { href: '/marketplace', label: 'Products' },
-  { href: '/products/quantifaya', label: 'Quantifaya' },
-  { href: '/products/yield-agent', label: 'Yield Agent' },
-  { href: '/products/academy', label: 'Academy' },
+  { href: '/marketplace', label: 'Projects' },
+  { href: '/contact', label: 'Contact' },
+  // { href: '/products/quantifaya', label: 'Quantifaya' },    // coming soon
+  // { href: '/products/yield-agent', label: 'Yield Agent' },  // coming soon
+  // { href: '/products/academy', label: 'Academy' },          // coming soon
 ]
 
 export function Navbar() {
@@ -24,9 +25,7 @@ export function Navbar() {
             <span className="gradient-text">Quanti</span>
             <span>🔥</span>
           </span>
-          <span className="rounded-full bg-qf-red/20 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-qf-red border border-qf-red/30">
-            Waitlist
-          </span>
+          {/* waitlist badge removed — portfolio mode */}
         </Link>
 
         {/* Desktop nav */}
@@ -45,7 +44,7 @@ export function Navbar() {
         {/* CTAs */}
         <div className="hidden md:flex items-center gap-3">
           <Link href="/auth/login" className="btn-ghost">Sign in</Link>
-          <Link href="/#products" className="btn-primary">Join Waitlist</Link>
+          <Link href="/contact" className="btn-primary">Get in Touch</Link>
         </div>
 
         {/* Mobile burger */}
@@ -75,7 +74,7 @@ export function Navbar() {
           ))}
           <div className="mt-4 flex gap-3">
             <Link href="/auth/login" className="btn-secondary flex-1 text-center">Sign in</Link>
-            <Link href="/auth/signup" className="btn-primary flex-1 text-center">Get Started</Link>
+            <Link href="/contact" className="btn-primary flex-1 text-center">Get in Touch</Link>
           </div>
         </div>
       )}

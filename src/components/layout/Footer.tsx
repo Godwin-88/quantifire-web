@@ -11,29 +11,33 @@ const CHANNELS = [
 ]
 
 const FOOTER_LINKS = {
-  Products: [
-    { label: 'Quantifaya', href: '/products/quantifaya' },
-    { label: 'Yield Agent', href: '/products/yield-agent' },
-    { label: 'Quantifaya CMS', href: '/products/quantifire-cms' },
-    { label: 'Legal Research Agent', href: '/products/legal-research-agent' },
-    { label: 'Academy', href: '/products/academy' },
+  Projects: [
+    { label: 'ClinicalMatch AI', href: '/products/clinicalmatch' },
+    { label: 'Afripay', href: '/products/afripay' },
+    { label: 'Job Hunter KE', href: '/products/jobhunter' },
+    { label: 'GraphAlpha', href: '/products/graphalpha' },
+    { label: 'Agentic ERP', href: '/products/agentic-erp' },
+    // { label: 'Quantifaya', href: '/products/quantifaya' },           // coming soon
+    // { label: 'Yield Agent', href: '/products/yield-agent' },         // coming soon
+    // { label: 'Legal Research Agent', href: '/products/legal-research-agent' }, // in development
   ],
   Content: [
     { label: 'Blog', href: '/blog' },
-    { label: 'Newsletter', href: '/newsletter' },
     { label: 'Series', href: '/blog?view=series' },
-    { label: 'Jupyter Notebooks', href: '/notebooks' },
+    // { label: 'Newsletter', href: '/newsletter' },     // page not yet built
+    // { label: 'Jupyter Notebooks', href: '/notebooks' }, // page not yet built
   ],
   Company: [
     { label: 'About', href: '/about' },
-    { label: 'Marketplace', href: '/marketplace' },
-    { label: 'Consulting', href: '/consulting' },
+    { label: 'Projects', href: '/marketplace' },
     { label: 'Contact', href: '/contact' },
+    // { label: 'Consulting', href: '/consulting' }, // page not yet built
   ],
   Legal: [
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms of Service', href: '/terms' },
-    { label: 'Cookie Policy', href: '/cookies' },
+    // { label: 'Privacy Policy', href: '/privacy' },   // page not yet built
+    // { label: 'Terms of Service', href: '/terms' },   // page not yet built
+    // { label: 'Cookie Policy', href: '/cookies' },    // page not yet built
+    { label: 'Not financial advice', href: '#' },
   ],
 }
 
@@ -50,7 +54,7 @@ export function Footer() {
               <span>🔥</span>
             </Link>
             <p className="mt-3 text-xs text-slate-500 leading-relaxed">
-              Quantifaya — Quantitative Finance<br />for Web2 & Web3
+              Full-Stack Engineer · AI/ML<br />Quant Finance · Nairobi, Kenya
             </p>
             {/* Social channels */}
             <div className="mt-4 flex flex-wrap gap-2">

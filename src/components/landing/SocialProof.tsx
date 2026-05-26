@@ -1,8 +1,8 @@
 const STATS = [
-  { value: '36+', label: 'Animated episodes' },
-  { value: '290+', label: 'Content pieces planned' },
-  { value: '9', label: 'Distribution channels' },
-  { value: '6', label: 'Products launching' },
+  { value: '6', label: 'Shipped systems in production' },
+  { value: '9,100+', label: 'Knowledge graph edges (ClinicalMatch)' },
+  { value: '8', label: 'Autonomous trading sub-agents' },
+  { value: '27', label: 'MCP tools across projects' },
 ]
 
 export function SocialProof() {

@@ -71,7 +71,7 @@ export interface Lead {
 
 // ─── Products ────────────────────────────────────────────────────────────────
 
-export type ProductCategory = 'tradfi' | 'web3' | 'tools' | 'ai' | 'education' | 'media'
+export type ProductCategory = 'tradfi' | 'web3' | 'tools' | 'ai' | 'education' | 'media' | 'healthtech' | 'fintech' | 'automation'
 export type ProductTier = 'free' | 'premium' | 'institutional'
 
 export interface PricingTier {
@@ -100,8 +100,12 @@ export interface Product {
   priceSuffix: string
   features: string[]
   pricingTiers: PricingTier[]
-  status: 'live' | 'beta' | 'coming-soon'
+  status: 'live' | 'beta' | 'coming-soon' | 'in-development'
   accentColor: string
+  // Portfolio links
+  liveUrl?: string
+  githubUrl?: string
+  techStack?: string[]
   // Tabbed content
   purpose: string
   purposePoints: string[]
