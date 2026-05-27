@@ -103,7 +103,8 @@ export interface Product {
   status: 'live' | 'beta' | 'coming-soon' | 'in-development'
   accentColor: string
   // Portfolio links
-  liveUrl?: string
+  liveUrl?: string    // fully functional production deployment
+  demoUrl?: string    // UI preview / visualisation — no backend wired
   githubUrl?: string
   techStack?: string[]
   // Tabbed content

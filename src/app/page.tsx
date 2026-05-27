@@ -1,9 +1,8 @@
 import { Hero } from '@/components/landing/Hero'
 import { ProductSections } from '@/components/landing/ProductSections'
 import { SocialProof } from '@/components/landing/SocialProof'
-import { ChannelStrip } from '@/components/landing/ChannelStrip'
-import { NewsletterBanner } from '@/components/landing/NewsletterBanner'
 import { ContentPreview } from '@/components/landing/ContentPreview'
+import { ContactCTA } from '@/components/landing/ContactCTA'
 
 export default function HomePage() {
   return (
@@ -12,8 +11,7 @@ export default function HomePage() {
       <SocialProof />
       <ProductSections />
       <ContentPreview />
-      <ChannelStrip />
-      <NewsletterBanner />
+      <ContactCTA />
     </>
   )
 }

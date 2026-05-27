@@ -4,6 +4,7 @@ import { Suspense } from 'react'
 import { getPublishedPosts, getAllSeries } from '@/lib/supabase/queries'
 import { PostCard } from '@/components/blog/PostCard'
 import { SeriesNav } from '@/components/blog/SeriesNav'
+import { NewsletterBanner } from '@/components/landing/NewsletterBanner'
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -54,6 +55,8 @@ export default async function BlogPage() {
           ))}
         </div>
       )}
+
+      <NewsletterBanner />
     </div>
   )
 }

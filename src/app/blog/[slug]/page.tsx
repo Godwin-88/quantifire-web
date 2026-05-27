@@ -63,16 +63,39 @@ export default async function BlogPostPage({ params }: Props) {
       <PostHeader post={post} />
 
       {/* YouTube embed */}
-      {post.youtube_url && !post.youtube_url.includes('placeholder') && (
-        <div className="mt-8 aspect-video w-full overflow-hidden rounded-xl border border-slate-800">
-          <iframe
-            src={post.youtube_url.replace('watch?v=', 'embed/')}
-            className="h-full w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
-      )}
+      {post.youtube_url && !post.youtube_url.includes('placeholder') && (() => {
+        // Normalise any YouTube URL format → embed URL
+        // Handles: youtu.be/<id>, youtube.com/watch?v=<id>, youtube.com/embed/<id>
+        const toEmbedUrl = (url: string): string | null => {
+          try {
+            const u = new URL(url)
+            let videoId: string | null = null
+            if (u.hostname === 'youtu.be') {
+              videoId = u.pathname.slice(1)            // /dQw4w9WgXcQ → dQw4w9WgXcQ
+            } else if (u.hostname.includes('youtube.com')) {
+              if (u.pathname.startsWith('/embed/')) {
+                return `https://www.youtube.com${u.pathname}`  // already embed
+              }
+              videoId = u.searchParams.get('v')        // ?v=dQw4w9WgXcQ
+            }
+            return videoId ? `https://www.youtube.com/embed/${videoId}` : null
+          } catch {
+            return null
+          }
+        }
+        const embedSrc = toEmbedUrl(post.youtube_url)
+        if (!embedSrc) return null
+        return (
+          <div className="mt-8 aspect-video w-full overflow-hidden rounded-xl border border-slate-800">
+            <iframe
+              src={embedSrc}
+              className="h-full w-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        )
+      })()}
 
       {/* Body */}
       <article className="mt-10 prose prose-qf max-w-none">

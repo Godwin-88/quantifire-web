@@ -8,7 +8,7 @@ export const EP01_POST: Post = {
     'Adding a losing asset to your portfolio can make you more money. This is not intuition — it is mathematics. We derive the portfolio variance formula, build a correlation matrix from scratch in Python, and show why diversification fails exactly when you need it most.',
   body_mdx: '',   // loaded from ep01-why-correlation-matters-more-than-returns.mdx at runtime
   cover_image_url: null,
-  youtube_url: 'https://www.youtube.com/watch?v=placeholder-ep01',
+  youtube_url: 'https://youtu.be/zQXCFYm6Ev4?si=_-tQqWLoGGFmHa3X',
   tags: ['portfolio-theory', 'correlation', 'diversification', 'covariance-matrix', 'modern-portfolio-theory'],
   series_id: 'series-classical-quant',
   series_order: 1,

@@ -35,9 +35,16 @@ export function Hero() {
           <Link href="#projects" className="btn-primary text-base px-7 py-3">
             View Projects
           </Link>
-          <Link href="/blog" className="btn-secondary text-base px-7 py-3">
-            Read the Blog ↓
+          <Link href="/about" className="btn-secondary text-base px-7 py-3">
+            About Me
           </Link>
+          <a
+            href="/cv.pdf"
+            download
+            className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800/60 px-7 py-3 text-base font-semibold text-slate-200 hover:border-slate-500 hover:bg-slate-800 hover:text-white transition-all"
+          >
+            ↓ Download CV
+          </a>
         </div>
 
         {/* Stack indicators */}

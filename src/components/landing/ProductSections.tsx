@@ -97,7 +97,7 @@ export function ProductSections() {
                       className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold text-white transition-all hover:opacity-90"
                       style={{ backgroundColor: product.accentColor }}
                     >
-                      Live Demo ↗
+                      Live App ↗
                     </a>
                   ) : isLive ? (
                     <Link
@@ -107,6 +107,20 @@ export function ProductSections() {
                     >
                       Explore
                     </Link>
+                  ) : product.demoUrl ? (
+                    <a
+                      href={product.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-semibold transition-all hover:opacity-90"
+                      style={{
+                        borderColor: `${product.accentColor}50`,
+                        color: product.accentColor,
+                        backgroundColor: `${product.accentColor}10`,
+                      }}
+                    >
+                      Preview UI ↗
+                    </a>
                   ) : null}
                 </div>
               </div>
@@ -165,10 +179,12 @@ export function ProductSections() {
 
                   {/* Status footer */}
                   <div className="flex items-center gap-2 rounded-lg border border-slate-800 bg-qf-black/40 px-4 py-3">
-                    <span className={`h-2 w-2 rounded-full ${isLive ? 'bg-green-400 animate-pulse' : 'bg-blue-400'}`} />
+                    <span className={`h-2 w-2 rounded-full ${isLive ? 'bg-green-400 animate-pulse' : product.demoUrl ? 'bg-amber-400 animate-pulse' : 'bg-blue-400'}`} />
                     <span className="text-xs text-slate-300">
                       {isLive
                         ? 'Deployed and running in production'
+                        : product.demoUrl
+                        ? 'UI preview available — backend in active development'
                         : 'Actively in development — updated regularly'}
                     </span>
                   </div>

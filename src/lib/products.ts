@@ -19,8 +19,8 @@ export const PRODUCTS: Product[] = [
     priceFrom: 0,
     priceSuffix: '',
     accentColor: '#6366f1',
-    status: 'live',
-    liveUrl: 'https://huggingface.co/spaces/Godwin-88/clinicalmatch',
+    status: 'in-development',
+    demoUrl: 'https://huggingface.co/spaces/TheQuantEd/clinicalmatch',
     techStack: ['FastAPI', 'Next.js 16', 'Neo4j', 'GraphRAG', 'FHIR R4', 'A2A', 'MCP', 'Docker', 'Nginx', 'Python'],
     features: [
       'FHIR R4 patient ingestion — SMART on FHIR & synthetic profiles',
@@ -108,7 +108,8 @@ export const PRODUCTS: Product[] = [
     priceFrom: 0,
     priceSuffix: '',
     accentColor: '#f59e0b',
-    status: 'live',
+    status: 'in-development',
+    demoUrl: 'https://jobappagent.vercel.app/',
     techStack: ['Flask', 'React 18', 'n8n', 'SQLite', 'Supabase', 'Groq', 'Docker', 'Python', 'TypeScript'],
     features: [
       '14 job board scrapers — LinkedIn, BrighterMonday, Fuzu, RemoteOK, Himalayas, WeWorkRemotely + specialist quant boards',
@@ -196,6 +197,7 @@ export const PRODUCTS: Product[] = [
     priceSuffix: '',
     accentColor: '#ec4899',
     status: 'in-development',
+    demoUrl: 'https://erp-web-chi-silk.vercel.app/',
     techStack: ['Go', 'ConnectRPC', 'NATS JetStream', 'Temporal', 'Keycloak', 'Next.js 15', 'Wails v3', 'PostgreSQL', 'ClickHouse', 'Terraform'],
     features: [
       '6 ERP modules: Financial (GL/AP/AR) · HR · CRM · Supply Chain · Project Mgmt · AI Agent',
@@ -242,7 +244,7 @@ export const PRODUCTS: Product[] = [
     priceSuffix: '',
     accentColor: '#ef4444',
     status: 'live',
-    liveUrl: 'https://huggingface.co/spaces/Godwin-88/amd-ea-optimizer',
+    liveUrl: 'https://huggingface.co/spaces/TheQuantEd/amd-ea-optimizer',
     techStack: ['FastAPI', 'Streamlit', 'Neo4j', 'LangGraph', 'vLLM', 'Qwen2.5-72B', 'DRL/MLP', 'Docker', 'AMD MI300X', 'Python'],
     features: [
       'Neo4j knowledge graph: 44 domains · 248 subdomains · 1,416 capabilities · 200+ trends',
@@ -288,6 +290,7 @@ export const PRODUCTS: Product[] = [
     priceSuffix: '',
     accentColor: '#0ea5e9',
     status: 'in-development',
+    demoUrl: 'https://app-bnmkj1cjrzlt.appmedo.com/',
     techStack: ['FastAPI', 'React 18', 'Vite', 'Neo4j', 'GraphRAG', 'BGE-M3', 'Groq', 'Mistral-7B', 'QLoRA', 'Python'],
     features: [
       'Neo4j knowledge graph: 4,862 nodes · 8,417 edges — Constitution, 19 Acts, 997 judgments',

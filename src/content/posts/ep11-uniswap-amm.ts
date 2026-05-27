@@ -8,7 +8,7 @@ export const EP11_POST: Post = {
     'Every stock exchange uses order books and human market makers. Uniswap replaced all of that with one equation: x·y=k. This post derives the constant product formula, calculates price impact from first principles, and shows why V3 concentrated liquidity is a capital efficiency revolution.',
   body_mdx: '',   // loaded from ep11-how-uniswap-works-xy-k-formula.mdx at runtime
   cover_image_url: null,
-  youtube_url: 'https://www.youtube.com/watch?v=placeholder-ep11',
+  youtube_url: 'https://youtu.be/8vbwOamg9N8?si=YLDc-CopqKrZ9L_x',
   tags: ['defi', 'uniswap', 'amm', 'constant-product', 'liquidity', 'price-impact'],
   series_id: 'series-defi-mechanics',
   series_order: 1,

@@ -10,7 +10,7 @@ export function getResend(): Resend {
 export const resend = { emails: { send: (...args: Parameters<Resend['emails']['send']>) => getResend().emails.send(...args) } }
 
 const FROM = 'Quantifaya <onboarding@resend.dev>'
-const ADMIN = process.env.ADMIN_EMAIL ?? 'hello@quantifaya.com'
+const ADMIN = process.env.ADMIN_EMAIL ?? 'millenialwitness@gmail.com'
 
 // ─── Shared layout ────────────────────────────────────────────────────────────
 
