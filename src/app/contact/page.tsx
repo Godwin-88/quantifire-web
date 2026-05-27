@@ -7,13 +7,14 @@ import type { Metadata } from 'next'
 // For now this is a client page with inline head management via useEffect if needed.
 
 const PRODUCTS = [
-  { value: '', label: 'Select a product (optional)' },
-  { value: 'quantifaya', label: 'Quantifaya — TradFi Platform' },
-  { value: 'yield-agent', label: 'Yield Agent — DeFi Tools' },
-  { value: 'quantifire-cms', label: 'Quantifaya CMS' },
-  { value: 'legal-research-agent', label: 'Legal Research Agent' },
-  { value: 'academy', label: 'Quantifaya Academy' },
-  { value: 'content-hub', label: 'Quantifaya Content Hub' },
+  { value: '', label: 'Select a project (optional)' },
+  { value: 'clinicalmatch', label: 'ClinicalMatch AI — Healthcare Graph-RAG' },
+  { value: 'afripay', label: 'Afripay — Stellar Payments & Remittance' },
+  { value: 'jobhunter', label: 'Job Hunter KE — AI Application Automation' },
+  { value: 'graphalpha', label: 'GraphAlpha — Autonomous Trading System' },
+  { value: 'agentic-erp', label: 'Agentic ERP — LLM-native Enterprise Platform' },
+  { value: 'amd-ea-optimizer', label: 'AMD EA Optimizer — Enterprise Architecture AI' },
+  { value: 'content', label: 'Quantifaya Content — Quant Finance Research' },
   { value: 'other', label: 'Other / General enquiry' },
 ]
 
@@ -46,7 +47,7 @@ export default function ContactPage() {
       <div className="mb-10 text-center">
         <h1 className="text-3xl font-extrabold text-white">Get in Touch</h1>
         <p className="mt-2 text-slate-400">
-          Sales enquiries, partnership proposals, or just want to say hi.
+          Technical questions, collaboration proposals, or just want to say hi.
         </p>
       </div>
 
@@ -115,7 +116,7 @@ export default function ContactPage() {
               required
               rows={5}
               className="input w-full resize-none"
-              placeholder="Tell us about your use case or question…"
+              placeholder="Tell me about your use case, question, or collaboration idea…"
             />
           </div>
 
