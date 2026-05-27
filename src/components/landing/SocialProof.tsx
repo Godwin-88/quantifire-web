@@ -1,5 +1,5 @@
 const STATS = [
-  { value: '7', label: 'Systems built across finance, health & enterprise' },
+  { value: '8', label: 'Systems built across finance, health, law & enterprise' },
   { value: '1,416', label: 'EA capabilities in AMD knowledge graph' },
   { value: '8', label: 'Autonomous trading sub-agents (GraphAlpha)' },
   { value: '27', label: 'MCP tools across agentic systems' },

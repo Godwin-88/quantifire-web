@@ -14,6 +14,7 @@ const PRODUCTS = [
   { value: 'graphalpha', label: 'GraphAlpha — Autonomous Trading System' },
   { value: 'agentic-erp', label: 'Agentic ERP — LLM-native Enterprise Platform' },
   { value: 'amd-ea-optimizer', label: 'AMD EA Optimizer — Enterprise Architecture AI' },
+  { value: 'lex-kenya', label: 'Lex Kenya — Kenyan Legal AI' },
   { value: 'content', label: 'Quantifaya Content — Quant Finance Research' },
   { value: 'other', label: 'Other / General enquiry' },
 ]

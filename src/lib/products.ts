@@ -274,7 +274,52 @@ export const PRODUCTS: Product[] = [
     ],
   },
 
-  // ── 7. Quantifaya Content ─────────────────────────────────────────────────
+  // ── 7. Lex Kenya ─────────────────────────────────────────────────────────
+  {
+    slug: 'lex-kenya',
+    name: 'Lex Kenya',
+    tagline: 'Constitutionally-anchored GraphRAG intelligence over Kenyan corporate and statutory law',
+    description:
+      'A proprietary GraphRAG legal intelligence platform built over a Neo4j knowledge graph of Kenyan law — the Constitution of Kenya 2010, 19 Acts, 997 court judgments, and 28 legal concepts. Every answer is traceable to its constitutional authority chain via graph traversal. Targets corporate lawyers, in-house counsel, compliance officers, and legal researchers operating in the Kenyan jurisdiction.',
+    icon: '⚖️',
+    category: 'ai',
+    tier: 'premium',
+    priceFrom: null,
+    priceSuffix: '',
+    accentColor: '#0ea5e9',
+    status: 'in-development',
+    techStack: ['FastAPI', 'React 18', 'Vite', 'Neo4j', 'GraphRAG', 'BGE-M3', 'Groq', 'Mistral-7B', 'QLoRA', 'Python'],
+    features: [
+      'Neo4j knowledge graph: 4,862 nodes · 8,417 edges — Constitution, 19 Acts, 997 judgments',
+      'Constitutional authority chain: every section traceable to its Article via DERIVES_AUTHORITY_FROM',
+      'GraphRAG Q&A — Cypher traversal + BGE-M3 semantic retrieval, answers cite specific legal sources',
+      'Compliance Checker — input a business action, get relevant statutory constraints with constitutional basis',
+      'Ruling Predictor — precedent analysis across 997 judgments from 5 superior courts',
+      'QLoRA fine-tuned Mistral-7B on 700 Kenyan law QA pairs (Unsloth + TRL)',
+      'Case law scraper — kenyalaw.org with court-specific pagination logic',
+      'Graph Admin panel — live stats, scraper controls, node/relationship counts',
+      '28 legal concepts modelled (Rule of Law, Transfer Pricing, etc.) with constitutional grounding',
+    ],
+    pricingTiers: [],
+    purpose:
+      'Kenyan legal research is fragmented across statute books, gazette notices, and case law databases that do not speak to each other. Lex Kenya connects them — grounding every Act in its constitutional authority and linking case law to the statutes cited — so queries return structured, traceable answers rather than keyword matches.',
+    purposePoints: [
+      'Corporate lawyers and in-house counsel researching Kenyan compliance obligations',
+      'Financial engineers and CFOs navigating the Income Tax Act, Capital Markets Act, and Companies Act',
+      'Legal researchers mapping constitutional derivation of regulatory frameworks',
+      'Law students building understanding of how Acts relate to the Constitution',
+    ],
+    marketRelevance:
+      'Kenya\'s legal technology market is early-stage despite a large and active legal profession. The intersection of constitutional graph modelling, GraphRAG retrieval, and fine-tuned LLMs represents a qualitatively different capability from search-based legal tools — answers that cite both the statutory provision and its constitutional basis are uniquely defensible in professional practice.',
+    marketStats: [
+      { value: '4,862', label: 'Knowledge graph nodes' },
+      { value: '8,417', label: 'Graph relationships' },
+      { value: '997', label: 'Court judgments indexed' },
+      { value: '19', label: 'Acts + Constitution ingested' },
+    ],
+  },
+
+  // ── 8. Quantifaya Content ─────────────────────────────────────────────────
   {
     slug: 'content',
     name: 'Quantifaya Content',

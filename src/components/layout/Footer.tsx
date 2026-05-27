@@ -18,6 +18,7 @@ const FOOTER_LINKS = {
     { label: 'GraphAlpha', href: '/products/graphalpha' },
     { label: 'Agentic ERP', href: '/products/agentic-erp' },
     { label: 'AMD EA Optimizer', href: '/products/amd-ea-optimizer' },
+    { label: 'Lex Kenya', href: '/products/lex-kenya' },
     // { label: 'Quantifaya', href: '/products/quantifaya' },           // coming soon
     // { label: 'Yield Agent', href: '/products/yield-agent' },         // coming soon
     // { label: 'Legal Research Agent', href: '/products/legal-research-agent' }, // in development
