@@ -1,8 +1,8 @@
 const STATS = [
-  { value: '6', label: 'Shipped systems in production' },
-  { value: '9,100+', label: 'Knowledge graph edges (ClinicalMatch)' },
-  { value: '8', label: 'Autonomous trading sub-agents' },
-  { value: '27', label: 'MCP tools across projects' },
+  { value: '7', label: 'Systems built across finance, health & enterprise' },
+  { value: '1,416', label: 'EA capabilities in AMD knowledge graph' },
+  { value: '8', label: 'Autonomous trading sub-agents (GraphAlpha)' },
+  { value: '27', label: 'MCP tools across agentic systems' },
 ]
 
 export function SocialProof() {

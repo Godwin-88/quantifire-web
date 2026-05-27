@@ -43,7 +43,6 @@ export function Navbar() {
 
         {/* CTAs */}
         <div className="hidden md:flex items-center gap-3">
-          <Link href="/auth/login" className="btn-ghost">Sign in</Link>
           <Link href="/contact" className="btn-primary">Get in Touch</Link>
         </div>
 
@@ -73,7 +72,6 @@ export function Navbar() {
             </Link>
           ))}
           <div className="mt-4 flex gap-3">
-            <Link href="/auth/login" className="btn-secondary flex-1 text-center">Sign in</Link>
             <Link href="/contact" className="btn-primary flex-1 text-center">Get in Touch</Link>
           </div>
         </div>

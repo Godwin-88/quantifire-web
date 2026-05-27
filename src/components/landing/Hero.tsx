@@ -13,21 +13,21 @@ export function Hero() {
         {/* Eyebrow */}
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-qf-blue/30 bg-qf-blue/10 px-4 py-1.5 text-sm text-qf-blue">
           <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-          Full-Stack Engineer · AI/ML · Quant Finance · Nairobi, Kenya
+          Financial Engineer · Enterprise Architect · AI Agent Developer · Nairobi, Kenya
         </div>
 
         {/* Headline */}
         <h1 className="max-w-4xl text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
-          <span className="gradient-text">Building Systems</span>
+          <span className="gradient-text">Engineering Complexity.</span>
           <br />
-          That Actually Ship
+          Shipping Systems That Work.
         </h1>
 
         {/* Subheadline */}
         <p className="mt-6 max-w-2xl text-lg text-slate-400 leading-relaxed">
-          Production-grade AI agents, fintech platforms, and quant finance tools —
-          from cross-border payments on Stellar to clinical trial matching with FHIR R4
-          and autonomous trading systems.
+          I build production AI agents, enterprise architecture platforms, and quant finance systems —
+          spanning healthcare graph-RAG, blockchain payments, autonomous trading, and LLM-native ERP.
+          Every project below runs in production or active development.
         </p>
 
         {/* CTAs */}

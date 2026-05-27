@@ -228,7 +228,53 @@ export const PRODUCTS: Product[] = [
     ],
   },
 
-  // ── 6. Quantifaya Content ─────────────────────────────────────────────────
+  // ── 6. AMD EA Strategy Optimizer ─────────────────────────────────────────
+  {
+    slug: 'amd-ea-optimizer',
+    name: 'AMD EA Strategy Optimizer',
+    tagline: 'Enterprise Architecture intelligence powered by AMD MI300X, GraphRAG, and DRL',
+    description:
+      'An AI-native Enterprise Architecture platform built for the AMD Developer Hackathon 2026. Transforms business goals into governance-grounded, Jira-ready strategic roadmaps using a 1,416-capability Neo4j knowledge graph, Deep Reinforcement Learning prioritisation, and a self-correcting LangGraph agentic pipeline — all served from AMD Instinct MI300X via vLLM.',
+    icon: '⚡',
+    category: 'ai',
+    tier: 'free',
+    priceFrom: 0,
+    priceSuffix: '',
+    accentColor: '#ef4444',
+    status: 'live',
+    liveUrl: 'https://huggingface.co/spaces/Godwin-88/amd-ea-optimizer',
+    techStack: ['FastAPI', 'Streamlit', 'Neo4j', 'LangGraph', 'vLLM', 'Qwen2.5-72B', 'DRL/MLP', 'Docker', 'AMD MI300X', 'Python'],
+    features: [
+      'Neo4j knowledge graph: 44 domains · 248 subdomains · 1,416 capabilities · 200+ trends',
+      'LangGraph 4-node agentic pipeline: Retrieve → Optimize → Generate → Verify (self-correcting)',
+      'Deep Reinforcement Learning prioritisation — MLP trained on governance reward signals',
+      'AMD Instinct MI300X inference: Qwen2.5-72B at fp16, 192 GB HBM3, SSE streaming',
+      'Strategic Roadmap generator: questionnaire → Epics → Features → User Stories → Tasks',
+      'Live Jira REST API v3 export + ServiceNow / Azure DevOps integration',
+      'Graph Explorer: interactive force-directed network of 44 EA domains',
+      'Chat session persistence backed by Neo4j — full conversation memory per project',
+      'Export handover: JSON / Markdown / CSV of complete roadmaps',
+    ],
+    pricingTiers: [],
+    purpose:
+      'Enterprise architecture planning is time-consuming and expertise-scarce. This platform encodes 1,416 industry capabilities in a knowledge graph, uses DRL to prioritise gaps against business goals, and generates governance-grounded roadmaps that plug directly into Jira — collapsing weeks of EA consulting into minutes.',
+    purposePoints: [
+      'CTOs and enterprise architects mapping capability gaps against strategic objectives',
+      'Engineering leaders who need structured roadmaps with governance acceptance criteria',
+      'AI researchers exploring graph-RAG + DRL hybrid architectures for domain-specific reasoning',
+      'Organisations running on Jira, ServiceNow, or Azure DevOps who need AI-generated epics',
+    ],
+    marketRelevance:
+      'Enterprise Architecture consulting commands $300–$500/hr. The intersection of knowledge graph retrieval, DRL-based prioritisation, and LLM generation represents a new class of AI system — not a chatbot over documents, but a structured reasoning engine over a formal capability taxonomy. Built on AMD MI300X to demonstrate that open-weight models at 72B parameters can match proprietary API quality at scale.',
+    marketStats: [
+      { value: '1,416', label: 'EA capabilities in knowledge graph' },
+      { value: '44', label: 'Enterprise domains modelled' },
+      { value: 'MI300X', label: 'AMD GPU (192 GB HBM3)' },
+      { value: 'Jira', label: 'Live export integration' },
+    ],
+  },
+
+  // ── 7. Quantifaya Content ─────────────────────────────────────────────────
   {
     slug: 'content',
     name: 'Quantifaya Content',
@@ -334,6 +380,6 @@ export const CATEGORY_LABELS: Record<string, string> = {
   tradfi: 'Quant / TradFi',
   tools: 'Tools',
   education: 'Education',
-  // ai: 'AI',          // restore when Legal Research Agent ships
+  ai: 'AI',
   // web3: 'Web3 / DeFi', // restore when Yield Agent ships
 }

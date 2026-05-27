@@ -2,10 +2,11 @@ import Link from 'next/link'
 import type { Product } from '@/types'
 
 export function ProductHero({ product }: { product: Product }) {
-  const statusColors = {
-    live:          'bg-green-400/15 text-green-400 border-green-400/30',
-    beta:          'bg-yellow-400/15 text-yellow-400 border-yellow-400/30',
-    'coming-soon': 'bg-slate-400/15 text-slate-400 border-slate-400/30',
+  const statusColors: Record<string, string> = {
+    live:             'bg-green-400/15 text-green-400 border-green-400/30',
+    beta:             'bg-yellow-400/15 text-yellow-400 border-yellow-400/30',
+    'coming-soon':    'bg-slate-400/15 text-slate-400 border-slate-400/30',
+    'in-development': 'bg-blue-400/15 text-blue-400 border-blue-400/30',
   }
 
   const isLive = product.status === 'live'
