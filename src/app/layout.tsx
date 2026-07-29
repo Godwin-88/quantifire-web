@@ -17,30 +17,30 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://quantifaya.io'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://quantifire.io'),
   title: {
-    default: 'Quantifaya — Antifragile Quantitative Intelligence for TradFi and DeFi"',
-    template: '%s | Quantifaya',
+    default: 'QuantiFire — Quantitative Research & Digital Engineering',
+    template: '%s | QuantiFire',
   },
   description:
-    'Quantifaya delivers institutional-grade quant finance tools, DeFi strategies, and educational content for traditional finance professionals and Web3 builders.',
+    'QuantiFire delivers quantitative research, web development, process automation, data engineering, and data analytics services for forward-thinking organizations.',
   keywords: [
-    'quantitative finance', 'quant trading', 'DeFi', 'portfolio optimization',
-    'Black-Scholes', 'Yield Agent', 'algorithmic trading', 'blockchain',
+    'quantitative research', 'web development', 'process automation',
+    'data engineering', 'data analytics', 'QuantiFire', 'Nairobi', 'Kenya',
   ],
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://quantifaya.io',
-    siteName: 'Quantifaya',
-    title: 'Quantifaya — Antifragile Quantitative Intelligence for TradFi and DeFi"',
-    description: 'Institutional quant finance tools, DeFi strategies, and research content.',
+    url: 'https://quantifire.io',
+    siteName: 'QuantiFire',
+    title: 'QuantiFire — Quantitative Research & Digital Engineering',
+    description: 'Quantitative research, web development, process automation, data engineering, and data analytics services.',
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@quantifaya',
-    creator: '@quantifaya',
+    site: '@quantifire',
+    creator: '@quantifire',
   },
   robots: { index: true, follow: true },
 }

@@ -1,0 +1,233 @@
+{
+  "name": "Godwin Edgar Opuka",
+  "email": "millenialwitness@gmail.com",
+  "phone": "+254 715 849 117",
+  "location": "Nairobi, Kenya",
+  "linkedin": "linkedin.com/in/godwin-edgar-opuka",
+  "github": "github.com/Godwin-88",
+  "portfolio": "https://quantifaya.vercel.app",
+  "target_roles": [
+    "Full-Stack Developer",
+    "Solutions Architect",
+    "AI/ML Engineer",
+    "Financial Engineer",
+    "Backend Developer"
+  ],
+  "target_sectors": [
+    "Fintech",
+    "Technology",
+    "Enterprise Software",
+    "AI & Machine Learning"
+  ],
+  "min_salary_ksh": 50000,
+  "work_preferences": [
+    "remote",
+    "hybrid",
+    "full-time"
+  ],
+  "locations_ok": [
+    "Nairobi",
+    "Remote"
+  ],
+  "summary": "Financial Engineer, Full-Stack Developer and Solutions Architect with end-to-end ownership of production-grade platforms across fintech, AI, and enterprise software. Currently building Afripay, a Stellar-powered borderless remittance platform, and leading DevOps at Zamadi Group. Proficient in developing scalable financial systems and automating fiscal processes for high enterprise value.",
+  "experience": [
+    {
+      "title": "Full-Stack Developer & DevOps Lead",
+      "company": "Zamadi Group",
+      "dates": "2025 – Present",
+      "bullets": [
+        "Architected and built a full-stack payment platform supporting cross-border remittance across 8+ African currencies using the Stellar Network for settlement.",
+        "Engineered an immutable double-entry ledger system ensuring idempotent accounting, and built a 3-tier KYC/AML verification via Onfido API.",
+        "Delivered a React 19 admin workspace for real-time monitoring and a Flutter mobile app for cross-platform wallet management.",
+        "Built a full Learning Management System (Virtual Campus) for tertiary organizations like NYS Kenya using React, Node.js, and PostgreSQL.",
+        "Sole owner of CI/CD pipelines, Docker containerization, infrastructure provisioning, and deployment management across all products."
+      ]
+    },
+    {
+      "title": "Solutions Architect & BI Lead",
+      "company": "DigitalQatalyst (Contract)",
+      "dates": "Jun 2025 – Feb 2026",
+      "bullets": [
+        "Architecting the Twin Graph Manager, a graph-powered digital business platform modeling enterprise digital twins via Neo4j and graph data science.",
+        "Designing a full-stack MACH-aligned platform with a Neo4j backend, GraphQL/REST API layer, and React component-driven frontend.",
+        "Overseeing enterprise architecture modeling using Ardoq and Abacus, and directing AI agent deployment for business process automation.",
+        "Managing sprint planning and resolving blockers for a team of 9 analysts to ensure timely delivery."
+      ]
+    },
+    {
+      "title": "BI Developer and AI Dev",
+      "company": "DigitalQatalyst",
+      "dates": "Jun 2025 – Sep 2025",
+      "bullets": [
+        "Engineered end-to-end data pipelines using Python, R, Spark, and Microsoft Fabric, and built CI/CD on Azure DevOps.",
+        "Deployed ML-powered REST/GraphQL services and developed dashboards using PowerBI and DAX.",
+        "Built data infrastructure for Microsoft Native environments using Microsoft GraphAPI and Data Lakehouse architectures."
+      ]
+    },
+    {
+      "title": "Data Analyst",
+      "company": "Freelance",
+      "dates": "Apr 2021 – May 2025",
+      "bullets": [
+        "Delivered quantitative analytical solutions across finance and business domains, including financial statement and ratio analysis.",
+        "Conducted econometrics analyses, hypothesis testing, and advanced data modeling using R, Python, and Stata.",
+        "Performed qualitative data analysis and descriptive/diagnostic analytics using SPSS and Excel (Macros, PivotTables)."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "AMD EA Strategy Optimizer",
+      "dates": "2026",
+      "github": "github.com/TheQuantEd/EA_strat_optimizer",
+      "live": "https://huggingface.co/spaces/TheQuantEd/EA_strat_optimizer",
+      "description": "AI-powered Enterprise Architecture platform that transforms business goals into governance-grounded strategic roadmaps using Qwen2.5-72B and a 1,416-capability Neo4j knowledge graph.",
+      "stack": [
+        "Python",
+        "FastAPI",
+        "LangGraph",
+        "Neo4j",
+        "PyTorch",
+        "vLLM",
+        "Docker"
+      ]
+    },
+    {
+      "name": "GraphAlpha",
+      "dates": "2025",
+      "github": "github.com/Godwin-88/sturdy-couscous",
+      "live": "",
+      "description": "Production-grade agentic trading system grounded in a 324-concept financial knowledge graph for autonomous xStocks trading, featuring a 5-agent pipeline.",
+      "stack": [
+        "Python",
+        "FastAPI",
+        "React",
+        "Memgraph",
+        "LangGraph",
+        "Redis",
+        "Docker"
+      ]
+    },
+    {
+      "name": "Agentic ERP",
+      "dates": "2025",
+      "github": "github.com/Godwin-88/miniature-couscous",
+      "live": "https://erpweb.vercel.app",
+      "description": "Full-stack, AI-native ERP in Go where an agent loop replaces form-driven workflows, allowing users to describe intent in natural language.",
+      "stack": [
+        "Go",
+        "Next.js 15",
+        "Wails v3",
+        "Keycloak OIDC",
+        "NATS JetStream",
+        "Temporal",
+        "PostgreSQL"
+      ]
+    },
+    {
+      "name": "Kenya Legal AI",
+      "dates": "2025",
+      "github": "github.com/Godwin-88/potential-disco",
+      "live": "https://lexkenya.vercel.app",
+      "description": "Ingests the Constitution of Kenya into a Neo4j knowledge graph and fine-tunes Mistral-7B via QLoRA for GraphRAG retrieval with strict citation enforcement.",
+      "stack": [
+        "Python",
+        "Neo4j",
+        "Mistral-7B",
+        "QLoRA",
+        "FastAPI",
+        "Telegram Bot API"
+      ]
+    },
+    {
+      "name": "Job Hunter KE",
+      "dates": "2025",
+      "github": "github.com/Godwin-88/verbose-sniffle",
+      "live": "https://jobappagent.vercel.app",
+      "description": "Automated job and scholarship application platform for the Kenyan market that scrapes job boards and generates tailored CVs via LLMs.",
+      "stack": [
+        "Flask",
+        "React",
+        "SQLite",
+        "n8n",
+        "PostgreSQL",
+        "Docker",
+        "Groq"
+      ]
+    }
+  ],
+  "skills": {
+    "technical": [
+      "Python",
+      "Go",
+      "TypeScript",
+      "Rust",
+      "R",
+      "SQL",
+      "FastAPI",
+      "Node.js/Express",
+      "React 18/19",
+      "Next.js 15",
+      "Flutter",
+      "PostgreSQL",
+      "Neo4j",
+      "Memgraph",
+      "LangGraph",
+      "AI Agents",
+      "Stellar Network",
+      "Docker",
+      "Kubernetes",
+      "CI/CD",
+      "Azure DevOps"
+    ],
+    "soft": [
+      "End-to-end ownership",
+      "Agile leadership & Sprint planning",
+      "Cross-functional collaboration",
+      "Complex problem solving",
+      "Enterprise architecture modeling"
+    ],
+    "languages": [
+      "English (fluent)",
+      "Swahili (native)"
+    ]
+  },
+  "education": [
+    {
+      "degree": "MSc Financial Engineering",
+      "institution": "WorldQuant University",
+      "year": 2026,
+      "grade": "N/A",
+      "notes": "Expected August 2026. Coursework: Financial Data, Derivative Pricing, Stochastic Modeling, ML in Finance, Deep Learning for Finance, Portfolio Management, Risk Management"
+    },
+    {
+      "degree": "BSc Financial Engineering",
+      "institution": "Jomo Kenyatta University of Agriculture and Technology (JKUAT)",
+      "year": 2021,
+      "grade": "N/A",
+      "notes": "Sep 2017 – Dec 2021. Coursework: Stochastic Calculus, Derivative Pricing, Game Theory, Statistical Inference, Linear Algebra."
+    }
+  ],
+  "notable_achievements": [
+    "AMD Developer Hackathon 2026: Track 1 — AI Agents & Agentic Workflows (Built EA Strategy Optimizer running on AMD Instinct MI300X).",
+    "Architected and launched Afripay, a Stellar-powered borderless remittance platform supporting 8+ African currencies at Zamadi Group.",
+    "Developed GraphAlpha, a production-grade 5-agent autonomous trading system for WQU MScFE Capstone."
+  ],
+  "referees": [
+    {
+      "name": "Ibrahim Abdi",
+      "title": "Systems Engineer – FSPlanning, Safaricom PLC",
+      "phone": "+254 719 310 268"
+    },
+    {
+      "name": "Cannel Maina",
+      "title": "Data & Technology Lead, Centiwise",
+      "phone": "+254 706 724 017"
+    },
+    {
+      "name": "Jibril K. Said",
+      "title": "Finance Officer, Ministry of Health, Kenya",
+      "phone": "+254 706 757 842"
+    }
+  ]
+}

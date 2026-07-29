@@ -5,12 +5,12 @@ import { useState } from 'react'
 import { cn } from '@/lib/utils'
 
 const NAV_LINKS = [
+  { href: '/services', label: 'Services' },
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/marketplace', label: 'Notebooks' },
   { href: '/blog', label: 'Blog' },
-  { href: '/marketplace', label: 'Projects' },
+  { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
-  // { href: '/products/quantifaya', label: 'Quantifaya' },    // coming soon
-  // { href: '/products/yield-agent', label: 'Yield Agent' },  // coming soon
-  // { href: '/products/academy', label: 'Academy' },          // coming soon
 ]
 
 export function Navbar() {
@@ -23,9 +23,8 @@ export function Navbar() {
         <Link href="/" className="flex items-center gap-2 group">
           <span className="text-xl font-bold tracking-tight">
             <span className="gradient-text">Quanti</span>
-            <span>🔥</span>
+            <span className="text-brand-primary">Fire</span>
           </span>
-          {/* waitlist badge removed — portfolio mode */}
         </Link>
 
         {/* Desktop nav */}

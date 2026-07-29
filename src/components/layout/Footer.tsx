@@ -11,35 +11,31 @@ const CHANNELS = [
 ]
 
 const FOOTER_LINKS = {
-  Projects: [
-    { label: 'ClinicalMatch AI', href: '/products/clinicalmatch' },
-    { label: 'Afripay', href: '/products/afripay' },
-    { label: 'Job Hunter KE', href: '/products/jobhunter' },
-    { label: 'GraphAlpha', href: '/products/graphalpha' },
-    { label: 'Agentic ERP', href: '/products/agentic-erp' },
-    { label: 'AMD EA Optimizer', href: '/products/amd-ea-optimizer' },
-    { label: 'Lex Kenya', href: '/products/lex-kenya' },
-    // { label: 'Quantifaya', href: '/products/quantifaya' },           // coming soon
-    // { label: 'Yield Agent', href: '/products/yield-agent' },         // coming soon
-    // { label: 'Legal Research Agent', href: '/products/legal-research-agent' }, // in development
+  Services: [
+    { label: 'Quantitative Research', href: '/services/quantitative-research' },
+    { label: 'Web Development', href: '/services/web-development' },
+    { label: 'Process Automation', href: '/services/process-automation' },
+    { label: 'Data Engineering', href: '/services/data-engineering' },
+    { label: 'Data Analytics', href: '/services/data-analytics' },
   ],
-  Content: [
+  Portfolio: [
+    { label: 'All Projects', href: '/portfolio' },
+    { label: 'ClinicalMatch AI', href: '/portfolio/clinicalmatch' },
+    { label: 'Afripay', href: '/portfolio/afripay' },
+    { label: 'Lex Kenya', href: '/portfolio/lex-kenya' },
+    { label: 'GraphAlpha', href: '/portfolio/graphalpha' },
+  ],
+  Notebooks: [
+    { label: 'All Notebooks', href: '/marketplace' },
+    { label: 'Free Notebooks', href: '/marketplace?tier=free' },
+    { label: 'Premium Notebooks', href: '/marketplace?tier=premium' },
     { label: 'Blog', href: '/blog' },
-    { label: 'Series', href: '/blog?view=series' },
-    // { label: 'Newsletter', href: '/newsletter' },     // page not yet built
-    // { label: 'Jupyter Notebooks', href: '/notebooks' }, // page not yet built
   ],
   Company: [
     { label: 'About', href: '/about' },
-    { label: 'Projects', href: '/marketplace' },
     { label: 'Contact', href: '/contact' },
-    // { label: 'Consulting', href: '/consulting' }, // page not yet built
-  ],
-  Legal: [
-    // { label: 'Privacy Policy', href: '/privacy' },   // page not yet built
-    // { label: 'Terms of Service', href: '/terms' },   // page not yet built
-    // { label: 'Cookie Policy', href: '/cookies' },    // page not yet built
-    { label: 'Not financial advice', href: '#' },
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
   ],
 }
 
@@ -53,10 +49,10 @@ export function Footer() {
           <div className="col-span-2 md:col-span-1 lg:col-span-1">
             <Link href="/" className="text-lg font-bold">
               <span className="gradient-text">Quanti</span>
-              <span>🔥</span>
+              <span className="text-brand-primary">Fire</span>
             </Link>
             <p className="mt-3 text-xs text-slate-500 leading-relaxed">
-              Full-Stack Engineer · AI/ML<br />Quant Finance · Nairobi, Kenya
+              Quantitative Research · Web Development · Automation · Data Services<br />Nairobi, Kenya
             </p>
             {/* Social channels */}
             <div className="mt-4 flex flex-wrap gap-2">
@@ -100,10 +96,10 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-800 pt-6 sm:flex-row">
           <p className="text-xs text-slate-600">
-            © {new Date().getFullYear()} Quantifaya. All rights reserved.
+            © {new Date().getFullYear()} QuantiFire. All rights reserved.
           </p>
           <p className="text-xs text-slate-600">
-            Not financial advice. For educational purposes only.
+            Digital engineering services for the modern enterprise.
           </p>
         </div>
       </div>

@@ -1,17 +1,25 @@
-import { Hero } from '@/components/landing/Hero'
-import { ProductSections } from '@/components/landing/ProductSections'
-import { SocialProof } from '@/components/landing/SocialProof'
-import { ContentPreview } from '@/components/landing/ContentPreview'
-import { ContactCTA } from '@/components/landing/ContactCTA'
+import HeroSection3D from '@/components/home/HeroSection3D'
+import SocialProofBar from '@/components/home/SocialProofBar'
+import { PortfolioSection } from '@/components/home/PortfolioSection'
+import { NotebooksSection } from '@/components/home/NotebooksSection'
+import ServicesSection from '@/components/home/ServicesSection'
+import { ServiceDetailSection } from '@/components/home/ServiceDetailSection'
+import { ProcessSection } from '@/components/home/ProcessSection'
+import { CTASection } from '@/components/home/CTASection'
+import { NewsletterSection } from '@/components/home/NewsletterSection'
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <SocialProof />
-      <ProductSections />
-      <ContentPreview />
-      <ContactCTA />
+      <HeroSection3D />
+      <SocialProofBar />
+      <PortfolioSection />
+      <NotebooksSection />
+      <ServicesSection />
+      <ServiceDetailSection />
+      <ProcessSection />
+      <CTASection />
+      <NewsletterSection />
     </>
   )
 }

@@ -1,433 +1,321 @@
 import type { Product } from '@/types'
 
-// ─── REAL SHIPPED PROJECTS ────────────────────────────────────────────────────
-// Each entry reflects a system that exists and runs today.
-// Aspirational products (Quantifaya platform, Yield Agent, Academy) are
-// commented out at the bottom — restore when they ship.
+/**
+ * QuantiFire Products — Research Notebooks
+ * 
+ * These are the sellable content products — Jupyter notebooks
+ * that accompany blog posts and YouTube videos.
+ * Each entry follows the Product type shape so it can use the
+ * same DualFunnelTabs component for consistent presentation.
+ * 
+ * Funnel: content
+ * CTA: "Buy Notebook" → Stripe checkout (or "Free" → email gate)
+ */
 
 export const PRODUCTS: Product[] = [
-  // ── 1. ClinicalMatch AI ───────────────────────────────────────────────────
   {
-    slug: 'clinicalmatch',
-    name: 'ClinicalMatch AI',
-    tagline: 'Precision clinical trial matching powered by FHIR R4 and GraphRAG',
+    slug: 'ep01-correlation-matters',
+    name: 'Correlation Matters',
+    tagline: 'Why correlation matters more than returns in portfolio construction',
     description:
-      'A full-stack AI agent that matches patients to recruiting clinical trials using a Neo4j knowledge graph, real-time ClinicalTrials.gov data, and FHIR R4 patient profiles. Built for the "Agents Assemble: Healthcare AI Endgame Challenge" and deployed live on HuggingFace Spaces.',
-    icon: '🧬',
-    category: 'healthtech',
+      'A deep dive into correlation analysis for portfolio construction. Covers Pearson vs Spearman correlation, rolling correlation windows, correlation matrices as network graphs, and the impact of regime changes on correlation structure. Includes a complete Jupyter notebook with synthetic and real market data.',
+    icon: '🔗',
+    category: 'education',
     tier: 'free',
     priceFrom: 0,
     priceSuffix: '',
     accentColor: '#6366f1',
-    status: 'in-development',
-    demoUrl: 'https://huggingface.co/spaces/TheQuantEd/clinicalmatch',
-    techStack: ['FastAPI', 'Next.js 16', 'Neo4j', 'GraphRAG', 'FHIR R4', 'A2A', 'MCP', 'Docker', 'Nginx', 'Python'],
-    features: [
-      'FHIR R4 patient ingestion — SMART on FHIR & synthetic profiles',
-      'Neo4j knowledge graph: 500 patients · 250+ trials · 9,100+ ELIGIBLE_FOR edges',
-      'GraphRAG natural language queries over the clinical graph',
-      'A2A 5-state orchestration pipeline (INGEST → PARSE → MATCH → SCORE → RECRUIT)',
-      'MCP server with 6 callable tools for AI agent integration',
-      'Recruitment Hub: Kanban board tracking patients from IDENTIFIED → ENROLLED',
-      'Personalized AI outreach generation (PCP letter, patient email, social post)',
-      'Real-time ClinicalTrials.gov v2 integration — NCT data auto-ingested into graph',
-      'Deployed: Docker multi-stage build, Nginx reverse proxy, Supervisord, HuggingFace Spaces',
-    ],
-    pricingTiers: [],
-    purpose:
-      '80% of clinical trials fail to meet enrollment deadlines. 85% of eligible patients are never identified. ClinicalMatch AI directly addresses that gap — connecting patients to trials using structured clinical eligibility scoring over a live knowledge graph.',
-    purposePoints: [
-      'Clinical trial coordinators who need to identify eligible patients without manual chart review',
-      'Oncology research teams running multiple concurrent trials with overlapping eligibility criteria',
-      'Patients seeking relevant trials for their diagnosis who lack access to specialist research networks',
-      'Healthcare AI researchers exploring FHIR-native agent architectures and MCP integration patterns',
-    ],
-    marketRelevance:
-      'Clinical trial recruitment failure costs the pharmaceutical industry an estimated $8B annually. The intersection of FHIR R4 standardisation, graph-based eligibility reasoning, and LLM-powered agent orchestration represents the current frontier of healthcare AI infrastructure.',
-    marketStats: [
-      { value: '500', label: 'Synthetic patient profiles in graph' },
-      { value: '250+', label: 'NCT trials indexed' },
-      { value: '9,100+', label: 'ELIGIBLE_FOR graph edges' },
-      { value: '6', label: 'MCP tools for AI agent integration' },
-    ],
-  },
-
-  // ── 2. Afripay ────────────────────────────────────────────────────────────
-  {
-    slug: 'afripay',
-    name: 'Afripay',
-    tagline: 'Cross-border remittance and digital payments on the Stellar Network',
-    description:
-      'A production cross-border payments platform settling across multiple African currencies via the Stellar Network. Full-stack: FastAPI backend with a double-entry immutable ledger, React 19 admin workspace, Flutter mobile app, and 3-tier KYC/AML via Onfido. Built at Zamadi Group.',
-    icon: '💸',
-    category: 'fintech',
-    tier: 'premium',
-    priceFrom: null,
-    priceSuffix: '',
-    accentColor: '#22c55e',
     status: 'live',
-    techStack: ['FastAPI', 'React 19', 'Flutter', 'Stellar Network', 'PostgreSQL', 'Redis', 'Onfido', 'Docker', 'Nginx', 'Python'],
+    liveUrl: '/blog/ep01-correlation-matters',
+    techStack: ['Python', 'Pandas', 'NumPy', 'Plotly', 'SciPy', 'Jupyter'],
     features: [
-      'Stellar Network settlement — FIAT-to-USDT across multiple African currency corridors',
-      'Double-entry immutable ledger with cryptographic audit trail',
-      'JWT + refresh-token auth with Nginx rate limiting',
-      '3-tier KYC/AML verification via Onfido integration',
-      'React 19 admin workspace — transaction monitoring, compliance dashboard',
-      'Flutter mobile app with Riverpod state management (iOS + Android)',
-      'Diaspora remittance corridors — East African cross-border focus',
-      'Real-time settlement status tracking and notification system',
+      'Pearson vs Spearman correlation — when each applies',
+      'Rolling correlation windows for regime detection',
+      'Correlation matrix visualisation as network graph',
+      'Regime-change impact on correlation structure',
+      'Complete Jupyter notebook with synthetic + real data',
+      'Google Colab ready — no setup required',
     ],
-    pricingTiers: [],
+    pricingTiers: [
+      {
+        name: 'Free',
+        price: 0,
+        period: 'one-time',
+        features: ['Full notebook', 'Google Colab access', 'All charts interactive'],
+        cta: 'Get Free Notebook',
+      },
+    ],
     purpose:
-      'Cross-border remittances to Sub-Saharan Africa cost an average 8% per transaction. Afripay uses the Stellar Network to reduce settlement costs and time while maintaining full KYC/AML compliance — making borderless money movement accessible across African currency corridors.',
+      'Most portfolio construction starts with returns. But correlation structure determines diversification benefits — and it changes over time. This notebook teaches you to measure, visualise, and adapt to correlation dynamics.',
     purposePoints: [
-      'Diaspora communities sending remittances home to East Africa',
-      'Businesses making cross-border supplier payments across African markets',
-      'Fintech teams needing a compliant, auditable ledger foundation',
+      'Finance students learning portfolio theory beyond the textbook',
+      'Self-taught quants who need practical correlation analysis skills',
+      'Portfolio managers reviewing their correlation assumptions',
+      'DeFi developers building cross-protocol correlation models',
     ],
     marketRelevance:
-      'Africa receives over $100B in remittances annually, with fees averaging 8%+ — the highest globally. Stellar-based settlement reduces this dramatically while providing near-instant finality. The Afripay architecture demonstrates that institutional-grade payment infrastructure can be built natively for African markets.',
+      'Correlation is the single most important input to portfolio construction after expected returns — yet most practitioners use a single static number. This notebook teaches dynamic correlation analysis with production-grade code.',
     marketStats: [
-      { value: '$100B+', label: 'Annual Africa remittance volume' },
-      { value: '8%', label: 'Avg. industry remittance fee' },
-      { value: '3-tier', label: 'KYC/AML verification depth' },
-      { value: 'Live', label: 'Production deployment' },
+      { value: 'Free', label: 'Always free' },
+      { value: 'Python', label: 'Implementation language' },
+      { value: 'Colab', label: 'Ready to run' },
+      { value: 'Series', label: 'Classical Quant Finance' },
     ],
   },
-
-  // ── 3. Job Hunter KE ──────────────────────────────────────────────────────
   {
-    slug: 'jobhunter',
-    name: 'Job Hunter KE',
-    tagline: 'AI-powered job application automation for the Kenyan market',
+    slug: 'ep02-efficient-frontier',
+    name: 'Efficient Frontier',
+    tagline: 'Finding the optimal portfolio with Markowitz mean-variance optimisation',
     description:
-      'A full-stack SaaS that scrapes Kenyan and global remote job boards, generates tailored CVs and cover letters with AI, routes them through a React dashboard for review, and dispatches approved applications. Runs on Flask + n8n + SQLite with Supabase auth.',
-    icon: '🎯',
-    category: 'automation',
+      'A complete implementation of Modern Portfolio Theory — from the efficient frontier to the tangency portfolio and capital market line. Includes Monte Carlo simulation of thousands of portfolios, optimisation with and without constraints, and interactive visualisation of the efficient frontier.',
+    icon: '📈',
+    category: 'education',
+    tier: 'free',
+    priceFrom: 0,
+    priceSuffix: '',
+    accentColor: '#0ea5e9',
+    status: 'live',
+    liveUrl: '/blog/ep02-efficient-frontier',
+    techStack: ['Python', 'Pandas', 'NumPy', 'SciPy', 'Plotly', 'Jupyter'],
+    features: [
+      'Monte Carlo simulation of 10,000+ random portfolios',
+      'Mean-variance optimisation with SciPy minimiser',
+      'Tangency portfolio with risk-free asset (CML)',
+      'Constraints: no short-selling, sector limits, cardinality',
+      'Interactive efficient frontier with hover annotations',
+      'Complete notebook with real market data',
+    ],
+    pricingTiers: [
+      {
+        name: 'Free',
+        price: 0,
+        period: 'one-time',
+        features: ['Full notebook', 'Google Colab access', 'Interactive charts'],
+        cta: 'Get Free Notebook',
+      },
+    ],
+    purpose:
+      'Markowitz mean-variance optimisation is the foundation of modern portfolio theory — but most explanations stop at the formula. This notebook implements it from scratch, letting you explore the efficient frontier interactively.',
+    purposePoints: [
+      'Finance professionals implementing portfolio optimisation for the first time',
+      'Students who want to see MPT work with real data',
+      'Quant developers building portfolio construction engines',
+    ],
+    marketRelevance:
+      'Every portfolio construction engine — from robo-advisors to institutional risk systems — implements some form of mean-variance optimisation. Understanding the mechanics behind the optimisation is essential for anyone building or using these systems.',
+    marketStats: [
+      { value: 'Free', label: 'Always free' },
+      { value: '10K+', label: 'Simulated portfolios' },
+      { value: 'SciPy', label: 'Optimisation engine' },
+      { value: 'Series', label: 'Classical Quant Finance' },
+    ],
+  },
+  {
+    slug: 'ep03-performance-metrics',
+    name: 'Performance Metrics',
+    tagline: 'Sharpe ratio, Sortino ratio, and beyond — measuring what matters',
+    description:
+      'A comprehensive guide to risk-adjusted performance metrics. Implements Sharpe ratio, Sortino ratio, Calmar ratio, information ratio, and maximum drawdown from scratch. Compares metrics across different market regimes and shows how each metric can be manipulated — and how to defend against it.',
+    icon: '📊',
+    category: 'education',
+    tier: 'free',
+    priceFrom: 0,
+    priceSuffix: '',
+    accentColor: '#10b981',
+    status: 'live',
+    liveUrl: '/blog/ep03-sharpe-vs-sortino-which-metric',
+    techStack: ['Python', 'Pandas', 'NumPy', 'Plotly', 'Jupyter'],
+    features: [
+      'Sharpe ratio, Sortino ratio, Calmar ratio from scratch',
+      'Information ratio and Treynor ratio implementations',
+      'Maximum drawdown and drawdown duration analysis',
+      'Metric comparison across bull/bear/crab regimes',
+      'Manipulation analysis — how each metric can be gamed',
+      'Complete notebook with real fund data',
+    ],
+    pricingTiers: [
+      {
+        name: 'Free',
+        price: 0,
+        period: 'one-time',
+        features: ['Full notebook', 'Google Colab access', 'All metrics implemented'],
+        cta: 'Get Free Notebook',
+      },
+    ],
+    purpose:
+      'Performance metrics are the language of fund evaluation — but each metric tells a different story. This notebook teaches you to read between the numbers and understand what each metric actually measures.',
+    purposePoints: [
+      'Analysts evaluating fund performance beyond the Sharpe ratio',
+      'Investors conducting due diligence on managed portfolios',
+      'Quant developers building performance reporting systems',
+    ],
+    marketRelevance:
+      'The Sharpe ratio is the most cited performance metric in finance — and the most misused. Understanding its limitations and alternatives is essential for anyone evaluating or reporting investment performance.',
+    marketStats: [
+      { value: 'Free', label: 'Always free' },
+      { value: '6', label: 'Metrics implemented' },
+      { value: 'Regimes', label: 'Cross-regime comparison' },
+      { value: 'Series', label: 'Classical Quant Finance' },
+    ],
+  },
+  {
+    slug: 'ep04-value-at-risk',
+    name: 'Value at Risk',
+    tagline: 'How much can you lose on a bad day? VaR methods compared',
+    description:
+      'A complete implementation of Value at Risk (VaR) using three methodologies: historical simulation, parametric (variance-covariance), and Monte Carlo. Compares accuracy across different portfolio types and market conditions. Includes Expected Shortfall (CVaR) as a coherent risk measure alternative.',
+    icon: '🛡️',
+    category: 'education',
     tier: 'free',
     priceFrom: 0,
     priceSuffix: '',
     accentColor: '#f59e0b',
-    status: 'in-development',
-    demoUrl: 'https://jobappagent.vercel.app/',
-    techStack: ['Flask', 'React 18', 'n8n', 'SQLite', 'Supabase', 'Groq', 'Docker', 'Python', 'TypeScript'],
+    status: 'live',
+    liveUrl: '/blog/ep04-value-at-risk-how-much-lose-bad-day',
+    techStack: ['Python', 'Pandas', 'NumPy', 'SciPy', 'Plotly', 'Jupyter'],
     features: [
-      '14 job board scrapers — LinkedIn, BrighterMonday, Fuzu, RemoteOK, Himalayas, WeWorkRemotely + specialist quant boards',
-      'AI document generation — tailored CV + cover letter per job via Groq / OpenRouter',
-      'n8n workflow orchestration — scrape → generate → email → dispatch pipeline',
-      'React dashboard with sortable job table, status tracking, and document preview',
-      'Employer reply inbox with AI-powered response drafting',
-      'Supabase auth with Google OAuth and magic link',
-      'Background task runner with ThreadPoolExecutor and SQLite task log',
-      'Scholarship scraper module running in parallel with job pipeline',
+      'Historical simulation VaR — non-parametric approach',
+      'Parametric VaR — variance-covariance method',
+      'Monte Carlo VaR — stochastic simulation',
+      'Expected Shortfall (CVaR) — coherent risk measure',
+      'Method comparison across portfolio types',
+      'Backtesting VaR models with Kupiec test',
     ],
-    pricingTiers: [],
+    pricingTiers: [
+      {
+        name: 'Free',
+        price: 0,
+        period: 'one-time',
+        features: ['Full notebook', 'Google Colab access', '3 VaR methods'],
+        cta: 'Get Free Notebook',
+      },
+    ],
     purpose:
-      'Job hunting at scale in Kenya requires monitoring 10+ job boards simultaneously and customising applications for each role. Job Hunter KE automates the entire pipeline — from discovery to tailored document generation to dispatch — leaving only the review step to the human.',
+      'VaR is the most widely used risk measure in finance — and one of the most criticised. This notebook implements all three VaR methodologies so you can understand their assumptions, limitations, and appropriate use cases.',
     purposePoints: [
-      'Engineers applying to multiple roles who need tailored documents without writing each from scratch',
-      'Kenyan job seekers targeting both local and international remote opportunities',
-      'Anyone who wants a data-driven view of their application pipeline',
+      'Risk managers implementing or reviewing VaR models',
+      'Traders who need to understand their risk numbers',
+      'Students learning risk management with practical code',
     ],
     marketRelevance:
-      "Kenya's tech talent market is expanding rapidly, with increasing remote-first hiring by international companies. A system that bridges Kenyan local boards and global remote job sites — while generating AI-tailored documents — directly addresses the asymmetry between job volume and application bandwidth.",
+      'Basel III/IV continues to use VaR as a core regulatory capital measure. Understanding its implementation — and its alternatives — is essential for anyone working in financial risk management.',
     marketStats: [
-      { value: '14', label: 'Job board scrapers integrated' },
-      { value: '3', label: 'AI providers supported' },
-      { value: '5', label: 'n8n workflow automations' },
-      { value: 'Live', label: 'Running in production daily' },
+      { value: 'Free', label: 'Always free' },
+      { value: '3', label: 'VaR methodologies' },
+      { value: 'CVaR', label: 'Coherent alternative' },
+      { value: 'Series', label: 'Classical Quant Finance' },
     ],
   },
-
-  // ── 4. GraphAlpha ─────────────────────────────────────────────────────────
   {
-    slug: 'graphalpha',
-    name: 'GraphAlpha',
-    tagline: 'Autonomous multi-agent trading system with knowledge graph signal generation',
+    slug: 'ep05-factor-models',
+    name: 'Factor Models',
+    tagline: 'Alpha or hidden beta? Decomposing returns with factor models',
     description:
-      'A multi-agent autonomous trading system combining a Neo4j/Memgraph knowledge graph for signal generation with 8 specialised sub-agents — regime classification, news sentiment, macro calendar, derivatives pricing, risk management, and execution routing to IBKR and Kraken.',
-    icon: '📈',
-    category: 'tradfi',
+      'A production-grade implementation of factor models for return decomposition. Covers CAPM, Fama-French 3-factor, and Carhart 4-factor models. Includes factor construction from raw data, regression-based decomposition, and visualisation of factor exposures over time.',
+    icon: '🧩',
+    category: 'education',
     tier: 'premium',
-    priceFrom: null,
-    priceSuffix: '',
-    accentColor: '#3b82f6',
-    status: 'in-development',
-    techStack: ['Python', 'Neo4j', 'Memgraph', 'Redis', 'PostgreSQL', 'Prometheus', 'GARCH', 'IBKR API', 'Kraken API', 'Docker'],
-    features: [
-      '8 specialised sub-agents: Regime · Signal · News · MacroCalendar · KGSignal · KGDerivatives · Risk · Execution',
-      'Knowledge graph formula evaluation — KG nodes encode trading signals evaluated per tick',
-      'GARCH volatility modelling + VARLiNGAM causal discovery (pgmpy, lingam)',
-      'Options pricing engine: Black-Scholes, Heston SV, FFT, live Greeks',
-      'Dual execution: IBKR TWS (equity + options) and Kraken (crypto perps)',
-      'Redis inter-agent messaging bus with async orchestration loop (5-min ticks)',
-      'Prometheus metrics: PnL gauge, drawdown gauge, signal count, loop counter',
-      'Hard risk limits: max drawdown halt, position sizing via RiskAgent',
-      'Paper trading mode with full audit trail before live deployment',
-    ],
-    pricingTiers: [],
-    purpose:
-      'GraphAlpha encodes market relationships as a knowledge graph — allowing signal logic to traverse concept relationships rather than evaluating flat indicator crossovers. The knowledge graph is the brain; the sub-agents are the hands.',
-    purposePoints: [
-      'Quantitative researchers exploring graph-native signal generation architectures',
-      'Systematic traders who want risk-gated autonomous execution across equity, options, and crypto',
-      'ML engineers building causal inference pipelines for financial time series',
-    ],
-    marketRelevance:
-      "Most systematic trading systems evaluate signals independently. GraphAlpha's graph-based approach contextualises signals via macro regime nodes, earnings event nodes, and sector relationship edges — producing signals that encode market structure rather than just price history.",
-    marketStats: [
-      { value: '8', label: 'Autonomous sub-agents' },
-      { value: '2', label: 'Execution venues (IBKR + Kraken)' },
-      { value: 'GARCH', label: 'Volatility model' },
-      { value: 'Paper', label: 'Current trading mode' },
-    ],
-  },
-
-  // ── 5. Agentic ERP ────────────────────────────────────────────────────────
-  {
-    slug: 'agentic-erp',
-    name: 'Agentic ERP',
-    tagline: 'AI-native enterprise resource planning in Go with 27 MCP tools',
-    description:
-      'A full-stack, AI-native ERP platform where every module is driven by a provider-agnostic LLM layer. Users describe intent in natural language; the AI selects the right ERP tool and drafts actions for human approval before any write occurs. Ships as both a web app and a native desktop app (Wails v3).',
-    icon: '⚙️',
-    category: 'tools',
-    tier: 'premium',
-    priceFrom: null,
+    priceFrom: 29,
     priceSuffix: '',
     accentColor: '#ec4899',
-    status: 'in-development',
-    demoUrl: 'https://erp-web-chi-silk.vercel.app/',
-    techStack: ['Go', 'ConnectRPC', 'NATS JetStream', 'Temporal', 'Keycloak', 'Next.js 15', 'Wails v3', 'PostgreSQL', 'ClickHouse', 'Terraform'],
-    features: [
-      '6 ERP modules: Financial (GL/AP/AR) · HR · CRM · Supply Chain · Project Mgmt · AI Agent',
-      '27 MCP tools in the registry — full ERP function-calling surface for LLMs',
-      'Provider-agnostic LLM client — Groq default, OpenAI-compat, Anthropic, Ollama',
-      'ConnectRPC inter-service communication with Protobuf definitions',
-      'NATS JetStream event bus for domain events + IoT leaf nodes',
-      'Temporal for crash-safe long-running workflow orchestration',
-      'Keycloak OIDC + Casbin RBAC/ABAC for enterprise auth',
-      'Clean Architecture across all services (domain → application → infrastructure → interfaces)',
-      'Dual deployment: Next.js 15 web app + Wails v3 desktop app (same frontend)',
-      'GCP Terraform infra + Kubernetes Helm charts per service',
-    ],
-    pricingTiers: [],
-    purpose:
-      'Traditional ERP systems are form-driven. Agentic ERP replaces that model with an agent loop: the AI understands intent, selects the appropriate tool from a 27-tool MCP registry, and presents a draft action for human approval before any write occurs.',
-    purposePoints: [
-      'SMEs that need enterprise-grade workflow automation without enterprise-grade complexity',
-      'Organisations with non-technical staff who struggle with traditional ERP navigation',
-      'Developers exploring agentic architectures for domain-specific tool-calling systems',
-      'Companies requiring both web and native desktop deployment from a single codebase',
-    ],
-    marketRelevance:
-      'The global ERP market exceeds $50B. The intersection of LLM tool-calling and enterprise workflow automation represents a genuine architectural shift — not AI bolted onto legacy CRUD, but a system where the agent loop is the primary interaction model. Built in Go for the performance and correctness guarantees that financial and HR data demands.',
-    marketStats: [
-      { value: '27', label: 'MCP tools in registry' },
-      { value: '6', label: 'ERP service modules' },
-      { value: '2', label: 'Deployment targets (web + desktop)' },
-      { value: 'Go', label: 'Core language' },
-    ],
-  },
-
-  // ── 6. AMD EA Strategy Optimizer ─────────────────────────────────────────
-  {
-    slug: 'amd-ea-optimizer',
-    name: 'AMD EA Strategy Optimizer',
-    tagline: 'Enterprise Architecture intelligence powered by AMD MI300X, GraphRAG, and DRL',
-    description:
-      'An AI-native Enterprise Architecture platform built for the AMD Developer Hackathon 2026. Transforms business goals into governance-grounded, Jira-ready strategic roadmaps using a 1,416-capability Neo4j knowledge graph, Deep Reinforcement Learning prioritisation, and a self-correcting LangGraph agentic pipeline — all served from AMD Instinct MI300X via vLLM.',
-    icon: '⚡',
-    category: 'ai',
-    tier: 'free',
-    priceFrom: 0,
-    priceSuffix: '',
-    accentColor: '#ef4444',
     status: 'live',
-    liveUrl: 'https://huggingface.co/spaces/TheQuantEd/amd-ea-optimizer',
-    techStack: ['FastAPI', 'Streamlit', 'Neo4j', 'LangGraph', 'vLLM', 'Qwen2.5-72B', 'DRL/MLP', 'Docker', 'AMD MI300X', 'Python'],
+    liveUrl: '/blog/ep05-factor-models-alpha-or-hidden-beta',
+    techStack: ['Python', 'Pandas', 'NumPy', 'Statsmodels', 'Plotly', 'Jupyter'],
     features: [
-      'Neo4j knowledge graph: 44 domains · 248 subdomains · 1,416 capabilities · 200+ trends',
-      'LangGraph 4-node agentic pipeline: Retrieve → Optimize → Generate → Verify (self-correcting)',
-      'Deep Reinforcement Learning prioritisation — MLP trained on governance reward signals',
-      'AMD Instinct MI300X inference: Qwen2.5-72B at fp16, 192 GB HBM3, SSE streaming',
-      'Strategic Roadmap generator: questionnaire → Epics → Features → User Stories → Tasks',
-      'Live Jira REST API v3 export + ServiceNow / Azure DevOps integration',
-      'Graph Explorer: interactive force-directed network of 44 EA domains',
-      'Chat session persistence backed by Neo4j — full conversation memory per project',
-      'Export handover: JSON / Markdown / CSV of complete roadmaps',
+      'CAPM — single factor market model',
+      'Fama-French 3-factor — size, value, market',
+      'Carhart 4-factor — momentum added',
+      'Factor construction from raw price data',
+      'Rolling regression for time-varying exposures',
+      'Alpha significance testing with t-statistics',
     ],
-    pricingTiers: [],
+    pricingTiers: [
+      {
+        name: 'Premium',
+        price: 29,
+        period: 'one-time',
+        highlighted: true,
+        features: ['Full notebook + datasets', 'Factor construction code', 'Rolling regression analysis', 'Alpha significance testing', 'Email support'],
+        cta: 'Buy Premium Notebook',
+      },
+    ],
     purpose:
-      'Enterprise architecture planning is time-consuming and expertise-scarce. This platform encodes 1,416 industry capabilities in a knowledge graph, uses DRL to prioritise gaps against business goals, and generates governance-grounded roadmaps that plug directly into Jira — collapsing weeks of EA consulting into minutes.',
+      'Factor models are the standard tool for return decomposition in institutional finance. This notebook teaches you to build them from scratch — from factor construction to regression-based attribution.',
     purposePoints: [
-      'CTOs and enterprise architects mapping capability gaps against strategic objectives',
-      'Engineering leaders who need structured roadmaps with governance acceptance criteria',
-      'AI researchers exploring graph-RAG + DRL hybrid architectures for domain-specific reasoning',
-      'Organisations running on Jira, ServiceNow, or Azure DevOps who need AI-generated epics',
+      'Analysts building factor-based investment strategies',
+      'Researchers testing for alpha in portfolio returns',
+      'Quant developers implementing factor models in production',
     ],
     marketRelevance:
-      'Enterprise Architecture consulting commands $300–$500/hr. The intersection of knowledge graph retrieval, DRL-based prioritisation, and LLM generation represents a new class of AI system — not a chatbot over documents, but a structured reasoning engine over a formal capability taxonomy. Built on AMD MI300X to demonstrate that open-weight models at 72B parameters can match proprietary API quality at scale.',
+      'Factor investing has grown from an academic concept to a multi-trillion-dollar industry. Understanding factor model construction — and the difference between alpha and hidden beta — is essential for anyone in systematic investing.',
     marketStats: [
-      { value: '1,416', label: 'EA capabilities in knowledge graph' },
-      { value: '44', label: 'Enterprise domains modelled' },
-      { value: 'MI300X', label: 'AMD GPU (192 GB HBM3)' },
-      { value: 'Jira', label: 'Live export integration' },
+      { value: '$29', label: 'One-time purchase' },
+      { value: '4', label: 'Factor models' },
+      { value: 'Statsmodels', label: 'Regression engine' },
+      { value: 'Series', label: 'Classical Quant Finance' },
     ],
   },
-
-  // ── 7. Lex Kenya ─────────────────────────────────────────────────────────
   {
-    slug: 'lex-kenya',
-    name: 'Lex Kenya',
-    tagline: 'Constitutionally-anchored GraphRAG intelligence over Kenyan corporate and statutory law',
+    slug: 'ep11-uniswap-amm',
+    name: 'Uniswap AMM',
+    tagline: 'How Uniswap works — the x*y=k formula explained with code',
     description:
-      'A proprietary GraphRAG legal intelligence platform built over a Neo4j knowledge graph of Kenyan law — the Constitution of Kenya 2010, 19 Acts, 997 court judgments, and 28 legal concepts. Every answer is traceable to its constitutional authority chain via graph traversal. Targets corporate lawyers, in-house counsel, compliance officers, and legal researchers operating in the Kenyan jurisdiction.',
-    icon: '⚖️',
-    category: 'ai',
-    tier: 'premium',
-    priceFrom: null,
-    priceSuffix: '',
-    accentColor: '#0ea5e9',
-    status: 'in-development',
-    demoUrl: 'https://app-bnmkj1cjrzlt.appmedo.com/',
-    techStack: ['FastAPI', 'React 18', 'Vite', 'Neo4j', 'GraphRAG', 'BGE-M3', 'Groq', 'Mistral-7B', 'QLoRA', 'Python'],
-    features: [
-      'Neo4j knowledge graph: 4,862 nodes · 8,417 edges — Constitution, 19 Acts, 997 judgments',
-      'Constitutional authority chain: every section traceable to its Article via DERIVES_AUTHORITY_FROM',
-      'GraphRAG Q&A — Cypher traversal + BGE-M3 semantic retrieval, answers cite specific legal sources',
-      'Compliance Checker — input a business action, get relevant statutory constraints with constitutional basis',
-      'Ruling Predictor — precedent analysis across 997 judgments from 5 superior courts',
-      'QLoRA fine-tuned Mistral-7B on 700 Kenyan law QA pairs (Unsloth + TRL)',
-      'Case law scraper — kenyalaw.org with court-specific pagination logic',
-      'Graph Admin panel — live stats, scraper controls, node/relationship counts',
-      '28 legal concepts modelled (Rule of Law, Transfer Pricing, etc.) with constitutional grounding',
-    ],
-    pricingTiers: [],
-    purpose:
-      'Kenyan legal research is fragmented across statute books, gazette notices, and case law databases that do not speak to each other. Lex Kenya connects them — grounding every Act in its constitutional authority and linking case law to the statutes cited — so queries return structured, traceable answers rather than keyword matches.',
-    purposePoints: [
-      'Corporate lawyers and in-house counsel researching Kenyan compliance obligations',
-      'Financial engineers and CFOs navigating the Income Tax Act, Capital Markets Act, and Companies Act',
-      'Legal researchers mapping constitutional derivation of regulatory frameworks',
-      'Law students building understanding of how Acts relate to the Constitution',
-    ],
-    marketRelevance:
-      'Kenya\'s legal technology market is early-stage despite a large and active legal profession. The intersection of constitutional graph modelling, GraphRAG retrieval, and fine-tuned LLMs represents a qualitatively different capability from search-based legal tools — answers that cite both the statutory provision and its constitutional basis are uniquely defensible in professional practice.',
-    marketStats: [
-      { value: '4,862', label: 'Knowledge graph nodes' },
-      { value: '8,417', label: 'Graph relationships' },
-      { value: '997', label: 'Court judgments indexed' },
-      { value: '19', label: 'Acts + Constitution ingested' },
-    ],
-  },
-
-  // ── 8. Quantifaya Content ─────────────────────────────────────────────────
-  {
-    slug: 'content',
-    name: 'Quantifaya Content',
-    tagline: 'Interactive quant finance research — live charts, LaTeX, and Jupyter notebooks',
-    description:
-      'A free research hub publishing quantitative finance deep-dives with interactive Plotly charts, LaTeX-rendered mathematics, and executable Jupyter notebooks. Two series: Classical Quantitative Finance and DeFi Mechanics.',
-    icon: '📐',
+      'A complete implementation of the Uniswap V2 constant product AMM from first principles. Covers the x*y=k formula, liquidity provision, impermanent loss, arbitrage, and fee mechanics. Includes interactive visualisation of the bonding curve and price impact.',
+    icon: '🔄',
     category: 'education',
     tier: 'free',
     priceFrom: 0,
     priceSuffix: '',
     accentColor: '#a855f7',
     status: 'live',
-    liveUrl: '/blog',
-    techStack: ['Next.js', 'MDX', 'Plotly.js', 'KaTeX', 'Supabase', 'Resend', 'TypeScript'],
+    liveUrl: '/blog/ep11-how-uniswap-works-xy-k-formula',
+    techStack: ['Python', 'Pandas', 'NumPy', 'Plotly', 'Jupyter'],
     features: [
-      '9 interactive chart components: Efficient Frontier · Correlation Heatmap · VaR · Factor Model · AMM Curve + more',
-      'LaTeX-rendered mathematics via KaTeX — full equation support inline and block',
-      'Jupyter notebook access gate — Colab + download for every episode',
-      '2 structured series: Classical Quantitative Finance + DeFi Mechanics',
-      'MDX-powered posts with syntax highlighting, copy buttons, and custom components',
-      'Supabase-backed subscriber and lead management with Resend email delivery',
-      'Topics: portfolio variance, efficient frontier, Sharpe/Sortino, VaR, factor models, AMMs',
+      'x*y=k constant product formula from scratch',
+      'Liquidity provision and pool share calculation',
+      'Impermanent loss simulation and visualisation',
+      'Arbitrage mechanics — how prices stay aligned',
+      'Fee accumulation and LP returns analysis',
+      'Interactive bonding curve visualisation',
     ],
     pricingTiers: [
       {
         name: 'Free',
         price: 0,
-        period: 'month',
-        features: ['All blog posts', 'Interactive charts', 'Free notebooks', 'Series access'],
-        cta: 'Read Now',
-      },
-      {
-        name: 'Premium',
-        price: 29,
-        period: 'month',
-        highlighted: true,
-        features: ['Full notebooks + datasets', 'Premium research notes', 'Backtest results', 'Early access'],
-        cta: 'Go Premium',
+        period: 'one-time',
+        features: ['Full notebook', 'Google Colab access', 'Interactive AMM charts'],
+        cta: 'Get Free Notebook',
       },
     ],
     purpose:
-      'Most quant finance content lives in two extremes: academic papers without implementation, or shallow tutorials that stop at the formula. This series pairs every mathematical concept with a runnable notebook and a real trading or DeFi application.',
+      'Uniswap\'s constant product AMM is the foundational primitive of DeFi. This notebook implements it from the formula up — giving you a complete understanding of how automated market makers work under the hood.',
     purposePoints: [
-      'Finance graduates who understand theory but have never implemented a portfolio optimiser',
-      'Software engineers pivoting into quantitative finance who need domain knowledge',
-      'DeFi developers who want to add financial engineering rigour to protocol design',
+      'DeFi developers building on top of AMM protocols',
+      'Quant researchers modelling AMM dynamics',
+      'Anyone who wants to understand how Uniswap really works',
     ],
     marketRelevance:
-      'Quantitative finance education at the intersection of TradFi and DeFi is a genuine gap. The series covers the continuum from Markowitz portfolio theory to Uniswap constant-product mechanics — with interactive charts that let readers explore parameter spaces directly in the browser.',
+      'Uniswap processes billions in weekly volume. Its constant product formula is the most important DeFi primitive — and understanding its mechanics is essential for anyone building or investing in DeFi protocols.',
     marketStats: [
-      { value: '9', label: 'Interactive chart components' },
-      { value: '2', label: 'Structured series' },
-      { value: 'Free', label: 'All posts and charts' },
-      { value: 'Live', label: 'New episodes published regularly' },
+      { value: 'Free', label: 'Always free' },
+      { value: 'x*y=k', label: 'Core formula' },
+      { value: 'Interactive', label: 'Bonding curve viz' },
+      { value: 'Series', label: 'DeFi Mechanics' },
     ],
   },
 ]
-
-// ─── COMING SOON — restore when shipped ───────────────────────────────────────
-/*
-{
-  slug: 'quantifaya',
-  name: 'Quantifaya',
-  tagline: 'Institutional-grade quant finance platform',
-  status: 'coming-soon',
-  // full entry in git history at the products.ts rewrite commit
-},
-{
-  slug: 'yield-agent',
-  name: 'Yield Agent',
-  tagline: 'AI-powered DeFi yield optimisation',
-  status: 'coming-soon',
-},
-{
-  slug: 'legal-research-agent',
-  name: 'Legal Research Agent',
-  tagline: 'AI-powered Kenyan law research assistant',
-  status: 'in-development',
-},
-{
-  slug: 'academy',
-  name: 'Quantifaya Academy',
-  tagline: 'Learn quant finance through interactive animated courses',
-  status: 'coming-soon',
-},
-*/
 
 export function getProduct(slug: string): Product | undefined {
   return PRODUCTS.find((p) => p.slug === slug)
 }
 
-export function getProductsByCategory(category: string): Product[] {
-  if (category === 'all') return PRODUCTS
-  return PRODUCTS.filter((p) => p.category === category)
+export function getProducts(): Product[] {
+  return PRODUCTS
 }
 
 export const CATEGORY_LABELS: Record<string, string> = {
-  all: 'All Projects',
-  healthtech: 'HealthTech',
-  fintech: 'Fintech',
-  automation: 'Automation',
-  tradfi: 'Quant / TradFi',
-  tools: 'Tools',
-  education: 'Education',
-  ai: 'AI',
-  // web3: 'Web3 / DeFi', // restore when Yield Agent ships
+  all: 'All Notebooks',
+  education: 'Quant Finance',
+  free: 'Free',
+  premium: 'Premium',
 }
