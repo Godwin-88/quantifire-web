@@ -7,9 +7,6 @@ const Plot = dynamic(() => import('react-plotly.js'), { ssr: false, loading: () 
   <div className="flex items-center justify-center h-64 text-slate-500 text-sm">Loading chart…</div>
 ) })
 
-const RF_RATE = 0.03
-const PERIODS = 252
-
 function generateFatTailedReturns(n: number, df: number) {
   // Generate t-distributed returns using Box-Muller + t-transformation
   const returns = []

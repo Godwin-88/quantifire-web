@@ -2,12 +2,6 @@ import Link from 'next/link'
 import { CATEGORY_LABELS } from '@/lib/products'
 import { cn } from '@/lib/utils'
 
-const PRICING_OPTIONS = [
-  { value: '',         label: 'All Pricing' },
-  { value: 'free',     label: 'Free' },
-  { value: 'premium',  label: 'Premium' },
-]
-
 interface Props {
   activeCategory: string
   activePricing?: string

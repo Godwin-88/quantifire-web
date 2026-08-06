@@ -2,12 +2,21 @@ import next from "@next/eslint-plugin-next";
 import js from "@eslint/js";
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
+import globals from "globals";
 
 /** @type {import("eslint").Linter.Config[]} */
 const eslintConfig = [
   {
     files: ["**/*.{js,jsx,ts,tsx,mjs,cjs}"],
     ...js.configs.recommended,
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
+        React: "readonly",
+      },
+    },
   },
   {
     files: ["**/*.{ts,tsx}"],
@@ -19,6 +28,12 @@ const eslintConfig = [
         ecmaFeatures: {
           jsx: true,
         },
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
+        React: "readonly",
       },
     },
     plugins: {

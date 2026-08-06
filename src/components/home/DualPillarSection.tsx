@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { motion } from 'framer-motion'
 import ScrollReveal from './ScrollReveal'
 
 const ArchitectureLayers = dynamic(() => import('./ArchitectureLayers'), { ssr: false })

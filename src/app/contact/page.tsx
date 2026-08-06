@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import type { Metadata } from 'next'
 
 // Note: metadata export from a 'use client' page requires a separate layout or server wrapper.
 // For now this is a client page with inline head management via useEffect if needed.

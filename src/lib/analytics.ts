@@ -14,7 +14,7 @@ function posthog() {
   if (!enabled) return { capture: () => {}, identify: () => {} }
   // PostHog is loaded via the PostHogProvider component
   try {
-    const { posthog: ph } = window as any
+    const { posthog: ph } = window as unknown as Window & { posthog: { capture: (...args: unknown[]) => void; identify: (...args: unknown[]) => void } }
     return ph || { capture: () => {}, identify: () => {} }
   } catch {
     return { capture: () => {}, identify: () => {} }

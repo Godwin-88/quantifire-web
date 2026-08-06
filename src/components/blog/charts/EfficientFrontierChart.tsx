@@ -138,7 +138,7 @@ export function EfficientFrontierChart() {
           {
             x: [mvp.vol * 100],
             y: [mvp.ret * 100],
-            mode: 'text+markers' as any,
+            mode: 'text+markers',
             type: 'scatter',
             name: 'Min Variance',
             marker: { color: '#e94560', size: 12, symbol: 'star' },
@@ -150,7 +150,7 @@ export function EfficientFrontierChart() {
           {
             x: [tangency.vol * 100],
             y: [tangency.ret * 100],
-            mode: 'text+markers' as any,
+            mode: 'text+markers',
             type: 'scatter',
             name: 'Max Sharpe',
             marker: { color: '#22c55e', size: 12, symbol: 'star' },
@@ -188,11 +188,11 @@ export function EfficientFrontierChart() {
         config={{ displayModeBar: true, displaylogo: false, modeBarButtonsToRemove: ['lasso2d', 'select2d'] }}
         style={{ width: '100%', height: '380px' }}
         useResizeHandler
-        onHover={(data: any) => {
+        onHover={(data) => {
           if (data.points && data.points.length > 0) {
             const pt = data.points[0]
             const idx = portStats.findIndex(p => 
-              Math.abs(p.vol * 100 - pt.x) < 0.5 && Math.abs(p.ret * 100 - pt.y) < 0.5
+              Math.abs(p.vol * 100 - (pt.x as number)) < 0.5 && Math.abs(p.ret * 100 - (pt.y as number)) < 0.5
             )
             if (idx >= 0) {
               setHoveredPoint(portStats[idx])

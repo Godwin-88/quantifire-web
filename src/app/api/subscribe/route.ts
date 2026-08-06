@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = await createClient()
-    const { error, data } = await supabase.from('subscribers').upsert(
+    const { error } = await supabase.from('subscribers').upsert(
       {
         email: email.toLowerCase().trim(),
         source_channel: source_channel ?? 'unknown',

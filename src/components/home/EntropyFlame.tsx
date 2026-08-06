@@ -32,7 +32,6 @@ export default function EntropyFlame({ className }: { className?: string }) {
   const sectionRef = useRef<HTMLDivElement>(null)
   const inView = useInView(sectionRef, { once: false, margin: '-20% 0px -20% 0px' })
   const [hasInteracted, setHasInteracted] = useState(false)
-  const runningRef = useRef(false)
 
   useEffect(() => {
     if (inView) setHasInteracted(true)

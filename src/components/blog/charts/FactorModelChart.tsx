@@ -48,8 +48,7 @@ function generateStrategyReturns(factorReturns: Record<string, number[]>, type: 
 
 function runFactorRegression(strategyReturns: number[], factorReturns: Record<string, number[]>) {
   const n = strategyReturns.length
-  const factors = Object.keys(factorReturns)
-  const k = factors.length
+const factors = Object.keys(factorReturns)
   
   // Simple OLS using normal equations (simplified for demo)
   // In production, use a proper stats library

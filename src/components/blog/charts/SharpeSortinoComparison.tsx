@@ -123,7 +123,7 @@ export function SharpeSortinoComparison() {
         ].map(opt => (
           <button
             key={opt.key}
-            onClick={() => setSelectedType(opt.key as any)}
+            onClick={() => setSelectedType(opt.key as 'symmetric' | 'posSkew' | 'negSkew')}
             className={`px-3 py-2 rounded-md text-xs transition-colors border text-left ${
               selectedType === opt.key
                 ? 'bg-blue-500/20 border-blue-500/50 text-blue-400'

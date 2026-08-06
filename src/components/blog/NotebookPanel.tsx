@@ -1,6 +1,7 @@
 'use client'
 
 import type { JupyterNotebook } from '@/types'
+import Link from 'next/link'
 import { NotebookGate } from './NotebookGate'
 
 export function NotebookPanel({ notebooks }: { notebooks: JupyterNotebook[] }) {
@@ -73,12 +74,12 @@ export function NotebookPanel({ notebooks }: { notebooks: JupyterNotebook[] }) {
                     </svg>
                     Premium access required
                   </div>
-                  <a
+                  <Link
                     href="/products/content?tab=interest"
                     className="text-xs text-qf-red hover:underline"
                   >
                     Join waitlist →
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>

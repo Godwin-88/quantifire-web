@@ -14,7 +14,6 @@ export default function ScrollReveal({
   children, delay = 0, direction = 'up', className
 }: Props) {
   const ref = useRef(null)
-  const isInView = false
 
   const variants = {
     hidden: {

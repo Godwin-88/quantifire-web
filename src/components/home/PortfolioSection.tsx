@@ -6,7 +6,7 @@ import { useRef } from 'react'
 import ScrollReveal from './ScrollReveal'
 import SectionHeading from './SectionHeading'
 
-function TiltCard({ project, children }: { project: Project; children: React.ReactNode }) {
+function TiltCard({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
   const mx = useMotionValue(0.5)
   const my = useMotionValue(0.5)
@@ -51,17 +51,6 @@ function TiltCard({ project, children }: { project: Project; children: React.Rea
       </motion.div>
     </div>
   )
-}
-
-type Project = {
-  slug: string
-  title: string
-  tagline: string
-  icon: string
-  category: string
-  color: string
-  gradient: string
-  href?: string
 }
 
 const PROJECTS = [
@@ -114,7 +103,7 @@ export function PortfolioSection() {
             <ScrollReveal key={project.slug} delay={i * 0.08}>
               {project.href ? (
                 <a href={project.href} target="_blank" rel="noopener noreferrer" className="h-full block">
-                  <TiltCard project={project}>
+                  <TiltCard>
                     <div className={`group relative overflow-hidden rounded-2xl h-full border border-slate-800 bg-gradient-to-br ${project.gradient} p-6 backdrop-blur-sm transition-all duration-300 hover:border-slate-700 hover:shadow-lg`}>
                       {/* Category badge */}
                       <span
@@ -146,7 +135,7 @@ export function PortfolioSection() {
                 </a>
               ) : (
                 <Link href={`/products/${project.slug}`} className="h-full block">
-                  <TiltCard project={project}>
+                  <TiltCard>
                     <div className={`group relative overflow-hidden rounded-2xl h-full border border-slate-800 bg-gradient-to-br ${project.gradient} p-6 backdrop-blur-sm transition-all duration-300 hover:border-slate-700 hover:shadow-lg`}>
                       {/* Category badge */}
                       <span

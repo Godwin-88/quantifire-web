@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import dynamic from 'next/dynamic'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false, loading: () => (
@@ -20,8 +20,6 @@ export function PortfolioVarianceChart() {
     Math.sqrt(w1 ** 2 * sigma1 ** 2 + w2 ** 2 * sigma2 ** 2 + 2 * w1 * w2 * sigma1 * sigma2 * r) * 100
   )
 
-  // Standalone assets for reference
-  const standaloneA = sigma1 * 100 * w1 // Not quite right — let's show what the portfolio vol would be if rho=1
   const worstCase = Math.sqrt(w1 ** 2 * sigma1 ** 2 + w2 ** 2 * sigma2 ** 2 + 2 * w1 * w2 * sigma1 * sigma2 * 1) * 100
   const bestCase = Math.sqrt(w1 ** 2 * sigma1 ** 2 + w2 ** 2 * sigma2 ** 2 - 2 * w1 * w2 * sigma1 * sigma2) * 100
 

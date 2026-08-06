@@ -22,7 +22,7 @@ export function readingTime(mdx: string): number {
   const text = mdx ?? ''
   const words = text
     .replace(/```[\s\S]*?```/g, '')
-    .replace(/[#>*`~\-\[\]()!]/g, ' ')
+    .replace(/[#>*`~\-\]()!]/g, ' ')
     .split(/\s+/)
     .filter((w) => w.length > 0).length
   return Math.max(1, Math.round(words / 200))

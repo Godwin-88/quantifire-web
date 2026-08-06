@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import dynamic from 'next/dynamic'
 
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false, loading: () => (
@@ -49,10 +49,19 @@ function portVolatility(weights: number[], cov: number[][]) {
   return Math.sqrt(varSum)
 }
 
-function generateRandomPortfolios(n: number, cov: number[][]) {
+function seededRandom(seed: number) {
+  let s = seed
+  return function () {
+    s = (s * 16807 + 0) % 2147483647
+    return (s - 1) / 2147483646
+  }
+}
+
+function generateRandomPortfolios(n: number) {
+  const rng = seededRandom(42)
   const portfolios = []
   for (let p = 0; p < n; p++) {
-    const raw = Array(5).fill(0).map(() => Math.random())
+    const raw = Array(5).fill(0).map(() => rng())
     const sum = raw.reduce((a, b) => a + b, 0)
     const weights = raw.map(r => r / sum)
     portfolios.push(weights)
@@ -62,31 +71,26 @@ function generateRandomPortfolios(n: number, cov: number[][]) {
 
 // Simple constrained optimization using penalty method
 function optimizeForTargetVol(targetVol: number, cov: number[][], maxIter = 500) {
+  const rng = seededRandom(137)
   let bestWeights = Array(5).fill(0.2)
   let bestReturn = -Infinity
   
   for (let iter = 0; iter < maxIter; iter++) {
-    // Generate candidate weights
-    const raw = Array(5).fill(0).map(() => Math.random() + 0.1)
+    const raw = Array(5).fill(0).map(() => rng() + 0.1)
     const sum = raw.reduce((a, b) => a + b, 0)
     let weights = raw.map(r => r / sum)
     
-    // Scale to match target volatility
     const currentVol = portVolatility(weights, cov)
     if (currentVol > 0.001) {
       const scale = targetVol / currentVol
-      // Blend towards scaled weights
       weights = weights.map((w, i) => w * 0.7 + (weights[i] * scale / weights.reduce((a, b) => a + b, 0)) * 0.3)
-      // Renormalize to sum to 1
       const wSum = weights.reduce((a, b) => a + b, 0)
       weights = weights.map(w => w / wSum)
     }
     
-    // Check if close to target vol
     const vol = portVolatility(weights, cov)
     const ret = portReturn(weights)
     
-    // Penalty for deviating from target vol
     const volPenalty = Math.abs(vol - targetVol) > 0.01 ? -10 : 0
     const score = ret + volPenalty
     
@@ -96,7 +100,6 @@ function optimizeForTargetVol(targetVol: number, cov: number[][], maxIter = 500)
     }
   }
   
-  // Final adjustment
   const finalVol = portVolatility(bestWeights, cov)
   const finalRet = portReturn(bestWeights)
   
@@ -110,7 +113,7 @@ export function MeanVarianceOptimizer() {
   
   // Generate efficient frontier data
   const { frontier, mvp, tangency, allPortfolios } = useMemo(() => {
-    const portfolios = generateRandomPortfolios(1500, cov)
+    const portfolios = generateRandomPortfolios(1500)
     const portStats = portfolios.map(weights => ({
       vol: portVolatility(weights, cov),
       ret: portReturn(weights),
@@ -154,11 +157,6 @@ export function MeanVarianceOptimizer() {
   }, [targetVol, cov])
   
   // Find where current portfolio sits on frontier
-  const frontierPosition = useMemo(() => {
-    const idx = frontier.findIndex(f => f.vol >= targetVol)
-    if (idx < 0) return null
-    return frontier[idx]
-  }, [frontier, targetVol])
 
   const sharpe = (optimalPortfolio.ret - RF) / optimalPortfolio.vol
 
@@ -256,7 +254,7 @@ export function MeanVarianceOptimizer() {
           {
             x: [optimalPortfolio.vol * 100],
             y: [optimalPortfolio.ret * 100],
-            mode: 'text+markers' as any,
+            mode: 'text+markers' as const,
             type: 'scatter',
             name: 'Selected Portfolio',
             marker: { color: '#e94560', size: 14, symbol: 'star' },

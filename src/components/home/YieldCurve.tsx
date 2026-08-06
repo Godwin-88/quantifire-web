@@ -28,7 +28,6 @@ function buildShape(progress: number, out: Float32Array) {
 
       // Efficient frontier curve (progress 0.5)
       const effY = Math.max(0.2, 1 - uu * uu * 0.28) * 1.1
-      const effZ = vv * (0.5 + Math.abs(uu) * 0.15)
 
       // Volatility surface (progress 1)
       const volY = 1.2 * Math.exp(-uu * uu * 0.55) * Math.cos(vv * 1.8) + 0.6
