@@ -1,10 +1,7 @@
 import HeroSection3D from '@/components/home/HeroSection3D'
-import SocialProofBar from '@/components/home/SocialProofBar'
+import { DualPillarSection } from '@/components/home/DualPillarSection'
 import { PortfolioSection } from '@/components/home/PortfolioSection'
-import { NotebooksSection } from '@/components/home/NotebooksSection'
-import ServicesSection from '@/components/home/ServicesSection'
-import { ServiceDetailSection } from '@/components/home/ServiceDetailSection'
-import { ProcessSection } from '@/components/home/ProcessSection'
+import { LatestResearchSection } from '@/components/home/LatestResearchSection'
 import { CTASection } from '@/components/home/CTASection'
 import { NewsletterSection } from '@/components/home/NewsletterSection'
 
@@ -12,12 +9,9 @@ export default function HomePage() {
   return (
     <>
       <HeroSection3D />
-      <SocialProofBar />
+      <DualPillarSection />
       <PortfolioSection />
-      <NotebooksSection />
-      <ServicesSection />
-      <ServiceDetailSection />
-      <ProcessSection />
+      <LatestResearchSection />
       <CTASection />
       <NewsletterSection />
     </>

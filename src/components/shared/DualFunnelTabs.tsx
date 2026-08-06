@@ -170,7 +170,7 @@ function CTATab({ data, funnel }: DualFunnelTabsProps) {
           {/* Funnel-specific CTA */}
           {funnel === 'services' ? (
             <a
-              href={process.env.NEXT_PUBLIC_CALENDLY_URL || '/contact'}
+              href="https://calendly.com/godwinopuka/15min"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
