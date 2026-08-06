@@ -1,45 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap");
+
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Raleway', sans-serif;
+  --font-heading: 'Raleway', sans-serif;
+
+  /* ── Quantifaya logo palette ─────────────────────────────────────────
+     Sampled directly from the 3D Q mark:
+       #0284C7  electric cyan  — brightest facet highlight (top of Q)
+       #0099CC  deep cyan-blue — secondary facet / side faces
+       #00BFEA  glow cyan      — inner bloom / emission color
+       #070D1A  void black     — background field
+       #0D1B2E  dark navy      — Q body surface
+       #112240  mid navy       — recessed facet tone
+       #E2E8F0  off-white      — foreground / body text
+  ──────────────────────────────────────────────────────────────────── */
+  --color-brand-primary:    #0284C7;   /* was #e94560 (red-pink) → electric cyan */
+  --color-brand-accent:     #0099CC;   /* was #f97316 (orange)   → deep cyan-blue */
+  --color-brand-flame:      #00BFEA;   /* was #fbbf24 (amber)    → glow cyan */
+  --color-brand-bg:         #070D1A;   /* was #0f0a2e             → void black */
+  --color-brand-fg:         #e2e8f0;
+  --color-brand-foreground: #B3EFFF;   /* was #fde68a (warm cream)→ light cyan tint */
+
+  --color-qf-black:  #070D1A;          /* deepest bg */
+  --color-qf-navy:   #0D1B2E;          /* card / surface */
+  --color-qf-dark:   #0F2035;          /* slight lift above navy */
+  --color-qf-mid:    #112240;          /* mid facet tone */
+  --color-qf-cyan:   #0284C7;          /* primary accent (was qf-red) */
+  --color-qf-blue:   #0099CC;          /* secondary accent (was qf-blue) */
+  --color-qf-glow:   #00BFEA;          /* glow / bloom (was qf-orange) */
+  --color-qf-teal:   #00E5CC;          /* optional tertiary — teal-green */
+  --color-qf-green:  #22c55e;          /* kept — status/success color */
+  --color-qf-muted:  #94a3b8;
+
+  /* Legacy aliases — keep so existing components don't break */
+  --color-qf-red:    #0284C7;          /* remapped: anything using qf-red gets cyan */
+  --color-qf-pink:   #0099CC;          /* remapped: anything using qf-pink gets deep cyan */
+  --color-qf-orange: #00BFEA;          /* remapped: anything using qf-orange gets glow cyan */
+}
 
 @layer base {
   :root {
     --font-inter: 'Inter', sans-serif;
+    --font-raleway: 'Raleway', sans-serif;
     --font-jetbrains-mono: 'JetBrains Mono', monospace;
+    --font-mono: 'JetBrains Mono', monospace;
+
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
+    --card: oklch(0.97 0 0);
     --card-foreground: oklch(0.145 0 0);
     --popover: oklch(1 0 0);
     --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
+    --primary: #0284C7;                /* was #e94560 */
+    --primary-foreground: oklch(0.06 0 0);
+    --secondary: oklch(0.95 0.03 220);
     --secondary-foreground: oklch(0.205 0 0);
     --muted: oklch(0.97 0 0);
     --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
+    --accent: oklch(0.92 0.05 210);
     --accent-foreground: oklch(0.205 0 0);
     --destructive: oklch(0.577 0.245 27.325);
     --border: oklch(0.922 0 0);
     --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
+    --ring: #0284C7;                   /* was grey → cyan focus ring */
     --chart-1: oklch(0.87 0 0);
     --chart-2: oklch(0.556 0 0);
     --chart-3: oklch(0.439 0 0);
     --chart-4: oklch(0.371 0 0);
     --chart-5: oklch(0.269 0 0);
     --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
+    --sidebar: oklch(0.97 0 0);
     --sidebar-foreground: oklch(0.145 0 0);
     --sidebar-primary: oklch(0.205 0 0);
     --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent: oklch(0.95 0.03 220);
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --sidebar-ring: #0284C7;
   }
 
   * {
@@ -56,147 +97,190 @@
   }
 
   ::selection {
-    @apply bg-brand-primary/30 text-white;
+    background: rgba(0, 212, 255, 0.25);
+    color: white;
   }
 
-  /* Custom scrollbar */
+  /* Custom scrollbar — cyan on void-black */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { @apply bg-qf-black; }
-  ::-webkit-scrollbar-thumb { @apply bg-slate-700 rounded-full; }
-  ::-webkit-scrollbar-thumb:hover { @apply bg-slate-500; }
-  .theme {
-    --font-heading: var(--font-sans);
-    --font-sans: var(--font-sans);
-  }
+  ::-webkit-scrollbar-track { background: #070D1A; }
+  ::-webkit-scrollbar-thumb { background: #0099CC; border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #0284C7; }
+
   .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
+    --background: oklch(0.04 0.01 230);   /* void black with cool cast */
+    --foreground: oklch(0.95 0 0);
+    --card: oklch(0.08 0.01 225);
+    --card-foreground: oklch(0.95 0 0);
+    --popover: oklch(0.08 0.01 225);
+    --popover-foreground: oklch(0.95 0 0);
+    --primary: #0284C7;
+    --primary-foreground: oklch(0.04 0.01 230);
+    --secondary: oklch(0.12 0.02 225);
+    --secondary-foreground: oklch(0.95 0 0);
+    --muted: oklch(0.15 0.01 225);
+    --muted-foreground: oklch(0.65 0 0);
+    --accent: oklch(0.12 0.03 210);
+    --accent-foreground: oklch(0.95 0 0);
     --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --border: rgba(0, 212, 255, 0.10);   /* subtle cyan border in dark mode */
+    --input: rgba(0, 212, 255, 0.08);
+    --ring: #0284C7;
+    --chart-1: #0284C7;
+    --chart-2: #0099CC;
+    --chart-3: #00BFEA;
+    --chart-4: #00E5CC;
+    --chart-5: oklch(0.439 0 0);
+    --sidebar: oklch(0.08 0.01 225);
+    --sidebar-foreground: oklch(0.95 0 0);
+    --sidebar-primary: #0284C7;
+    --sidebar-primary-foreground: oklch(0.04 0.01 230);
+    --sidebar-accent: oklch(0.12 0.02 225);
+    --sidebar-accent-foreground: oklch(0.95 0 0);
+    --sidebar-border: rgba(0, 212, 255, 0.10);
+    --sidebar-ring: #0284C7;
+    --font-mono: 'JetBrains Mono', monospace;
   }
 }
 
 @layer components {
-  /* Glow button */
+  /* ── Primary button — cyan glow ──────────────────────────────────── */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-lg
-           bg-brand-primary px-5 py-2.5 text-sm font-semibold text-white
-           shadow-lg shadow-brand-primary/25
+           px-5 py-2.5 text-sm font-semibold
            transition-all duration-200
-           hover:bg-brand-primary/90 hover:shadow-brand-primary/40
            active:scale-95 focus-visible:outline-none
-           focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2
-           focus-visible:ring-offset-qf-black;
+           focus-visible:ring-2 focus-visible:ring-offset-2;
+    background: #0284C7;
+    color: #070D1A;
+    box-shadow: 0 0 18px rgba(0, 212, 255, 0.30);
+    --tw-ring-color: #0284C7;
+    --tw-ring-offset-color: #070D1A;
+  }
+  .btn-primary:hover {
+    background: #00BFEA;
+    box-shadow: 0 0 28px rgba(0, 212, 255, 0.50);
   }
 
+  /* ── Secondary button ─────────────────────────────────────────────── */
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 rounded-lg
-           border border-slate-700 bg-slate-800/60 px-5 py-2.5
-           text-sm font-semibold text-slate-200
+           px-5 py-2.5 text-sm font-semibold
            backdrop-blur-sm transition-all duration-200
-           hover:border-slate-500 hover:bg-slate-700/60
            active:scale-95 focus-visible:outline-none
-           focus-visible:ring-2 focus-visible:ring-slate-500;
+           focus-visible:ring-2 focus-visible:ring-offset-2;
+    border: 1px solid rgba(0, 153, 204, 0.40);
+    background: rgba(13, 27, 46, 0.60);
+    color: #B3EFFF;
+    --tw-ring-color: #0099CC;
+    --tw-ring-offset-color: #070D1A;
+  }
+  .btn-secondary:hover {
+    border-color: rgba(0, 212, 255, 0.60);
+    background: rgba(13, 27, 46, 0.80);
+    color: #0284C7;
   }
 
+  /* ── Ghost button ─────────────────────────────────────────────────── */
   .btn-ghost {
     @apply inline-flex items-center justify-center gap-2 rounded-lg
-           px-4 py-2 text-sm font-medium text-slate-400
-           transition-colors hover:text-slate-100
-           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-500;
+           px-4 py-2 text-sm font-medium
+           transition-colors focus-visible:outline-none
+           focus-visible:ring-2;
+    color: #94a3b8;
+    --tw-ring-color: #0099CC;
   }
+  .btn-ghost:hover { color: #0284C7; }
 
-  /* Cards */
+  /* ── Cards ────────────────────────────────────────────────────────── */
   .card {
-    @apply rounded-xl border border-slate-800 bg-qf-navy/60
-           backdrop-blur-sm transition-all duration-200;
+    @apply rounded-xl backdrop-blur-sm transition-all duration-200;
+    border: 1px solid rgba(0, 153, 204, 0.15);
+    background: rgba(13, 27, 46, 0.60);
   }
 
   .card-hover {
-    @apply card hover:border-slate-700 hover:bg-qf-navy/80;
+    @apply rounded-xl backdrop-blur-sm transition-all duration-200;
+    border: 1px solid rgba(0, 153, 204, 0.15);
+    background: rgba(13, 27, 46, 0.60);
+  }
+  .card-hover:hover {
+    border-color: rgba(0, 212, 255, 0.30);
+    background: rgba(13, 27, 46, 0.85);
+    box-shadow: 0 0 24px rgba(0, 212, 255, 0.08);
   }
 
-  /* Gradient text */
+  /* ── Gradient text — logo cyan tones ─────────────────────────────── */
   .gradient-text {
-    @apply bg-gradient-to-r from-qf-red via-pink-500 to-purple-500
-           bg-clip-text text-transparent;
+    background: linear-gradient(135deg, #0284C7 0%, #0099CC 50%, #00E5CC 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
+  /* Secondary gradient — deeper blue range */
   .gradient-text-blue {
-    @apply bg-gradient-to-r from-qf-blue via-cyan-400 to-teal-400
-           bg-clip-text text-transparent;
+    background: linear-gradient(135deg, #0099CC 0%, #00BFEA 50%, #0284C7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
-  /* Section container */
+  /* ── Section container ────────────────────────────────────────────── */
   .section {
     @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
-  /* Code inline */
+  /* ── Inline code ──────────────────────────────────────────────────── */
   .inline-code {
-    @apply rounded bg-slate-800 px-1.5 py-0.5 font-mono text-sm text-brand-primary;
+    @apply rounded px-1.5 py-0.5 font-mono text-sm;
+    background: rgba(0, 153, 204, 0.12);
+    color: #0284C7;
   }
 
-  /* Badge */
+  /* ── Badge ────────────────────────────────────────────────────────── */
   .badge {
-    @apply inline-flex items-center rounded-full px-2.5 py-0.5
-           text-xs font-medium;
+    @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium;
   }
 
-  /* Input */
+  /* ── Input ────────────────────────────────────────────────────────── */
   .input {
-    @apply w-full rounded-lg border border-slate-700 bg-slate-900/60
-           px-4 py-2.5 text-sm text-slate-100 placeholder-slate-500
-           transition-colors
-           focus:border-qf-blue focus:outline-none focus:ring-1 focus:ring-qf-blue;
+    @apply w-full rounded-lg px-4 py-2.5 text-sm
+           transition-colors focus:outline-none;
+    border: 1px solid rgba(0, 153, 204, 0.25);
+    background: rgba(7, 13, 26, 0.60);
+    color: #e2e8f0;
+  }
+  .input::placeholder { color: #94a3b8; }
+  .input:focus {
+    border-color: #0284C7;
+    box-shadow: 0 0 0 1px #0284C7;
   }
 }
 
-/* ── Grid background helper ─────────────────────────────────────────── */
+/* ── Grid background — cyan tint ──────────────────────────────────── */
 .bg-grid {
   background-image:
-    linear-gradient(rgba(99,102,241,0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99,102,241,0.06) 1px, transparent 1px);
+    linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
-/* ── Hero glow helpers ────────────────────────────────────────────────── */
+/* ── Hero glow helpers — logo cyan tones ─────────────────────────── */
 .hero-glow-brand {
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.18), transparent);
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 212, 255, 0.18), transparent);
 }
 
 .hero-glow-sky {
-  background: radial-gradient(ellipse 60% 40% at 80% 50%, rgba(14,165,233,0.15), transparent);
+  background: radial-gradient(ellipse 60% 40% at 80% 50%, rgba(0, 153, 204, 0.14), transparent);
 }
 
-/* ── 3D perspective helpers ──────────────────────────────────────────── */
+/* ── Cyan bloom — for 3D animation overlay ───────────────────────── */
+.hero-glow-bloom {
+  background: radial-gradient(ellipse 50% 60% at 30% 60%, rgba(0, 191, 234, 0.12), transparent);
+}
+
+/* ── 3D perspective helpers ──────────────────────────────────────── */
 .perspective-1000 {
   perspective: 1000px;
 }
@@ -205,13 +289,13 @@
   transform-style: preserve-3d;
 }
 
-/* ── Icosahedron wireframe animation ─────────────────────────────────── */
+/* ── Icosahedron wireframe animation ─────────────────────────────── */
 .ico-wireframe {
   animation: rotate3d 20s linear infinite;
   opacity: 0.06;
 }
 
-/* ── Flip card helpers ───────────────────────────────────────────────── */
+/* ── Flip card helpers ───────────────────────────────────────────── */
 .flip-card-inner {
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
@@ -231,9 +315,10 @@
   transform: rotateY(180deg);
 }
 
-/* ── Prose overrides (blog posts) ─────────────────────────────────── */
+/* ── Prose overrides (blog posts) ────────────────────────────────── */
 .prose pre {
-  @apply !bg-slate-950 border border-slate-800;
+  background: #070D1A !important;
+  border: 1px solid rgba(0, 153, 204, 0.20);
 }
 
 .prose code::before,
@@ -244,4 +329,22 @@
 /* KaTeX display math */
 .katex-display {
   @apply overflow-x-auto py-2;
+}
+
+/* ── Utility: cyan glow shadow ───────────────────────────────────── */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.20), 0 0 60px rgba(0, 212, 255, 0.08);
+}
+
+.glow-cyan-sm {
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.15);
+}
+
+/* ── Utility: faceted border — mimics logo polygon edges ─────────── */
+.border-facet {
+  border: 1px solid rgba(0, 212, 255, 0.20);
+}
+
+.border-facet-bright {
+  border: 1px solid rgba(0, 212, 255, 0.50);
 }

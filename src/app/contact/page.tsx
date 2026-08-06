@@ -9,7 +9,7 @@ import type { Metadata } from 'next'
 const PRODUCTS = [
   { value: '', label: 'Select a project (optional)' },
   { value: 'clinicalmatch', label: 'ClinicalMatch AI — Healthcare Graph-RAG' },
-  { value: 'afripay', label: 'Afripay — Stellar Payments & Remittance' },
+  { value: 'hazardgraph', label: 'HazardGraph — Food Security Early Warning' },
   { value: 'jobhunter', label: 'Job Hunter KE — AI Application Automation' },
   { value: 'graphalpha', label: 'GraphAlpha — Autonomous Trading System' },
   { value: 'agentic-erp', label: 'Agentic ERP — LLM-native Enterprise Platform' },

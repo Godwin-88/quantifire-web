@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { ThemeToggle } from '@/components/layout/ThemeToggle'
 
 const NAV_LINKS = [
   { href: '/services', label: 'Services' },
@@ -21,9 +22,14 @@ export function Navbar() {
       <nav className="section flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <span className="text-xl font-bold tracking-tight">
+          <img
+            src="/logo.jpg"
+            alt="Quantifaya"
+            className="h-9 w-9 rounded-lg object-cover ring-1 ring-slate-700/60"
+          />
+          <span className="text-xl font-bold tracking-tight font-heading">
             <span className="gradient-text">Quanti</span>
-            <span className="text-brand-primary">Fire</span>
+            <span className="text-brand-primary">Faya</span>
           </span>
         </Link>
 
@@ -43,6 +49,11 @@ export function Navbar() {
         {/* CTAs */}
         <div className="hidden md:flex items-center gap-3">
           <Link href="/contact" className="btn-primary">Get in Touch</Link>
+        </div>
+
+        {/* Theme toggle */}
+        <div className="hidden md:flex items-center">
+          <ThemeToggle />
         </div>
 
         {/* Mobile burger */}
