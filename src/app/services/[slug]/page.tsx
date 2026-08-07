@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
+import Link from 'next/link'
 import { getService, getServices } from '@/lib/services'
 import { DualFunnelTabs } from '@/components/shared/DualFunnelTabs'
 
@@ -41,10 +42,18 @@ export default async function ServicePage({ params }: Props) {
             {service.tagline}
           </h1>
           <p className="mt-4 text-lg text-slate-400 max-w-2xl">{service.description}</p>
+          {service.slug === 'web-development' && (
+            <div className="mt-6">
+              <Link href="/services/web-development?tab=pricing" className="btn-primary inline-flex items-center gap-2">
+                View Rate Card →
+              </Link>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Tabs */}
+
       <Suspense fallback={null}>
         <DualFunnelTabs data={service} funnel="services" />
       </Suspense>

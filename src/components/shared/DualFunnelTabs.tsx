@@ -6,14 +6,15 @@ import Link from 'next/link'
 import type { Product } from '@/types'
 
 // ─── Tab definitions ──────────────────────────────────────────────────────────
-const TABS = [
+const ALL_TABS = [
   { id: 'overview',  label: 'Overview' },
-  { id: 'purpose',   label: 'Purpose' },
   { id: 'market',    label: 'Context' },
+  { id: 'purpose',   label: 'Purpose' },
+  { id: 'pricing',   label: 'Rate Card' },
   { id: 'cta',       label: 'Collaborate' },
 ] as const
 
-type TabId = typeof TABS[number]['id']
+type TabId = typeof ALL_TABS[number]['id']
 
 interface DualFunnelTabsProps {
   data: Product
@@ -64,6 +65,32 @@ function OverviewTab({ data }: { data: Product }) {
   )
 }
 
+// ─── Context tab ──────────────────────────────────────────────────────────────
+function MarketTab({ data }: { data: Product }) {
+  return (
+    <div className="space-y-8">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {data.marketStats.map((stat, i) => (
+          <div
+            key={i}
+            className="rounded-xl border border-slate-800 bg-slate-900/50 p-4 text-center"
+          >
+            <p className="text-2xl font-extrabold" style={{ color: data.accentColor }}>
+              {stat.value}
+            </p>
+            <p className="mt-1 text-xs text-slate-500 leading-tight">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-6">
+        <h2 className="text-lg font-bold text-white mb-3">Why this problem matters</h2>
+        <p className="text-slate-400 leading-relaxed">{data.marketRelevance}</p>
+      </div>
+    </div>
+  )
+}
+
 // ─── Purpose tab ──────────────────────────────────────────────────────────────
 function PurposeTab({ data }: { data: Product }) {
   return (
@@ -93,33 +120,67 @@ function PurposeTab({ data }: { data: Product }) {
   )
 }
 
-// ─── Context tab ─────────────────────────────────────────────────────────────
-function MarketTab({ data }: { data: Product }) {
+// ─── Pricing tab ──────────────────────────────────────────────────────────────
+function PricingTab({ data }: { data: Product }) {
+  const tiers = data.pricingTiers
+  if (!tiers || tiers.length === 0) return null
+
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {data.marketStats.map((stat, i) => (
+      <div className="text-center mb-10">
+        <h2 className="text-3xl font-bold text-white font-heading">Rate Card</h2>
+        <p className="mt-3 text-slate-400 max-w-xl mx-auto">Transparent pricing for every stage of your engagement. All packages include our core quality standards.</p>
+      </div>
+      <div className="grid gap-6 lg:grid-cols-3 max-w-5xl mx-auto">
+        {tiers.map((tier, i) => (
           <div
             key={i}
-            className="rounded-xl border border-slate-800 bg-slate-900/50 p-4 text-center"
+            className={`relative rounded-2xl border p-6 ${
+              tier.highlighted
+                ? 'border-brand-primary/50 bg-brand-primary/5 shadow-lg shadow-brand-primary/10'
+                : 'border-slate-800 bg-slate-900/40'
+            }`}
           >
-            <p className="text-2xl font-extrabold" style={{ color: data.accentColor }}>
-              {stat.value}
-            </p>
-            <p className="mt-1 text-xs text-slate-500 leading-tight">{stat.label}</p>
+            {tier.highlighted && (
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="rounded-full bg-brand-primary px-3 py-1 text-xs font-semibold text-white">Most Popular</span>
+              </div>
+            )}
+            <div className="text-center mb-6">
+              <h3 className="text-lg font-bold text-white font-heading">{tier.name}</h3>
+              <div className="mt-3">
+                <span className="text-4xl font-extrabold text-white">KSh {tier.price.toLocaleString()}</span>
+                <span className="text-slate-500 text-sm ml-1">/ {tier.period}</span>
+              </div>
+            </div>
+            <ul className="space-y-3 mb-8">
+              {tier.features.map((feature, j) => (
+                <li key={j} className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-primary/15 text-brand-primary text-xs font-bold">✓</span>
+                  <span className="text-sm text-slate-300">{feature}</span>
+                </li>
+              ))}
+            </ul>
+                <a
+                  href="https://wa.me/254715849117"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`block w-full text-center rounded-lg px-5 py-3 text-sm font-semibold transition-all ${
+                    tier.highlighted
+                      ? 'bg-brand-primary text-white hover:opacity-90'
+                      : 'border border-slate-700 text-slate-300 hover:border-slate-600 hover:text-white'
+                  }`}
+                >
+                  {tier.cta}
+                </a>
           </div>
         ))}
-      </div>
-
-      <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-6">
-        <h2 className="text-lg font-bold text-white mb-3">Why this problem matters</h2>
-        <p className="text-slate-400 leading-relaxed">{data.marketRelevance}</p>
       </div>
     </div>
   )
 }
 
-// ─── Collaborate tab ─────────────────────────────────────────────────────────
+// ─── Collaborate tab ──────────────────────────────────────────────────────────
 function CTATab({ data, funnel }: DualFunnelTabsProps) {
   const isLive = data.status === 'live'
   const links = [
@@ -170,7 +231,7 @@ function CTATab({ data, funnel }: DualFunnelTabsProps) {
           {/* Funnel-specific CTA */}
           {funnel === 'services' ? (
             <a
-              href="https://calendly.com/godwinopuka/15min"
+              href="https://wa.me/254715849117"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary"
@@ -215,6 +276,12 @@ function CTATab({ data, funnel }: DualFunnelTabsProps) {
 export function DualFunnelTabs({ data, funnel }: DualFunnelTabsProps) {
   const searchParams = useSearchParams()
   const initialTab = (searchParams.get('tab') as TabId | null) ?? 'overview'
+
+  // Build dynamic tabs based on whether pricing is available
+  const TABS = data.slug === 'web-development'
+    ? ALL_TABS
+    : ALL_TABS.filter(t => t.id !== 'pricing')
+
   const validTab = TABS.some((t) => t.id === initialTab) ? initialTab : 'overview'
   const [activeTab, setActiveTab] = useState<TabId>(validTab)
 
@@ -256,8 +323,9 @@ export function DualFunnelTabs({ data, funnel }: DualFunnelTabsProps) {
       {/* Tab content */}
       <div className="section py-10">
         {activeTab === 'overview' && <OverviewTab data={data} />}
-        {activeTab === 'purpose'  && <PurposeTab data={data} />}
         {activeTab === 'market'   && <MarketTab data={data} />}
+        {activeTab === 'purpose'  && <PurposeTab data={data} />}
+        {activeTab === 'pricing'  && <PricingTab data={data} />}
         {activeTab === 'cta'      && <CTATab data={data} funnel={funnel} />}
       </div>
     </div>

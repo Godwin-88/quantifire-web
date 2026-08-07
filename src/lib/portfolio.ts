@@ -8,7 +8,7 @@ import type { Product } from '@/types'
  * same DualFunnelTabs component for consistent presentation.
  * 
  * Funnel: services
- * CTA: "Book a Discovery Call" → Calendly
+ * CTA: "Book a Discovery Call" → WhatsApp
  */
 
 export const PORTFOLIO: Product[] = [

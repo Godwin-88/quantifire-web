@@ -8,11 +8,11 @@ export default function SignupPage() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
-  const supabase = createClient()
 
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault()
     setStatus('loading')
+    const supabase = createClient()
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
@@ -29,6 +29,7 @@ export default function SignupPage() {
   }
 
   async function handleGitHub() {
+    const supabase = createClient()
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: { redirectTo: `${location.origin}/auth/callback` },

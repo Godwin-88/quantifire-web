@@ -1,10 +1,14 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 
 const KnowledgeGraph = dynamic(() => import('./KnowledgeGraph'), { ssr: false })
+
+const ALTERNATE_WORDS = ['Stochastic', 'Systematic', 'Statistical', 'Strategic', 'Sophisticated']
+const CYCLE_WORDS = [...ALTERNATE_WORDS, 'Signal']
 
 const container = {
   hidden: {},
@@ -16,10 +20,24 @@ const itemFadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
 }
 
+const wordVariants = {
+  initial: { opacity: 0, y: -12 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  exit: { opacity: 0, y: 12, transition: { duration: 0.3 } }
+}
+
 export default function HeroSection3D() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % CYCLE_WORDS.length)
+    }, 1500)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--background)]">
-      {/* Knowledge graph — fullscreen animated background */}
       <div className="absolute inset-0 z-0 opacity-70 pointer-events-none">
         <KnowledgeGraph style={{ position: 'absolute', inset: 0 }} />
       </div>
@@ -31,15 +49,25 @@ export default function HeroSection3D() {
           animate="show"
           className="flex flex-col items-center justify-center text-center gap-10"
         >
-          {/* Three words — centered, horizontal */}
-          <motion.div variants={itemFadeUp} className="flex flex-wrap items-baseline justify-center gap-x-5 gap-y-1">
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold text-[var(--foreground)] font-heading leading-none tracking-tight">
+          <motion.div variants={itemFadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-x-5 gap-y-2">
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-[var(--foreground)] font-heading leading-none tracking-tight">
               Systems.
             </h1>
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold text-brand-primary font-heading leading-none tracking-tight">
-              Signal.
-            </h1>
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold text-[var(--foreground)] font-heading leading-none tracking-tight">
+            <div className="relative h-[1.2em]">
+              <AnimatePresence mode="wait">
+                <motion.h1
+                  key={CYCLE_WORDS[currentIndex]}
+                  variants={wordVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="text-5xl sm:text-6xl lg:text-8xl font-bold text-brand-primary font-heading leading-none tracking-tight"
+                >
+                  {CYCLE_WORDS[currentIndex]}.
+                </motion.h1>
+              </AnimatePresence>
+            </div>
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-[var(--foreground)] font-heading leading-none tracking-tight">
               Scale.
             </h1>
           </motion.div>

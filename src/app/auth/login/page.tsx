@@ -8,11 +8,11 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
-  const supabase = createClient()
 
   async function handleMagicLink(e: React.FormEvent) {
     e.preventDefault()
     setStatus('loading')
+    const supabase = createClient()
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: { emailRedirectTo: `${location.origin}/auth/callback` },
@@ -26,6 +26,7 @@ export default function LoginPage() {
   }
 
   async function handleGitHub() {
+    const supabase = createClient()
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: { redirectTo: `${location.origin}/auth/callback` },

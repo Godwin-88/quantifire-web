@@ -8,7 +8,7 @@ import type { Product } from '@/types'
  * same DualFunnelTabs component for consistent presentation.
  * 
  * Funnel: services
- * CTA: "Book a Discovery Call" → Calendly
+ * CTA: "Book a Discovery Call" → WhatsApp
  */
 
 export const SERVICES: Product[] = [
@@ -73,7 +73,60 @@ export const SERVICES: Product[] = [
       'Performance Optimised — Lighthouse 95+, Core Web Vitals',
       'Accessibility — WCAG 2.1 AA, screen-reader tested',
     ],
-    pricingTiers: [],
+    pricingTiers: [
+      {
+        name: 'Launch',
+        price: 30000,
+        period: 'one-time',
+        features: [
+          'Custom website design & development (up to 10 pages)',
+          'Fully responsive, mobile-first build',
+          'CMS integration (content management)',
+          'AI support chatbot (automated customer support)',
+          'Basic SEO setup (meta, sitemap, indexing)',
+          'Hosting setup & deployment pipeline',
+          'SSL, CDN, and performance baseline',
+          '30 days post-launch support',
+        ],
+        cta: 'Get Started',
+      },
+      {
+        name: 'Scale',
+        price: 60000,
+        period: 'one-time',
+        highlighted: true,
+        features: [
+          'Everything in Launch',
+          'E-commerce / payment gateway integration',
+          'Advanced SEO + content strategy framework',
+          'Analytics dashboard + conversion tracking',
+          'Marketing automation setup (email, SMS workflows)',
+          'CRM / ERP / third-party integrations',
+          'Multi-language or multi-region support',
+          'A/B testing infrastructure',
+          '60 days priority support',
+        ],
+        cta: 'Get Started',
+      },
+      {
+        name: 'Enterprise',
+        price: 90000,
+        period: 'one-time',
+        features: [
+          'Everything in Scale',
+          'Custom ML/AI model integration (predictive, personalization)',
+          'Advanced automation workflows (no-code/low-code)',
+          'Dedicated account manager',
+          'SLA guarantee (99.9% uptime target)',
+          'Security audit + compliance (SOC2, GDPR readiness)',
+          'Custom API development & documentation',
+          'Team training + knowledge transfer',
+          'Performance optimisation at scale',
+          '90 days white-glove support',
+        ],
+        cta: 'Get Started',
+      },
+    ],
     purpose:
       'A website is never just a website. It is a sales funnel, a documentation hub, a product demo, and a credibility signal — all at once. We build web applications that serve all these functions without compromising on any of them.',
     purposePoints: [
