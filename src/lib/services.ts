@@ -76,7 +76,7 @@ export const SERVICES: Product[] = [
     pricingTiers: [
       {
         name: 'Launch',
-        price: 30000,
+        price: 29999,
         period: 'one-time',
         features: [
           'Custom website design & development (up to 10 pages)',
@@ -92,7 +92,7 @@ export const SERVICES: Product[] = [
       },
       {
         name: 'Scale',
-        price: 60000,
+        price: 59999,
         period: 'one-time',
         highlighted: true,
         features: [
@@ -110,7 +110,7 @@ export const SERVICES: Product[] = [
       },
       {
         name: 'Enterprise',
-        price: 90000,
+        price: 89999,
         period: 'one-time',
         features: [
           'Everything in Scale',

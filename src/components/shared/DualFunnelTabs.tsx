@@ -149,7 +149,7 @@ function PricingTab({ data }: { data: Product }) {
             <div className="text-center mb-6">
               <h3 className="text-lg font-bold text-white font-heading">{tier.name}</h3>
               <div className="mt-3">
-                <span className="text-4xl font-extrabold text-white">KSh {tier.price.toLocaleString()}</span>
+                <span className="text-4xl font-extrabold text-white">{tier.price ? `KSh ${tier.price.toLocaleString()}` : 'Custom'}</span>
                 <span className="text-slate-500 text-sm ml-1">/ {tier.period}</span>
               </div>
             </div>
